@@ -1,0 +1,5 @@
+# prevent http access to file
+<Files dbFunc0.php>
+	Order Allow,Deny
+	Deny from all
+</Files>
