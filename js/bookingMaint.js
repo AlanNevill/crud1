@@ -1,5 +1,5 @@
 // bookingMaint.js
-    const version = "v0.51";
+    const version = "v0.52";
 
     var objDateSat, cottageNum, trIdNum, rentalVal;
 
@@ -236,147 +236,130 @@ $(document).ready(function () {
 
         e.preventDefault();
 
+        // disable the submit button
+        $('#submitNewBooking').attr("disabled", true);
+
         $('#outpu1').empty();
-        var clashCount = 0;
 
         // check for date clashes with existing bookings by setting method=check
-        $("#frmNewBooking input[name=method]").val('check');
-        
+        $("#frmNewBooking input[name=method]").val('insert');
+
+        // unformat the rental field before posting to DB
+        $('#Rental').val(rentalVal.getNumericString());
+
+        // ajax post to method=insert
         $.post(
                 "include/bookingMaint2.php",
                 $("#frmNewBooking").serialize()
             )
             .done( function(data) { // check for date clashes with existing bookings
 // debugger;
-                let check = JSON.parse(data);
-                
-                if (check.clashCount > 0) {
-                    // alert('The proposed booking clashes with ' + clashCount + ' existing bookings');
-                    $('#output1').empty().append('<h5>The proposed booking clashes with ' + check.clashCount + ' existing booking' + (check.clashCount > 1 ? 's.' : '.') + '</h5>');
-                }
+                const returnArray = JSON.parse(data);
 
-                // if clashCount is 0 go ahead and insert the proposed new booking
-                else if (check.clashCount==0) {
-                    
-                    // insert the proposed booking by changing the method in the form to 'insert'
-                    $("#frmNewBooking input[name=method]").val('insert'); 
-                    
-                    // generate a BookingRef and put into the new booking form
-                    $('#BookingRef').val(bookingRef());
+                // process any errors in method=insert
+                if (!returnArray.success) {
+                    switch (returnArray.messSeverity) {
+                        // 2 types of warning
+                        case 'W':
+                            if (returnArray.clashCount > 0) {
+                                $('#output1').empty().append('<h5>The proposed booking clashes with ' + returnArray.clashCount + ' existing booking' + (returnArray.clashCount > 1 ? 's' : '') + '</h5>');
+                            }
+                            // must be a warning about the rental value greater then 9,999.99
+                            else{
+                                $('#output1').empty().append('<h5>The rental is greater the £9,999.99</h5>');
 
-                    // disable the submit button
-                    $('#submitNewBooking').attr("disabled", true);
-
-                    // unformat the rental field before posting to DB
-                    $('#Rental').val(rentalVal.getNumericString());
-
-                    // ajax insert
-                    var jqxhr = $.post(
-                                    "include/bookingMaint2.php",
-                                    $("#frmNewBooking").serialize()
-                            )
-                            .done( function(data) { // process the return array from method=insert
-
-                                const returnArray = JSON.parse(data);
-
-                                // check for any errors
-                                if (!returnArray.success) {
-                                    if (returnArray.errorMess.indexOf('UC_CottageFirstNight') !== -1) {
-                                        $('#newBookingInfo').empty().append('<h3>Arrival date clashes with existing booking</h3>');
-                                    }
-                                    if (returnArray.errorMess.indexOf('UC_CottageLastNight') !== -1) { 
-                                        $('#newBookingInfo').empty().append('<h3>Last night clashes with existing booking</h3>');
-                                    }
-                                    // any other error then return
-                                    $('#newBookingInfo').empty().append('<h3>'+ returnArray.errorMess + '</h3>'); 
-                                    return;  
-                                }
+                            }
+                            break;
+                        // any error
+                        case 'E':
+                            // TODO insert line breaks
+                            $('#output1').empty().append('<h5>Error has occurred - contact support' + returnArray.errorMess);
+                        break;
+                    } // end of switch
+                }      
+                // method=insert returned success, so process the new booking
+                else {
 // debugger;
-                                // set trIdNum to the IdNum of the newly inserted row so that when the table is refreshed the row can be highlighted
-                                trIdNum = '#'+returnArray.insertedIdNum;
+                    // set trIdNum to the IdNum of the newly inserted row so that when the table is refreshed the row can be highlighted
+                    trIdNum = '#'+returnArray.insertedIdNum;
 
-                                // reinstate the Rental field formatting by triggering the focus event
-                                rentalVal.set( $('#Rental').val() );
+                    // reinstate the Rental field formatting by triggering the focus event
+                    rentalVal.set( $('#Rental').val() );
 
-                                // No errors found so row was inserted in db table therefore add clear any messages
-                                $("#output1").empty();
+                    // No errors found so row was inserted in db table therefore add clear any messages
+                    $("#output1").empty();
 
-                                // requery the database in case someone else has removed or inserted and get the rows in the correct date order
-                                // TODO temp disable
-                                // $('#submitButton').click();
- 
+                    // requery the database in case someone else has removed or inserted and get the rows in the correct date order
+                    // TODO temp disable
+                    // $('#submitButton').click();
 
-                                // Remove class=highlight from any previously inserted row in the table
-                                $('#tbodyBookings > tr').removeClass('highlight');
 
-                                // new booking row mustache template
-                                const bookingTemplate  = "" +
-                                        "<tr class='highlight' firstNight='{{ArriveDate}}'>" +
-                                        "<td>{{FirstNight}}</td>" +
-                                        "<td>{{LastNight}}</td>" +
-                                        "<td>{{numNights}}</td>" +
-                                        "<td>{{Rental}}</td>" +
-                                        "<td>{{BookingRef}}</td>" +
-                                        "<td>{{Notes}}</td>" +
-                                        "<td><button class='remove' IdNum={{IdNum}}></button></td></tr>";
+                    // Remove class=highlight from any previously inserted row in the table
+                    $('#tbodyBookings > tr').removeClass('highlight');
 
-                                // // get the new booking form data into an array
-                                let frmNewBookingSer = $("#frmNewBooking").serializeArray();
-                        
-                                // associative array for use with mustache tamplate
-                                let row  = {
-                                            ArriveDate: moment(frmNewBookingSer[3]['value']).format('YYYY-MM-DD'),
-                                            FirstNight: moment(frmNewBookingSer[3]['value']).format('ddd DD MMM'),
-                                            LastNight:  moment(frmNewBookingSer[4]['value']).format('ddd DD MMM'),
-                                            numNights:  function () {
-                                                            let a = moment(frmNewBookingSer[4]['value']);
-                                                            let b = moment(frmNewBookingSer[3]['value']);
-                                                            let c = a.diff(b, 'days') + 1;
-                                                            return  c; },
-                                            Rental:     rentalVal.getFormatted(),
-                                            BookingRef: returnArray.bookingRef,
-                                            Notes:      frmNewBookingSer[7]['value'],
-                                            IdNum:      returnArray.insertedIdNum
-                                            };
+                    // new booking row mustache template
+                    const bookingTemplate  = "" +
+                            "<tr class='highlight' firstNight='{{ArriveDate}}'>" +
+                            "<td>{{FirstNight}}</td>" +
+                            "<td>{{LastNight}}</td>" +
+                            "<td>{{numNights}}</td>" +
+                            "<td>{{Rental}}</td>" +
+                            "<td>{{BookingRef}}</td>" +
+                            "<td>{{Notes}}</td>" +
+                            "<td><button class='remove' IdNum={{IdNum}}></button></td></tr>";
 
-                                // render the new booking row using the mustache template
-                                var newBookingRow = Mustache.render(bookingTemplate,row);
+                    // get the new booking form data into an array
+                    let frmNewBookingSer = $("#frmNewBooking").serializeArray();
+            
+                    // associative array for use with mustache tamplate
+                    let row  = {
+                                ArriveDate: moment(frmNewBookingSer[3].value).format('YYYY-MM-DD'),
+                                FirstNight: moment(frmNewBookingSer[3].value).format('ddd DD MMM'),
+                                LastNight:  moment(frmNewBookingSer[4].value).format('ddd DD MMM'),
+                                numNights:  function () {
+                                                let a = moment(frmNewBookingSer[4].value);
+                                                let b = moment(frmNewBookingSer[3].value);
+                                                let c = a.diff(b, 'days') + 1;
+                                                return  c; },
+                                Rental:     rentalVal.getFormatted(),
+                                BookingRef: returnArray.bookingRef,
+                                Notes:      frmNewBookingSer[6].value,
+                                IdNum:      returnArray.insertedIdNum
+                                };
 
-                                // add the row to the existing bookings table rows
-                                $(newBookingRow).appendTo($('#tblBookings'));
+                    // render the new booking row using the mustache template
+                    var newBookingRow = Mustache.render(bookingTemplate,row);
 
-                                // sort the bookings by the tr attribute firstNight so that the inserted row is in the correct order
-                                let tbody = $('#tbodyBookings');
+                    // add the row to the existing bookings table rows
+                    $(newBookingRow).appendTo($('#tblBookings'));
 
-                                let rows = $('#tbodyBookings').find('tr').get();
-                                rows.sort(function(a, b) {
-                                    let keyA = $(a).attr('firstNight');
-                                    let keyB = $(b).attr('firstNight');
-                                    if (keyA < keyB) return -1;
-                                    if (keyA > keyB) return 1;
-                                    return 0;
-                                });
-                                $.each(rows, function(index, row) {
-                                    tbody.append(row);
-                                });
+                    // sort the bookings by the tr attribute firstNight so that the inserted row is in the correct order
+                    let tbody = $('#tbodyBookings');
 
-                                // clear down the new booking form
-                                // showFrmNewBooking();
+                    let rows = $('#tbodyBookings').find('tr').get();
+                    rows.sort(function(a, b) {
+                        let keyA = $(a).attr('firstNight');
+                        let keyB = $(b).attr('firstNight');
+                        if (keyA < keyB) return -1;
+                        if (keyA > keyB) return 1;
+                        return 0;
+                    });
+                    $.each(rows, function(index, row) {
+                        tbody.append(row);
+                    });
 
-                                // display message for 4 seconds
-                                $("#newBookingInfo").empty().append('Booking made').fadeIn(1).fadeOut(4000);
+                    // TODO clear down the new booking form
+                    // showFrmNewBooking();
 
-                            })
-                            .always(() => $('#submitNewBooking').removeAttr("disabled"))
-
-                            ; // end of insert $.post
-
-                }  // end of else if clashCount=0
-
+                    // display message for 4 seconds
+                    $("#newBookingInfo").empty().append('Booking made').fadeOut(4000);
+                }
             })
+            // always re-enable the submit new booking button
+            .always(() => $('#submitNewBooking').removeAttr("disabled"))
+    
             .fail((error) => $("#newBookingInfo").empty().append(error.statusText))
-
-            ; // end of check $.post
+            ; // end of $.post method=insert
 
     });   // end of #submitNewBooking.click
 
@@ -401,7 +384,7 @@ $(document).ready(function () {
                     removeTR.fadeOut(500, function() {
                         $(this).remove(); 
                 });  
-                }
+            }
 
             // remove any previous clash message
             $("#output1").empty();
@@ -409,7 +392,7 @@ $(document).ready(function () {
             // re-enable the row remove button(s)
             $('btn .remove').removeAttr("disabled");
 
-            $("#newBookingInfo").empty().append(response).fadeIn(1).fadeOut(3000);
+            $("#newBookingInfo").empty().append(response).fadeOut(5000);
             
         }); // end of $.post
                                 

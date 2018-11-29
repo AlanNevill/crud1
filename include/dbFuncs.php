@@ -78,7 +78,7 @@ class dbFuncs
                                         ?,
                                         ?
                                         )";
-      $stmt = $this->db->prepare($sql);
+      $stmt = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
       $stmt->bindParam(1, $MessType,    PDO::PARAM_STR);
       $stmt->bindParam(2, $Application, PDO::PARAM_STR);
       $stmt->bindParam(3, $Routine,     PDO::PARAM_STR);
@@ -307,44 +307,44 @@ class dbFuncs
 
       // set up the return array
       $returnArray = array('success'    =>true,
-                          'clashCount'  => 0,
+                          'clashCount'  =>0,
                           'errorMess'   =>null);
 
       $sql = "call spCottageBook_check(?,?,?,?)";
 
       try {
-        $sth = $this->db->prepare($sql);
+        $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
         $sth->bindParam(1, $DateSat,      PDO::PARAM_STR);
         $sth->bindParam(2, $CottageNum,   PDO::PARAM_INT);
         $sth->bindParam(3, $FirstNight,   PDO::PARAM_STR);
         $sth->bindParam(4, $LastNight,    PDO::PARAM_STR);
   
         $sth->execute();
-        $returnArray['clashCount'] = $sth->fetch(\PDO::FETCH_ASSOC);
+        $returnArray['clashCount'] = $sth->fetchColumn();
       }
       catch (PDOException $e) {
         $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_Insert', $e->getMessage(), $sql);
-        echo 'ERROR - ' . $e->getMessage();
+        $returnArray['success'] = false;
+        $returnArray['errorMess'] = $e->getMessage();
+      }
+      finally {
+        return $returnArray;
       }
     }
 
 
     // insert a new CottageBook row
-    function CottageBook_insert( $DateSat, $CottageNum, $FirstNight, $LastNight, $Rental, $Notes )
+    function CottageBook_insert( $DateSat, $CottageNum, $FirstNight, $LastNight, $Rental, $Notes, $bookingRef )
     { 
-      // generate the bookingRef
-      $bookingRef = $this->generateUnique(4,'U');
 
-      // set up the return array
-      $returnArray = array('success'        =>true,
-                           'insertedIdNum'  =>null,
-                           'bookingRef'     =>$bookingRef,
-                           'errorMess'      =>null);
+      $returnArray = array('success'      =>true,
+                          'insertedIdNum' =>0,
+                          'errorMess'     =>null);
 
       $sql = "call spCottageBook_Insert(?,?,?,?,?,?,?)";
 
       try {
-        $sth = $this->db->prepare($sql);
+        $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
         $sth->bindParam(1, $DateSat,      PDO::PARAM_STR);
         $sth->bindParam(2, $CottageNum,   PDO::PARAM_INT);
         $sth->bindParam(3, $FirstNight,   PDO::PARAM_STR);
@@ -353,15 +353,14 @@ class dbFuncs
         $sth->bindParam(6, $Rental,       PDO::PARAM_INT);
         $sth->bindParam(7, $Notes,        PDO::PARAM_STR);
         $sth->execute();
-        $return = $sth->fetchAll(\PDO::FETCH_ASSOC);
-        $rowCount = $sth->rowCount();
-        if( $rowCount ) {
-          $returnArray['insertedIdNum'] = $return[0]['insertedIdNum'];
-        }
-        else {
+
+        $returnArray['insertedIdNum'] = $sth->fetchColumn();
+
+        // check for SQL id returning 0
+        if($returnArray['insertedIdNum'] == 0 ) {
           $this->ProcessLog_insert2('E','MGF2','dbFuncs.spCottageBook_Insert','Insert failed', $sql);
           $returnArray['success'] = false;
-          $returnArray['errorMess'] = 'ERROR - Insert failed; $rowCount:' . $rowCount;
+          $returnArray['errorMess'] = 'ERROR - Insert failed; $returnArray[insertedIdNum] :' . $returnArray['insertedIdNum'] ;
         }
       }
       catch (PDOException $e) {

@@ -81,11 +81,10 @@ label {
   }
 
 .remove{
-  background-image: url('/images/delete.png');
+  background-image: url('/images/if_ic_delete_forever_48px_3669360.svg');
   background-size: 30px 30px;
-  height: 30px;  
-  width: 30px;
-
+  height: 35px;
+  width: 33px;
 }
 
 .CottageWeek_data {

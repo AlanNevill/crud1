@@ -81,8 +81,8 @@
                 <th>Arrival date</th>
                 <th>Last night</th>
                 <th>Nights</th>
-                <th>Ref.</th>
                 <th>Rent</th>
+                <th>Ref.</th>
                 <th>Notes</th>
                 <th>Delete</th>
             </tr>
@@ -91,9 +91,11 @@
         </tbody>
     </table>
     
+    <!-- error & warning messages -->
     <div id="output1" class="text-white bg-dark"></div> 
 
-    <section class="CottageWeek_data">
+    <!-- cottageWeek row data -->
+    <section class="CottageWeek_data text-white bg-secondary">
         <div class="row">
             <div id="DayRent" class="col-3"></div>
             <div id="WeekRent" class="col-3"></div>
@@ -101,27 +103,43 @@
         </div>
     </section>
 
+    <!-- new booking form -->
     <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal" method="post" action="" oninput="" style="display:none;">
         <h5>New booking</h5>
         <input type="hidden" id="method"  name="method" value="">   <!-- method=    for bookingMaint2 functions check & insert -->
         <input type="hidden" id="dateSat" name="dateSat">           <!-- dateSat    for bookingMaint2 functions check & insert -->
         <input type="hidden" id="cottageNum" name="cottageNum">        <!-- cottageNum for bookingMaint2 functions check & insert -->
-        <div class="form-group">
-            <label for="firstNight" class="form-control-label">Arrival date</label>
-            <select id="firstNight" name="firstNight" class="form-select"></select>
-            <label for="lastNight" class="form-control-label">Last night</label>
-            <select id="lastNight" name="lastNight" class="form-select"></select>
-            <span id="nights" name="nights">1 night</span>
-            <label for="BookingRef" class="form-control-label">Ref.</label>
-            <input id="BookingRef" name="BookingRef" class="col-1" type="text" readonly>
-            <label for="Rental" class="form-control-label">Rent</label>
-            <input id="Rental" name="Rental" type="text" class="col-2">
+        <div class="form-row">
+                <div class="col-xs-6">
+                    <label for="firstNight" class="form-control-label">Arrival date</label>
+                </div>
+                <div class="col-xs-6">
+                    <select id="firstNight" name="firstNight" class="form-select form-control"></select>
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="lastNight" class="form-control-label">Last night</label>
+                </div>
+                <div class="col-xs-6">
+                    <select id="lastNight" name="lastNight" class="form-select form-control"></select>
+                </div>
+                <div class="col-xs-4">
+                    <span id="nights" name="nights">1 night</span>
+                </div>
         </div>
-        <div class="form-group">
-            <label for="notes" class="form-control-label">Notes</label>
-            <textarea id="notes" name="notes" class="form-control rounded-0" type="textarea" rows="1" maxlength="100" placeholder="Name of guest, ref. no. contact no., email etc." ></textarea><span></span>
-        </div>
-        <div class="form-group">
+            <div class="form-row">
+                <div class="col-xs-2">
+                    <label for="Rental" class="form-control-label">Rent</label>
+                </div>
+                <div class="col-xs-5">
+                    <input id="Rental" name="Rental" type="text" class="form-control" value="0">
+                </div>
+            </div>
+            <!-- <label for="BookingRef" class="form-control-label">Ref.</label> -->
+            <!-- <input id="BookingRef" name="BookingRef" type="hidden"> -->
+                <label for="notes" class="form-control-label">Notes</label>
+                <textarea id="notes" name="notes" class="form-control rounded-0" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span></span>
+          <div class="form-group">
             <div class="row">
                 <div class="col-12 text-center">
                 <input id="submitNewBooking" class="btn btn-default" type="button" value="Make new booking">
@@ -130,10 +148,10 @@
         </div>
     </form>
 
-
-    <!-- output div for new booking form messages -->
+    <!-- div for new booking form messages -->
     <div id="newBookingInfo"></div>
 
+    <!-- div for in progress gif during ajax calls -->
     <div class="modal"></div>
 </div>
 

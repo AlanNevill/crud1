@@ -51,8 +51,8 @@ if($_POST['method']==='get'){
                         . "><td>"       . date("D d M", strtotime($row['FirstNight']))
                         . "</td><td>"   . date("D d M", strtotime($row['LastNight'])) 
                         . "</td><td>"   . $row['numNights'] 
-                        . "</td><td>"   . $row['BookingRef'] 
                         . "</td><td>"   . "£" . number_format($row['Rental'] ,2)
+                        . "</td><td>"   . $row['BookingRef'] 
                         . "</td><td>"   . $row['Notes'] 
                         . "</td><td><button class='remove' IdNum=" . $row['IdNum'] . "></button></td></tr>";
             $bookingTable .= $bookingRow;
@@ -93,9 +93,9 @@ if($_POST['method']==='check')
     $LastNight = $_POST['lastNight']; 
 
     // check proposed dates for a new booking against existing bookings in the database and return count
-    $return = $dbFuncs->CottageBook_check($DateSat, $CottageNum, $FirstNight, $LastNight);
+    $returnArray = $dbFuncs->CottageBook_check($DateSat, $CottageNum, $FirstNight, $LastNight);
 
-    echo JSON_encode($return);
+    echo JSON_encode($returnArray);
     exit;
 } // end of method=check
 
@@ -110,12 +110,69 @@ if($_POST['method']==='insert')
     $Rental     = $_POST['Rental'];
     $Notes      = $_POST['notes'];
 
+    // initialize the returnArray
+    $returnArray = array('success'      =>true,
+                        'clashCount'    =>0,
+                        'bookingRef'    =>null,
+                        'insertedIdNum' =>0,
+                        'messSeverity'  =>'I',
+                        'errorMess'     =>null);
+
+    // check $Rental is not greater than 9,999.99
+    if ($Rental > 9999.99 ) {
+        $returnArray['success'] = false;
+        $returnArray['messSeverity'] = 'W';
+        $returnArray['errorMess'] = 'Rental value greater than limit £9,999.99';
+        echo json_encode($returnArray);
+        exit;    
+    }
+
+    // check for clashes with existing bookings by calling function CottageBook_check
+    $CottageBook_check = $dbFuncs->CottageBook_check($DateSat, $CottageNum, $FirstNight, $LastNight);
+
+    // if error in check function copy into returnArray and return
+    if (!$CottageBook_check['success']) {
+        $returnArray['success'] = $CottageBook_check['success'];
+        $returnArray['messSeverity'] = 'E';
+        $returnArray['errorMess'] = $CottageBook_check['errorMess'];
+        echo json_encode($returnArray);
+        exit;    
+    }
+
+    // $CottageBook_check['success'] is true, no error in check function so check the clashCount > 0
+    if ($CottageBook_check['clashCount'] > 0) {
+        $returnArray['success']         = false;
+        $returnArray['clashCount']      = $CottageBook_check['clashCount'];
+        $returnArray['messSeverity']    = 'W';
+        $returnArray['errorMess']       = 'clashCount > 0';
+        echo json_encode($returnArray);
+        exit;    
+    }
+
+      // generate the bookingRef and put into returnArray to pass back to bookingMaint.js
+      $bookingRef = $dbFuncs->generateUnique(4,'U');
+      $returnArray['bookingRef'] = $bookingRef;
+
     // call the insert function; database errors are dealt with in the function
-    $returnArray = $dbFuncs->CottageBook_insert($DateSat, $CottageNum, $FirstNight, $LastNight, $Rental, $Notes);
+    $insertReturnArray = $dbFuncs->CottageBook_insert($DateSat, $CottageNum, $FirstNight, $LastNight, $Rental, $Notes, $bookingRef);
 
-    if ($returnArray['success']) {
+    if ($insertReturnArray['success']) {
 
-        $dbFuncs->ProcessLog_insert2('I','bookingMaint2.php','method=insert', null,'Inserted: IdNum: ' . $returnArray['insertedIdNum']
+        // copy insertedIdNum into returnArray to pass back to bookingMaint.js
+        $returnArray['insertedIdNum']   = $insertReturnArray['insertedIdNum'];
+
+        // TODO If it's worth starting the mustache engine
+        // $remarksTemplate =  "Inserted: IdNum: " . $return .
+        //                     " dateSat: {{dateSat}} " .
+        //                     "cottageNum: {{cottageNum}} " .
+        //                     "firstNight: {{firstNight}} " .
+        //                     "lastNight: {{lastNight}} " .
+        //                     "notes: {{notes}}";
+        // $remarks = $m->render($remarksTemplate, $_POST);
+
+        // $dbFuncs->ProcessLog_insert2('I','bookingMaint2.php','method=insert', null, $remarks);
+
+        $dbFuncs->ProcessLog_insert2('I','bookingMaint2.php','method=insert', null,'Inserted: IdNum: '              . $returnArray['insertedIdNum']
          . ' DateSat: '         . $DateSat
          . ' Cottage number: '  . $CottageNum
          . ' firstNight: '      . $FirstNight
@@ -124,20 +181,16 @@ if($_POST['method']==='insert')
          . ' Rental:'           . $Rental 
          . ' Notes: '           . $Notes);
     }
-
-    // If it's worth starting the mustache engine
-    // $remarksTemplate =  "Inserted: IdNum: " . $return .
-    //                     " dateSat: {{dateSat}} " .
-    //                     "cottageNum: {{cottageNum}} " .
-    //                     "firstNight: {{firstNight}} " .
-    //                     "lastNight: {{lastNight}} " .
-    //                     "notes: {{notes}}";
-    // $remarks = $m->render($remarksTemplate, $_POST);
-
-    // $dbFuncs->ProcessLog_insert2('I','bookingMaint2.php','method=insert', null, $remarks);
+    else {
+        // something went wrong during insert so copy error message into returnArray
+        $returnArray['success'] = false;
+        $returnArray['messSeverity'] = 'E';
+        $returnArray['errorMess'] = $insertReturnArray['errorMess'];
+    }
 
     // always return the return array for the javascript to interpret
     echo json_encode($returnArray);
+
     exit;
 } // end of method=insert
 
