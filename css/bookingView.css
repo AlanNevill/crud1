@@ -1,0 +1,31 @@
+
+
+table#tblBookings {
+   line-height: 0.6;
+}
+
+.table td, .table th {
+   padding: 0.4rem;
+   text-align: center;
+}
+
+/* 
+icon for view button */
+.view_details{
+    background-image: url('/images/book-open-outline.svg');
+    background-repeat: no-repeat;
+    background-size: 17px 16px;
+    box-shadow: 3px -3px darkgray;
+    /* height: 25px;
+    width: 23px; */
+  }
+
+.provisional {
+  background-color: lightgrey;
+}
+.provisional::before{ content: "P";}
+
+.confirmed {
+  background-color: #a8cb17;
+}
+.confirmed::before {content: "C";border: 5px solide black;}  

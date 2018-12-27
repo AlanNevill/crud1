@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" href="css/crud1.css" />
+    <link rel="stylesheet" href="css/bookingMaint.css" />
+
 
 </head>
 
@@ -50,11 +52,11 @@
     <!-- debug info div for validation and error messages -->
     <div id="info" class="d-none">info</div>
 
-    <h4 id="title">MGF Booking Form</h4><span></span>
+    <h4 id="title">MGF Booking Details</h4><span></span>
 
     <!-- form to allow user to select the wc Sat date and the cottage number -->
     <form  id="formGet" >
-        <input type="hidden" name="method" value="get"> <!-- method=get for bookingMaint1 function selection -->
+        <input type="hidden" name="method" value="CottageBook_select"> <!-- method=CottageBook_select for bookingMaint1 function selection -->
         <label for="wcDateSat">W/c Sat. date</label>
         <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
             <option value="-1" selected disabled hidden>Select Saturday</option>
@@ -75,21 +77,25 @@
 
     <!-- existingBookings holds the list of existing bookings for the wc Sat date and the cottage number -->
     <h5>Existing bookings</h5>
-    <table id="tblBookings" class="table table-light">
-        <thead class="thead-light">
-            <tr>
-                <th>Arrival date</th>
-                <th>Last night</th>
-                <th>Nights</th>
-                <th>Rent</th>
-                <th>Ref.</th>
-                <th>Notes</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody id="tbodyBookings">
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table id="tblBookings" class="table table-light">
+            <caption class="d-sm-none">Scroll right to change status & delete</caption>
+            <thead class="thead-light">
+                <tr>
+                    <th>Arrive date</th>
+                    <th>Last night</th>
+                    <th>Nights</th>
+                    <th>Rent</th>
+                    <th>Ref.</th>
+                    <th>Notes</th>
+                    <th data-toggle='tooltip' data-placement='auto' title='A booking is (C)onfirmed or (P)rovisional'>Amend status</th>
+                    <th data-toggle='tooltip' data-placement='auto' title='Delete the booking'>Del.</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyBookings">
+            </tbody>
+        </table>
+    </div>
     
     <!-- error & warning messages -->
     <div id="output1" class="text-white bg-dark"></div> 
@@ -97,52 +103,59 @@
     <!-- cottageWeek row data -->
     <section class="CottageWeek_data text-white bg-secondary">
         <div class="row">
+            <div id="WeekRent" class="col-4"></div>
+            <div id="bShortBreaksAllowed" class="col-5 text-align-center"></div>
             <div id="DayRent" class="col-3"></div>
-            <div id="WeekRent" class="col-3"></div>
-            <div id="bShortBreaksAllowed" class="col-6"></div>
         </div>
     </section>
 
     <!-- new booking form -->
-    <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal" method="post" action="" oninput="" style="display:none;">
+    <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal" action="" oninput="" style="display:none;">
         <h5>New booking</h5>
-        <input type="hidden" id="method"  name="method" value="">   <!-- method=    for bookingMaint2 functions check & insert -->
+        <input type="hidden" id="method"  name="method" value="insert">
+           <!-- method=insert for bookingMaint2 function insert -->
         <input type="hidden" id="dateSat" name="dateSat">           <!-- dateSat    for bookingMaint2 functions check & insert -->
         <input type="hidden" id="cottageNum" name="cottageNum">        <!-- cottageNum for bookingMaint2 functions check & insert -->
         <div class="form-row">
-                <div class="col-xs-6">
-                    <label for="firstNight" class="form-control-label">Arrival date</label>
-                </div>
-                <div class="col-xs-6">
-                    <select id="firstNight" name="firstNight" class="form-select form-control"></select>
-                </div>
-
-                <div class="col-xs-4">
-                    <label for="lastNight" class="form-control-label">Last night</label>
-                </div>
-                <div class="col-xs-6">
-                    <select id="lastNight" name="lastNight" class="form-select form-control"></select>
-                </div>
-                <div class="col-xs-4">
-                    <span id="nights" name="nights">1 night</span>
-                </div>
-        </div>
-            <div class="form-row">
-                <div class="col-xs-2">
-                    <label for="Rental" class="form-control-label">Rent</label>
-                </div>
-                <div class="col-xs-5">
-                    <input id="Rental" name="Rental" type="text" class="form-control" value="0">
-                </div>
+            <div class="col-xs-6">
+                <label for="firstNight" class="form-control-label">Arrival date</label>
             </div>
-            <!-- <label for="BookingRef" class="form-control-label">Ref.</label> -->
-            <!-- <input id="BookingRef" name="BookingRef" type="hidden"> -->
-                <label for="notes" class="form-control-label">Notes</label>
-                <textarea id="notes" name="notes" class="form-control rounded-0" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span></span>
-          <div class="form-group">
+            <div class="col-xs-6">
+                <select id="firstNight" name="firstNight" class="form-select form-control"></select>
+            </div>
+
+            <div class="col-xs-4">
+                <label for="lastNight" class="form-control-label">Last night</label>
+            </div>
+            <div class="col-xs-6">
+                <select id="lastNight" name="lastNight" class="form-select form-control"></select>
+            </div>
+            <div class="col-xs-4">
+                <span id="nights" name="nights">1 night</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-2">
+                <label for="Rental" class="form-control-label">Rent</label>
+            </div>
+            <div class="col-xs-4">
+                <input id="Rental" name="Rental" type="text" class="form-control" value="0" style="width:120px">
+            </div>
+            <div class="col-xs-6">
+                <label for="BookingStatus">Status</label>
+                <select id="BookingStatus" name="BookingStatus" class="custom-select" style="width:120px">
+                    <!-- TODO load status options from DB table StatusCodes where category='booking' -->
+                    <option value="P" selected>Provisional</option>
+                    <option value="C">Confirmed</option>
+                </select>
+            </div>
+        </div>
+        <label for="notes" id="notesLabel" class="form-control-label">Notes</label>
+        <textarea id="notes" name="notes" class="form-control rounded-0 boxsizingBorder" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span></span>
+        <div class="form-group">
             <div class="row">
                 <div class="col-12 text-center">
-                <input id="submitNewBooking" class="btn btn-default" type="button" value="Make new booking">
+                    <input id="submitNewBooking" class="btn btn-default" type="button" value="Make new booking">
                 </div>
             </div>
         </div>
@@ -171,7 +184,7 @@
     </script>
 
     <!-- Latest compiled and minified mustache.js templating JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script> -->
 
     <!-- moment date formatting library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -179,9 +192,13 @@
     <!-- currency formatting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
 
-    <!-- <script src="js/autoNumeric.js"></script> -->
+    <!-- date formatting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
 
-    <!-- main javascipt -->
+    <!-- my classes -->
+    <script src="js/classes.js"></script>
+
+    <!-- this page javascipt -->
     <script src="js/bookingMaint.js"></script>
 
 </body>

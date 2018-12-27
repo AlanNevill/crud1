@@ -1,4 +1,4 @@
-
+/* General CSS file for CRUD1 pages */
 
 html {
   position: relative;
@@ -30,6 +30,7 @@ body.loading .modal {
   display: block;
 }
 
+.tooltip { pointer-events: none; }
 
 /* body {
   margin-bottom: 200px;
@@ -45,48 +46,3 @@ body.loading .modal {
 } */
 
 
-/* class to highlight the inserted booking */
-.highlight {background-color: #a8cb17 !important;}
-
-
-/* input form labels */
-label {
-    flex: 1;
-    line-height: 2;
-    text-align: right;
-    padding-right: 5px;
-    padding-left: 20px;
-  }
-
-
- /* booking insert form */
-.insertForm{
-  background-color: #a8cb17;
-  width: 100%;
-  margin-top: 15px;
-  /* margin: 10px; */
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-
-.insertForm span  {
-  padding: 20px;
-}
-
-
-#notes {
-  margin-left: 10px;
-  width: 98%;
-  }
-
-.remove{
-  background-image: url('/images/if_ic_delete_forever_48px_3669360.svg');
-  background-size: 30px 30px;
-  height: 35px;
-  width: 33px;
-}
-
-.CottageWeek_data {
-  background-color: #a8cb17;
-}
