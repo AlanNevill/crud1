@@ -195,6 +195,9 @@
     <!-- date formatting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
 
+    <!-- clientJS class used to get fingerprint & userAgentString -->
+    <script src="js/client.min.js"></script>
+
     <!-- my classes -->
     <script src="js/classes.js"></script>
 

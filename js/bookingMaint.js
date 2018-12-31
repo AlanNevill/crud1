@@ -5,10 +5,11 @@ var objDateSat, cottageNum, trIdNum, rentalVal;
 var booCottageNum = false;
 var booDateSat = false;
 
-// var cottageWeek;
+// Create a new clsDeviceIdCookie class which set up the deviveId cookie 
+const _clsDeviceIdCookie = new clsDeviceIdCookie();
 
 // load bookingMaint from session storage
-var bookingMaint = new clsbookingMaint();
+const _clsbookingMaint = new clsbookingMaint();
 
 $(document).ready(function() {
 	// hide the booking insert form until a dateSat & cottageNum have been input
@@ -36,11 +37,11 @@ $(document).ready(function() {
 		}
 	});
 
-	// show current global version on title double click
+	// show current global version on title click or double click
 	$("#title").on("dblclick click", function() {
 		$(this)
 			.next()
-			.html(_VERSION)
+			.html(`${_VERSION}-${_clsDeviceIdCookie.deviceId}`)
 			.toggle();
 	});
 
@@ -234,7 +235,7 @@ $(document).ready(function() {
 				.empty()
 				.append("<h3>Please select both a date and cottage number</h3>");
 		}
-    });
+    }); // end of #submitButton.click function
 
 
 	// firstNight or lastNight selection changes
@@ -507,15 +508,16 @@ $(document).ready(function() {
 
 	// check for values in session storage; if found then display the DateSat and CottageNum
 	if (
-		typeof bookingMaint.cottageNum  !== "undefined" &&
-		typeof bookingMaint.dateSat     !== "undefined"
-	) {
-		cottageNum = bookingMaint.cottageNum;
+		typeof _clsbookingMaint.cottageNum  !== "undefined" &&
+		typeof _clsbookingMaint.dateSat     !== "undefined"
+  )
+  {
+		cottageNum = _clsbookingMaint.cottageNum;
 		booCottageNum = true;
 		$("#cottageNum [value=" + cottageNum + "]").attr("selected", "selected");
 
-		objDateSat = moment(bookingMaint.dateSat, "YYYY-MM-DD");
-		$("#wcDateSat [value=" + bookingMaint.dateSat + "]").attr(
+		objDateSat = moment(_clsbookingMaint.dateSat, "YYYY-MM-DD");
+		$("#wcDateSat [value=" + _clsbookingMaint.dateSat + "]").attr(
 			"selected",
 			"selected"
 		);
@@ -524,10 +526,12 @@ $(document).ready(function() {
 		// get the existing bookings if any and show the new booking form
     showFrmNewBooking();
     
+    // initialise the tooltips
     $('[data-toggle="tooltip"]').tooltip();
-
-	}
+  }
+  
 }); // end of (document).ready
+
 
 // TODO provide lookup function by booking ref
 // generate a Char(4) booking reference
@@ -538,6 +542,7 @@ function bookingRef() {
 		.toUpperCase();
 }
 
+
 // prevent the enter key submitting the new booking form
 $("#frmNewBooking").on("keyup keypress", function(e) {
 	const keyCode = e.keyCode || e.which;
@@ -546,6 +551,7 @@ $("#frmNewBooking").on("keyup keypress", function(e) {
 		return false;
 	}
 });
+
 
 function CottageBook2Table(cottageBookRows)
 {

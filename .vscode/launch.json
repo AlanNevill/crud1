@@ -12,11 +12,11 @@
       "webRoot": "${workspaceFolder}"
     },
     {
-      "name": "Launch testHarness.php",
+      "name": "Launch testHarness2.php",
       "type": "chrome",
       "request": "launch",
       "trace" : true,
-      "file": "${workspaceFolder}/testHarness.php"
+      "file": "${workspaceFolder}/testHarness2.php"
     },
     {
       "name": "Listen for XDebug",

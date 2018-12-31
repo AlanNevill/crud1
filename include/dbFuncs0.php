@@ -14,7 +14,7 @@
       $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
       $db->exec("SET CHARACTER SET utf8");
   } catch(PDOException $e) {
-      die('ERROR - ' . $e->getMessage() . var_dump($config));
+      die('ERROR - ' . $e->getMessage());
   }
 
 ?>

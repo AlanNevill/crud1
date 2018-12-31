@@ -76,13 +76,15 @@
     <!-- currency formatting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
 
-    <!-- <script src="js/autoNumeric.js"></script> -->
+    <script src="js/client.min.js"></script>
 
     <!-- class functions -->
     <script src="js/classes.js"></script>
 
+    <!-- <script type="module" src="/js/commonFuncs.js"></script> -->
+
     <!-- this page javascipt -->
-    <script src="js/testHarness2.js"></script>
+    <script src="/js/testHarness2.js"></script>
 
     <script>
     </script>

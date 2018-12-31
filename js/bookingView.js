@@ -5,6 +5,9 @@ var bookingMaint = new clsbookingMaint();
 
 var cottageNum = -1, cottageWeekRows, booCalendarDisplayed=0;
 
+// Create a new clsDeviceIdCookie class which set up the deviceId cookie 
+const _clsDeviceIdCookie = new clsDeviceIdCookie();
+
 // clear the cottage selection in case user presses the back button to get here
 $('#cottageNum').val("-1");
 
@@ -144,9 +147,12 @@ $(document).ready(function() {
       ajaxStop: function() { body.removeClass("loading");}    
   });
 
-  // show current global version on title double click
+  // show current global version on title click or double click
   $("#title").on("dblclick click", function () {
-    $(this).next().html(_VERSION).toggle();
+    $(this)
+    .next()
+    .html(`${_VERSION}-${_clsDeviceIdCookie.deviceId}`)
+    .toggle();
   });
 
 
