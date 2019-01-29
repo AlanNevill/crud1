@@ -1,4 +1,5 @@
 // bookingView.js
+'use strict';
 
 // load bookingMaint from session storage
 var bookingMaint = new clsbookingMaint();
@@ -31,7 +32,7 @@ function showCottageBook() {
     // get the calendar for the cottage from the selected date
     $.post(
       "include/bookingView_ajax.php",
-      {'method':'cottageWeek_selectAll','dateSat': dateFns.format(momDateSat), 'cottageNum' : cottageNum, }
+      {'method':'cottageWeek_selectAll','dateSat': dateFns.format(momDateSat), 'cottageNum' : cottageNum }
     )
     .done( function(data) {
         // put the CottageWeek data into the table
@@ -90,7 +91,7 @@ function getCottageBook() {
   
     $.post(
     "include/bookingView_ajax.php",
-    {'method':'cottageBook_selectAll','dateSat': dateFns.format(momDateSat), 'cottageNum' : cottageNum, }
+    {'method':'cottageBook_selectAll','dateSat': dateFns.format(momDateSat), 'cottageNum' : cottageNum }
   )
   .done( function(data) {
       // update the CottageBook rows into the calendar table
@@ -98,7 +99,7 @@ function getCottageBook() {
       let funcReturn = JSON.parse(data);
 
       if (funcReturn.success === true) {
-        cottageBookRows = funcReturn.cottageBookRows;
+        let cottageBookRows = funcReturn.cottageBookRows;
   
         // iterate over the rows updating the calendar table
         cottageBookRows.forEach((cottageBookRow) => {
@@ -147,7 +148,7 @@ $(document).ready(function() {
       ajaxStop: function() { body.removeClass("loading");}    
   });
 
-  // show current global version on title click or double click
+  // show current global version and deviceId on title click or double click
   $("#title").on("dblclick click", function () {
     $(this)
     .next()

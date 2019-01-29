@@ -1,4 +1,5 @@
 // classes.js
+'use strict';
 
 /* global _VERSION */
 const _VERSION = "v0.7";
@@ -34,16 +35,16 @@ class clsDeviceIdCookie {
 
 
     // write message into ProcessLog table
-    $.post(
-      "include/common_ajax.php", 
-      {'method':'ProcessLog_insert', 
-       'MessType':'I', 
-       'Application':'classes.clsDeviceIdCookie',
-       'Routine':'classes>clsDeviceIdCookie>constructor',
-       'ErrorMess':null,
-       'Remarks':`DeviceId: ${this._fingerprint}, userAgentString: ${this._userAgentString}`
-      },
-    ); // end of $.post
+    // $.post(
+    //   "include/common_ajax.php", 
+    //   {'method':'ProcessLog_insert', 
+    //    'MessType':'I', 
+    //    'Application':'classes.clsDeviceIdCookie',
+    //    'Routine':'classes>clsDeviceIdCookie>constructor',
+    //    'ErrorMess':null,
+    //    'Remarks':`DeviceId: ${this._fingerprint}, userAgentString: ${this._userAgentString}`
+    //   },
+    // ); // end of $.post
     
   } // end of constructor
 

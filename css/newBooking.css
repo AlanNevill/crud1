@@ -1,0 +1,106 @@
+
+#formYear {
+  margin-top: 4em;
+  line-height: 1.0;
+}
+
+table#tblBookings {
+   line-height: 0.6;
+}
+
+.table td, .table th {
+   padding: 0.4rem;
+   text-align: center;
+}
+
+
+ /* header area */
+ 
+.header-area {
+  position: fixed;
+  top: 75px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 50px;
+  /* background: #eee; */
+}
+
+
+/* icon for view button */
+.view_details{
+    background-image: url('/images/book-open-outline.svg');
+    background-repeat: no-repeat;
+    background-size: 17px 16px;
+    box-shadow: 3px -3px darkgray;
+    /* height: 25px;
+    width: 23px; */
+  }
+
+.booked {
+  background-color: #a8cb17;
+}
+
+.shortbreaks {
+  background-image: linear-gradient(45deg, #a8cb17 31.25%, rgb(255, 255, 255) 31.25%, rgb(255, 255, 255) 50%, #a8cb17 50%, #a8cb17 81.25%, rgb(255, 255, 255) 81.25%, rgb(255, 255, 255) 100%);
+
+  /* background-image: linear-gradient(45deg, #a8cb17 31.25%, #5F5370 31.25%, #5F5370 50%, #a8cb17 50%, #a8cb17 81.25%, #5F5370 81.25%, #5F5370 100%); */
+  background-size: 56.57px 56.57px;
+}
+
+
+/* table formatting */
+.table-area {
+  margin-top: 150px;
+}
+
+@media only screen and (max-width:600px) {
+  .table-area {
+    margin-top: 200px;
+  }
+}
+
+@media only screen and (max-width:370px) {
+  .table-area {
+    margin-top: 200px;
+  }
+}
+
+
+.table-fixed tbody {
+  height: 700px;
+  overflow-y: auto;
+  width: 100%;
+  }
+
+  .table-fixed thead,
+  .table-fixed tbody,
+  .table-fixed tr,
+  .table-fixed td,
+  .table-fixed th {
+  display: block;
+  }
+
+  .table-fixed tr:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+  }
+
+  .table-fixed tbody td,
+  .table-fixed thead > tr > th {
+    float: left;
+  }
+
+/* icons images in footer */
+.myFooterIcons {
+  width: 23px;
+  height: auto;
+  padding-right: 5px;
+}
+
+footer p {
+  margin-bottom: 0;
+  font-size: .75rem;
+}

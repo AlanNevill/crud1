@@ -332,3 +332,5 @@ ASALocalRun/
 # mysql credentials
 mysql_credentials.txt
 
+# PDF documents
+*.pdf

@@ -1,15 +1,19 @@
 // bookingMaint.js
+'use strict';
 
-var objDateSat, cottageNum, trIdNum, rentalVal;
+var objDateSat, cottageNum, trIdNum;
+var rentalVal;      // AutoNumeric value for the cottage rental with £ sign and 2 dp
+var cottageWeekRow; // row from CottageWeekRow table for the slected cottage and week
 
-var booCottageNum = false;
-var booDateSat = false;
+var booCottageNum = false;  // is the selected cottage number valid
+var booDateSat = false;     // is the selected date valid
 
-// Create a new clsDeviceIdCookie class which set up the deviveId cookie 
+// Create a new clsDeviceIdCookie class which sets up the deviveId cookie 
 const _clsDeviceIdCookie = new clsDeviceIdCookie();
 
 // load bookingMaint from session storage
 const _clsbookingMaint = new clsbookingMaint();
+
 
 $(document).ready(function() {
 	// hide the booking insert form until a dateSat & cottageNum have been input
@@ -37,7 +41,7 @@ $(document).ready(function() {
 		}
 	});
 
-	// show current global version on title click or double click
+	// show current global version and deviceId on title click or double click
 	$("#title").on("dblclick click", function() {
 		$(this)
 			.next()
@@ -173,7 +177,7 @@ $(document).ready(function() {
 
         if (isJSON(returnArray)) {
           
-          returned = JSON.parse(returnArray);
+          let returned = JSON.parse(returnArray);
           if (returned.success) {
             // put the CottageWeekRow data into the dom section CottageWeek_data
             cottageWeekRow = returned.cottageWeekRow;
@@ -221,7 +225,7 @@ $(document).ready(function() {
 				.always(function() {
 					// if trIdNum points to a newly inserted booking row then set its background color
 					$(trIdNum).css("background-color", "#a8cb17");
-					tridNum = null;
+					let tridNum = null;
 
 				})
 				.fail(error =>
@@ -269,8 +273,8 @@ $(document).ready(function() {
 		}
 	});
 
+  
 	// user clicks submit button on frmNewBooking form
-	// TODO Move checking and insert into PHP as one post with validation on Rental field max and min values
 	$("#submitNewBooking").click(function(e) {
 		e.preventDefault();
 

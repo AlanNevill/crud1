@@ -5,8 +5,8 @@ html {
   min-height: 100%;
 }
 
-/* class to display a modal overlay while any ajax call is running */
-.modal {
+/* class to display a ajaxLoading overlay while any ajax call is running */
+.ajaxLoading {
   display:    none;
   position:   fixed;
   z-index:    1000;
@@ -25,8 +25,8 @@ body.loading {
   overflow: hidden;   
 }
 
-/* Anytime the body has the loading class, our modal element will be visible */
-body.loading .modal {
+/* Anytime the body has the loading class, our ajaxLoading element will be visible */
+body.loading .ajaxLoading {
   display: block;
 }
 

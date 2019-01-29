@@ -49,8 +49,14 @@
     <!-- debug info div for validation and error messages -->
     <div id="output1" class="">output1</div>
 
-
-</div>
+    <div class="d-flex justify-content-between">
+        <div>Year:
+          <select id="theYear" name="theYear" class="custom-select"></select>
+        </div>
+        <div class="booked">fully booked</div> 
+        <div class="shortbreaks">some short breaks</div >
+        <div>Click to view booking conditions</div>
+    </div>
 
 
     <!-- <script src="js/jquery.js"></script> -->

@@ -49,124 +49,130 @@
 
 <div class="container">
 
-    <!-- debug info div for validation and error messages -->
-    <div id="info" class="d-none">info</div>
+  <!-- debug info div for validation and error messages -->
+  <div id="info" class="d-none">info</div>
 
-    <h4 id="title">MGF Booking Details</h4><span></span>
+  <h4 id="title">MGF Booking Details</h4><span></span>
 
-    <!-- form to allow user to select the wc Sat date and the cottage number -->
-    <form  id="formGet" >
-        <input type="hidden" name="method" value="CottageBook_select"> <!-- method=CottageBook_select for bookingMaint1 function selection -->
-        <label for="wcDateSat">W/c Sat. date</label>
-        <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
-            <option value="-1" selected disabled hidden>Select Saturday</option>
-            <?php echo $options ?>
-        </select>
+  <!-- form to allow user to select the wc Sat date and the cottage number -->
+  <form  id="formGet" >
+    <input type="hidden" name="method" value="CottageBook_select"> <!-- method=CottageBook_select for bookingMaint1 function selection -->
 
-        <label for="cottageNum">Select a cottage</label>
-        <select id="cottageNum" name="cottageNum" class="custom-select" style="width:150px">
-            <option value="-1" selected disabled hidden>Select cottage</option>
-            <option value="1">Cornflower</option>
-            <option value="2">Cowslip</option>
-            <option value="3">Meadowsweet</option>
-        </select>
+    <div class="form-group">
 
-        <input id="submitButton" type="hidden" value="Get bookings">
+      <label for="wcDateSat">W/c Sat. date</label>
+      <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
+          <option value="-1" selected disabled hidden>Select Saturday</option>
+          <?php echo $options ?>
+      </select>
 
-    </form>
-
-    <!-- existingBookings holds the list of existing bookings for the wc Sat date and the cottage number -->
-    <h5>Existing bookings</h5>
-    <div class="table-responsive">
-        <table id="tblBookings" class="table table-light">
-            <caption class="d-sm-none">Scroll right to change status & delete</caption>
-            <thead class="thead-light">
-                <tr>
-                    <th>Arrive date</th>
-                    <th>Last night</th>
-                    <th>Nights</th>
-                    <th>Rent</th>
-                    <th>Ref.</th>
-                    <th>Notes</th>
-                    <th data-toggle='tooltip' data-placement='auto' title='A booking is (C)onfirmed or (P)rovisional'>Amend status</th>
-                    <th data-toggle='tooltip' data-placement='auto' title='Delete the booking'>Del.</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyBookings">
-            </tbody>
-        </table>
+      <label for="cottageNum">Select a cottage</label>
+      <select id="cottageNum" name="cottageNum" class="custom-select" style="width:150px">
+          <option value="-1" selected disabled hidden>Select cottage</option>
+          <option value="1">Cornflower</option>
+          <option value="2">Cowslip</option>
+          <option value="3">Meadowsweet</option>
+      </select>
+      
     </div>
-    
-    <!-- error & warning messages -->
-    <div id="output1" class="text-white bg-dark"></div> 
 
-    <!-- cottageWeek row data -->
-    <section class="CottageWeek_data text-white bg-secondary">
-        <div class="row">
-            <div id="WeekRent" class="col-4"></div>
-            <div id="bShortBreaksAllowed" class="col-5 text-align-center"></div>
-            <div id="DayRent" class="col-3"></div>
-        </div>
-    </section>
+    <input id="submitButton" type="hidden" value="Get bookings">
 
-    <!-- new booking form -->
-    <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal" action="" oninput="" style="display:none;">
-        <h5>New booking</h5>
-        <input type="hidden" id="method"  name="method" value="insert">
-           <!-- method=insert for bookingMaint2 function insert -->
-        <input type="hidden" id="dateSat" name="dateSat">           <!-- dateSat    for bookingMaint2 functions check & insert -->
-        <input type="hidden" id="cottageNum" name="cottageNum">        <!-- cottageNum for bookingMaint2 functions check & insert -->
-        <div class="form-row">
-            <div class="col-xs-6">
-                <label for="firstNight" class="form-control-label">Arrival date</label>
-            </div>
-            <div class="col-xs-6">
-                <select id="firstNight" name="firstNight" class="form-select form-control"></select>
-            </div>
+  </form>
 
-            <div class="col-xs-4">
-                <label for="lastNight" class="form-control-label">Last night</label>
-            </div>
-            <div class="col-xs-6">
-                <select id="lastNight" name="lastNight" class="form-select form-control"></select>
-            </div>
-            <div class="col-xs-4">
-                <span id="nights" name="nights">1 night</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-xs-2">
-                <label for="Rental" class="form-control-label">Rent</label>
-            </div>
-            <div class="col-xs-4">
-                <input id="Rental" name="Rental" type="text" class="form-control" value="0" style="width:120px">
-            </div>
-            <div class="col-xs-6">
-                <label for="BookingStatus">Status</label>
-                <select id="BookingStatus" name="BookingStatus" class="custom-select" style="width:120px">
-                    <!-- TODO load status options from DB table StatusCodes where category='booking' -->
-                    <option value="P" selected>Provisional</option>
-                    <option value="C">Confirmed</option>
-                </select>
-            </div>
-        </div>
-        <label for="notes" id="notesLabel" class="form-control-label">Notes</label>
-        <textarea id="notes" name="notes" class="form-control rounded-0 boxsizingBorder" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span></span>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <input id="submitNewBooking" class="btn btn-default" type="button" value="Make new booking">
-                </div>
-            </div>
-        </div>
-    </form>
+  <!-- existingBookings holds the list of existing bookings for the wc Sat date and the cottage number -->
+  <h5>Existing bookings</h5>
+  <div class="table-responsive">
+      <table id="tblBookings" class="table table-light">
+          <caption class="d-sm-none">Scroll right to change status & delete</caption>
+          <thead class="thead-light">
+              <tr>
+                  <th>Arrive date</th>
+                  <th>Last night</th>
+                  <th>Nights</th>
+                  <th>Rent</th>
+                  <th>Ref.</th>
+                  <th>Notes</th>
+                  <th data-toggle='tooltip' data-placement='auto' title='A booking is (C)onfirmed or (P)rovisional'>Amend status</th>
+                  <th data-toggle='tooltip' data-placement='auto' title='Delete the booking'>Del.</th>
+              </tr>
+          </thead>
+          <tbody id="tbodyBookings">
+          </tbody>
+      </table>
+  </div>
+  
+  <!-- error & warning messages -->
+  <div id="output1" class="text-white bg-dark"></div> 
 
-    <!-- div for new booking form messages -->
-    <div id="newBookingInfo"></div>
+  <!-- cottageWeek row data -->
+  <section class="CottageWeek_data text-white bg-secondary">
+      <div class="row">
+          <div id="WeekRent" class="col-4"></div>
+          <div id="bShortBreaksAllowed" class="col-5 text-align-center"></div>
+          <div id="DayRent" class="col-3"></div>
+      </div>
+  </section>
 
-    <!-- div for in progress gif during ajax calls -->
-    <div class="modal"></div>
-</div>
+  <!-- new booking form -->
+  <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal" action="" oninput="" style="display:none;">
+      <h5>New booking</h5>
+      <input type="hidden" id="method"  name="method" value="insert">
+          <!-- method=insert for bookingMaint2 function insert -->
+      <input type="hidden" id="dateSat" name="dateSat">           <!-- dateSat    for bookingMaint2 functions check & insert -->
+      <input type="hidden" id="cottageNum" name="cottageNum">        <!-- cottageNum for bookingMaint2 functions check & insert -->
+      <div class="form-row">
+          <div class="col-xs-6">
+              <label for="firstNight" class="form-control-label">Arrival date</label>
+          </div>
+          <div class="col-xs-6">
+              <select id="firstNight" name="firstNight" class="form-select form-control"></select>
+          </div>
+
+          <div class="col-xs-4">
+              <label for="lastNight" class="form-control-label">Last night</label>
+          </div>
+          <div class="col-xs-6">
+              <select id="lastNight" name="lastNight" class="form-select form-control"></select>
+          </div>
+          <div class="col-xs-4">
+              <span id="nights" name="nights">1 night</span>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="col-xs-2">
+              <label for="Rental" class="form-control-label">Rent</label>
+          </div>
+          <div class="col-xs-4">
+              <input id="Rental" name="Rental" type="text" class="form-control" value="0" style="width:120px">
+          </div>
+          <div class="col-xs-6">
+              <label for="BookingStatus">Status</label>
+              <select id="BookingStatus" name="BookingStatus" class="custom-select" style="width:120px">
+                  <!-- TODO load status options from DB table StatusCodes where category='booking' -->
+                  <option value="P" selected>Provisional</option>
+                  <option value="C">Confirmed</option>
+              </select>
+          </div>
+      </div>
+      <label for="notes" id="notesLabel" class="form-control-label">Notes</label>
+      <textarea id="notes" name="notes" class="form-control rounded-0 boxsizingBorder" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span></span>
+      <div class="form-group">
+          <div class="row">
+              <div class="col-12 text-center">
+                  <input id="submitNewBooking" class="btn btn-default" type="button" value="Make new booking">
+              </div>
+          </div>
+      </div>
+  </form>
+
+  <!-- div for new booking form messages -->
+  <div id="newBookingInfo"></div>
+
+  <!-- div for in progress gif during ajax calls -->
+  <div class="ajaxLoading"></div>
+
+</div> <!-- end of div class="container" -->
 
 
     <!-- <script src="js/jquery.js"></script> -->

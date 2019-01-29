@@ -1,4 +1,5 @@
 // testHarness2.js
+'use strict';
 
 // var clsbookingMaint = new clsbookingMaint();
 

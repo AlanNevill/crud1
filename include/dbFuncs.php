@@ -104,7 +104,7 @@ class dbFuncs
   // retrieve a single CottageWeek row
   public function cottageWeek_get($dateSat, $cottageNum)
   {
-    $returnArray = array('success'      =>true,
+    $returnArray = array('success' =>true,
                         'data'     =>null);
     
     $sql = "select RentDay, RentWeek, bShortBreaksAllowed from CottageWeek where DateSat=? and CottageNum=?;";
@@ -115,7 +115,7 @@ class dbFuncs
       $stmt->bindParam(2, $cottageNum, PDO::PARAM_INT);
 
       $stmt->execute();
-      $returnArray['data'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      $returnArray['data'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     catch (Exception $e) {
       $returnArray['success'] = false;
@@ -136,7 +136,7 @@ class dbFuncs
       $stmt->bindParam(1, $dateSat,    PDO::PARAM_STR);
       $stmt->bindParam(2, $cottageNum, PDO::PARAM_INT);
       $stmt->execute();
-      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     catch (Exception $e) {
       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.cottageWeek_selectAll', $e->getMessage(), $sql);
@@ -145,32 +145,88 @@ class dbFuncs
   }
   
   
-  // select cottage rents by week from table CottageWeek
-  public function cottageWeek_crosstab($dateSat)
+  // select cottage rents by week from table CottageWeek for page newBooking.php
+  public function newBooking_crosstab($startDate, $yearEnd)
   {
-    // use groupby DateSat to form rows with the cottage name in the columns
-    $sql='select DateSat,
-            sum(if(CottageNum=1,RentDay,0)) as CornflowerD,
-            sum(if(CottageNum=1,RentWeek,0)) as CornflowerW,
-            sum(if(CottageNum=2,RentDay,0)) as CowslipD,
-            sum(if(CottageNum=2,RentWeek,0)) as CowslipW,
-            sum(if(CottageNum=3,RentDay,0)) as MeadowsweetD,
-            sum(if(CottageNum=3,RentWeek,0)) as MeadowsweetW
-          from CottageWeek
-          where DateSat >= ' . '\'' . $dateSat . '\'' . '
-          group by DateSat
-          order by 1;';
+    // set up the return array
+    $returnArray = array('success'            =>true,
+                        'cottageWeekRows'     =>null,
+                        'cottageBookRows'     =>null,
+                        'cottageBookAllRows'  =>null,
+                        'errorMess'           =>null
+    );
 
-    try {
-      $sth = $this->db->prepare($sql);
-      $sth->execute();
-      return $sth->fetchAll(\PDO::FETCH_ASSOC);
-    }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.cottageWeek_select', $e->getMessage(), $sql);
-      return 'ERROR - ' . $e->getMessage();
-    }
-  }
+    // use groupby DateSat to form rows with the cottage name in the columns
+    $sql='select 	DS.datesat, 
+                  DS.bShortBreaksAllowed,
+                  CornflowerD,
+                  CornflowerW,
+                  CowslipD,
+                  CowslipW,
+                  MeadowsweetD,
+                  MeadowsweetW
+          from DateSat as DS
+          left outer join 
+            (select DateSat,
+                sum(if(CottageNum=1,RentDay,  0)) 	as CornflowerD,
+                sum(if(CottageNum=1,RentWeek, 0))	  as CornflowerW,
+                sum(if(CottageNum=2,RentDay,  0)) 	as CowslipD,
+                sum(if(CottageNum=2,RentWeek, 0)) 	as CowslipW,
+                sum(if(CottageNum=3,RentDay,  0)) 	as MeadowsweetD,
+                sum(if(CottageNum=3,RentWeek, 0)) 	as MeadowsweetW
+                from CottageWeek
+                group by DateSat
+            ) as CW on DS.dateSat = CW.DateSat
+              where DS.dateSat between ? and ?
+              order by 1;
+        ';
+
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindParam(1, $startDate, PDO::PARAM_STR);
+      $stmt->bindParam(2, $yearEnd,   PDO::PARAM_STR);
+      $stmt->execute();
+      $returnArray['cottageWeekRows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      if($returnArray['cottageWeekRows'] ) {
+        // if rows returned then get the confirmed booking rows summed by number of days as a cross tab
+        $sql='select DateSat,
+                    sum(if(CottageNum=1,DATEDIFF(LastNight,FirstNight)+1, 0)) 	as CornflowerNights,
+                    sum(if(CottageNum=2,DATEDIFF(LastNight,FirstNight)+1, 0)) 	as CowslipNights,
+                    sum(if(CottageNum=3,DATEDIFF(LastNight,FirstNight)+1, 0)) 	as MeadowsweetNights
+                    from CottageBook
+              where DateSat between ? and ?
+              and BookingStatus="C"
+              group by DateSat
+              order by 1;
+            ';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(2, $yearEnd,   PDO::PARAM_STR);
+        $stmt->execute();
+        $returnArray['cottageBookRows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // get all the individual confirmed bookings for use in the modal popup for a selected week
+        $sql = 'select DateSat, CottageNum, FirstNight, LastNight, (lastnight-firstnight)+1 as numNights
+                from cottageBook
+                where DateSat between ? and ?
+                and BookingStatus="C"
+                order by 1,2;';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(2, $yearEnd,   PDO::PARAM_STR);
+        $stmt->execute();
+        $returnArray['cottageBookAllRows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      }
+      else {
+        $returnArray['success']   = false;
+        $returnArray['errorMess'] = 'no rows returned';
+      }
+
+      return $returnArray;
+  } // end of newBooking_crosstab
 
 
   // select cottage rents and books from tables CottageWeek and CottageBook
@@ -336,7 +392,7 @@ class dbFuncs
       $sth->bindParam(2, $CottageNum, PDO::PARAM_INT);
 
       $sth->execute();
-      return $sth->fetchAll(\PDO::FETCH_ASSOC);
+      return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
     catch (Exception $e) {
       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.CottageBook_selectAll', $e->getMessage(), $sql);      
@@ -360,7 +416,7 @@ class dbFuncs
       $count = $sth->rowCount();
       if( !$count===1 ) {
         $returnArray['success'] = false;
-        $returnArray['errorMess'] = 'Records deledted count: ' . $count . ', should be 1';
+        $returnArray['errorMess'] = 'Records deleted count: ' . $count . ', should be 1';
         $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.CottageBook_delete','Deletion failed', $sql . ' IdNum: ' . $IdNum . ' ' . $returnArray['errorMess']);
       }
     }
@@ -481,8 +537,9 @@ class dbFuncs
   // create or update a row in DeviceId table
   function DeviceId_insert($deviceId, $userAgentString)
   {
-    $returnArray = array('success'  =>true,
-                         'message'  =>null);
+    $returnArray = array('success'      =>true,
+                         'rowInserted'  =>false,
+                         'message'      =>null);
 
     $sql = "call spDeviceId_insert(?,?)";
 
@@ -491,6 +548,8 @@ class dbFuncs
       $sth->bindParam(1, $deviceId,        PDO::PARAM_STR,20);
       $sth->bindParam(2, $userAgentString, PDO::PARAM_STR,250);
       $sth->execute();
+      $rowCount = $sth->rowCount();
+      if ($rowCount == 1) { $returnArray['rowInserted'] = true; }
     }
     catch (Exception $e) {
       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.DeviceId_insert', $e->getMessage(),

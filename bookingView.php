@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
 
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="css/crud1.css" />
     <link rel="stylesheet" href="css/bookingView.css" />
@@ -20,48 +20,6 @@
 </head>
 
 <body>
-
-<?php
-    // session_start(); //start the PHP_session function
-
-    // if(isset($_SESSION['page_count']))
-    // {
-    //     $_SESSION['page_count'] += 1;
-    // }
-    // else
-    // {
-    //     $_SESSION['page_count'] = 1;
-    // }
-    // echo 'You are visitor number ' . $_SESSION['page_count'];
-
-    // setcookie("user_name", "Guru99", time()+ 60,'/'); // expires after 60 seconds
-    // print_r($_COOKIE);    //output the contents of the cookie array variable 
-    // echo 'the cookie has been set for 60 seconds';
-
-    include('include/dbFuncs.php');     // open db connection and instantiate dbFuncs class
-
-    $data = array();
-    // $options = '';                
-    $dateSat = date("Y-m-d"); // default today's date
-
-    // select distinct DateSat rows from dateSat table
-    // $data = $dbFuncs->dateSat_select($dateSat);
-
-    // warning if no rows returned
-    // if(count($data)==0) {
-    //     $dbFuncs->ProcessLog_insert('E', 'MGF2','dbFuncs.dateSat_select', 'me', 'No weeks found', $dateSat);
-    //     die('<h1>No weeks found</h1>');
-    // }
-
-    // // enumerate the rows returned into HTML select options for date Sat select
-    // foreach($data as $row)
-    // {
-    //     $options    .= '<option value=' . $row["DateSat"] 
-    //                 . '>'
-    //                 . date("d M Y", strtotime($row["DateSat"])) 
-    //                 . '</option>';
-    // }
-?>
 
 <div class="container">
 
@@ -75,7 +33,6 @@
       <!-- <label for="wcDateSat">W/c Sat. date</label>
       <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
           <option value="-1" selected disabled hidden>Select Saturday</option>
-          <?php echo $options ?>
       </select> -->
       <!-- <div class="form-row"> -->
       <div>
@@ -101,20 +58,19 @@
             <caption class="d-sm-none"><small>Scroll right to view details</small></caption>
             <thead class="thead-light">
                 <tr>
-                    <th>wc.</th>
-                    <th data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>SB</th>
-                    <th>Sa</th>
-                    <th>Su</th>
-                    <th>Mo</th>
-                    <th>Tu</th>
-                    <th>We</th>
-                    <th>Th</th>
-                    <th>Fr</th>
-                    <th data-toggle='tooltip' data-placement='auto' title='View details of the weeks bookings'>View</th>
+                  <th>wc.</th>
+                  <th data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>SB</th>
+                  <th>Sa</th>
+                  <th>Su</th>
+                  <th>Mo</th>
+                  <th>Tu</th>
+                  <th>We</th>
+                  <th>Th</th>
+                  <th>Fr</th>
+                  <th data-toggle='tooltip' data-placement='auto' title='View details of the weeks bookings'>View</th>
                 </tr>
             </thead>
-            <tbody id="tbodyBookings">
-            </tbody>
+            <tbody id="tbodyBookings"></tbody>
         </table>
     </div>
     
@@ -122,10 +78,9 @@
     <div id="output1" class="text-white bg-dark"></div> 
 
     <!-- div for in progress gif during ajax calls -->
-    <div class="modal"></div>
+    <div class="ajaxLoading"></div>
 
 </div>
-
 
     <!-- <script src="js/jquery.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -134,12 +89,10 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script> -->
 
     <!-- Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"     crossorigin="anonymous">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"     crossorigin="anonymous"></script>
 
     <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"     crossorigin="anonymous">
-    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
     <!-- Latest compiled and minified mustache.js templating JavaScript -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script> -->
@@ -164,7 +117,7 @@
 
     <script type="application/javascript">
         // save todays date into global var momDateSat
-        var momDateSat = new Date('<?php echo $dateSat ?>');
+        var momDateSat = new Date('<?php echo date("Y-m-d") ?>');
     </script>
 </body>
 </html>
