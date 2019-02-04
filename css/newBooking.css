@@ -92,15 +92,3 @@ table#tblBookings {
   .table-fixed thead > tr > th {
     float: left;
   }
-
-/* icons images in footer */
-.myFooterIcons {
-  width: 23px;
-  height: auto;
-  padding-right: 5px;
-}
-
-footer p {
-  margin-bottom: 0;
-  font-size: .75rem;
-}

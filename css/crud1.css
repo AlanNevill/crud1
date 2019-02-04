@@ -1,8 +1,17 @@
 /* General CSS file for CRUD1 pages */
+@import url('https://fonts.googleapis.com/css?family=B612');
 
 html {
   position: relative;
   min-height: 100%;
+}
+
+body {
+  font-family: 'B612', sans-serif;
+}
+
+main {
+  margin-top: 90px;
 }
 
 /* class to display a ajaxLoading overlay while any ajax call is running */
@@ -46,3 +55,15 @@ body.loading .ajaxLoading {
 } */
 
 
+
+/* icons images in footer */
+.myFooterIcons {
+  width: 23px;
+  height: auto;
+  padding-right: 5px;
+}
+
+footer p {
+  margin-bottom: 0;
+  font-size: .75rem;
+}

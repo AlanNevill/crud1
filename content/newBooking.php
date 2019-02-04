@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <!-- Place your stylesheet here-->
-    <link rel="stylesheet" href="css/crud1.css" />
-    <link rel="stylesheet" href="css/newBooking.css" />
+    <link rel="stylesheet" href="../css/crud1.css" />
+    <link rel="stylesheet" href="../css/newBooking.css" />
 
 </head>
 
 <body>
   <!-- load the MGF menu -->
-  <?php include 'include/MGF_menu.html';  ?>
+  <?php include '../include/MGF_menu.html';  ?>
 
   
   <div class="d-flex justify-content-between align-items-center header-area">
@@ -64,9 +64,8 @@
       </div>  <!-- end of class="table-area" -->
     </section>  <!-- end of class="content-area" -->
 
-    <?php 
-      include  'include/MGF_footer.html';
-    ?>
+    <?php include  '../include/MGF_footer.html';  ?>
+
     <!-- div for in progress gif during ajax calls -->
     <div class="ajaxLoading"></div>
 
@@ -113,8 +112,8 @@
     </div>
 
 
-  <!-- inlcude the bootstrap, jquery and date libraries  -->
-  <?php include  'include/MGF_libs.html'; ?>
+  <!-- inlcude the bootstrap, jquery and date libraries -->
+  <?php include  '../include/MGF_libs.html'; ?>
  
   <!-- custom javascript for this page -->
   <script type="application/javascript">
@@ -122,8 +121,11 @@
       const TODAY = new Date('<?php echo date("Y-m-d") ?>');
   </script>
 
+  <!-- site javascipt -->
+  <script src="../js/crud1.js"></script>
+
   <!-- page javascipt -->
-  <script src="js/newBooking.js"></script>
+  <script src="../js/newBooking.js"></script>
 
 </body>
 </html>

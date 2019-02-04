@@ -208,7 +208,7 @@ class dbFuncs
 
         // get all the individual confirmed bookings for use in the modal popup for a selected week
         $sql = 'select DateSat, CottageNum, FirstNight, LastNight, (lastnight-firstnight)+1 as numNights
-                from cottageBook
+                from CottageBook
                 where DateSat between ? and ?
                 and BookingStatus="C"
                 order by 1,2;';
