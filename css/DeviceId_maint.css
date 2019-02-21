@@ -1,0 +1,14 @@
+body {
+  font-size: 12px;
+}
+
+
+.table td, .table th {
+  padding: 0.4rem;
+  text-align: left;
+}
+
+input:focus-within { 
+  border: 5px solid;
+  font-size: 12px;
+}

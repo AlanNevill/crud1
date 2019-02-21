@@ -12,25 +12,25 @@ if ($_POST['method']==='DeviceId_insert') {
 
   // if the return is not an array then it's an error message
   if ( is_array($return) ) {
-      if ($return['rowInserted']==1) {
+    if ($return['rowInserted']==1) {
 
-        $dbFuncs->ProcessLog_insert('W', 
-                                    $_SERVER['REQUEST_URI'],
-                                    'common_ajax>method===DeviceId_insert',
-                                    $_POST['deviceId'],
-                                    null,
-                                    'New device with userAgentString: ' . $_POST['userAgentString']
-        );
-      }
-      else {
-        $dbFuncs->ProcessLog_insert('I', 
-                                    $_SERVER['REQUEST_URI'],
-                                    'common_ajax>method===DeviceId_insert',
-                                    $_POST['deviceId'],
-                                    null,
-                                    'Existing device with userAgentString: ' . $_POST['userAgentString']
-        );
-      }
+      $dbFuncs->ProcessLog_insert('W', 
+                                  $_SERVER['REQUEST_URI'],
+                                  'common_ajax>method===DeviceId_insert',
+                                  $_POST['deviceId'],
+                                  null,
+                                  'New device with userAgentString: ' . $_POST['userAgentString']
+      );
+    }
+    else {
+      $dbFuncs->ProcessLog_insert('I', 
+                                  $_SERVER['REQUEST_URI'],
+                                  'common_ajax>method===DeviceId_insert',
+                                  $_POST['deviceId'],
+                                  null,
+                                  'Existing device with userAgentString: ' . $_POST['userAgentString']
+      );
+    }
   } else {
     $return['success'] = false;
   }
@@ -40,7 +40,7 @@ if ($_POST['method']==='DeviceId_insert') {
 }
 
 
-// write a row to table ProcessLog
+// write a row to the ProcessLog table
 if ($_POST['method']==='ProcessLog_insert') {
 
  $dbFuncs->ProcessLog_insert($_POST['MessType'], 

@@ -334,3 +334,6 @@ mysql_credentials.txt
 
 # PDF documents
 *.pdf
+
+# prettier settings
+.prettierrc

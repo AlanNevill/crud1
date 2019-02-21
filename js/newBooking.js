@@ -44,6 +44,7 @@ function showBookings() {
   let startDate;
 
   // get the bookings from today to the end of the current year or from 1st Jan next year 'til the end of that year
+  // eslint-disable-next-line eqeqeq
   if (selectedYear == thisYear) {
     startDate = dateFns.format(TODAY, "YYYY-MM-DD"); // the current date in the current year
   } else {

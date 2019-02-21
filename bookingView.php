@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="css/crud1.css" />
     <link rel="stylesheet" href="css/bookingView.css" />
 
-    <style>
-        
-    </style>
 </head>
 
 <body>

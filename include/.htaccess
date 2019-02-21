@@ -3,3 +3,6 @@
 	Order Allow,Deny
 	Deny from all
 </Files>
+
+# prevent browsing of this folder
+Options All -Indexes

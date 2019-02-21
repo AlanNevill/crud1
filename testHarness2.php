@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>MGF booking</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
+  <title>MGF booking</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
 
-    <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Latest compiled and minified Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/crud1.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css" integrity="sha256-P64qV9gULPHiZTdrS1nM59toStkgjM0dsf5mK/UwBV4=" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/crud1.css" />
 
 </head>
 
@@ -41,22 +43,33 @@
 
 <div class="container">
 
-    <h4 id="title">testHarness2.php</h4><span></span>
+   <h4 id="title">testHarness2.php</h4><span></span>
 
-    <!-- debug info div for validation and error messages -->
-    <div id="info" class="">info</div>
+  <div class="list-group">
+    <a class="list-group-item" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
+    <a class="list-group-item" href="#"><i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp; Library</a>
+    <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Applications</a>
+    <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>
+  </div>
 
-    <!-- debug info div for validation and error messages -->
-    <div id="output1" class="">output1</div>
+  <div>
+    <button type="button" class="btn btn-sm"><i class="fa fa-pencil-square-o">edit</i></button>
+  </div>
 
-    <div class="d-flex justify-content-between">
-        <div>Year:
-          <select id="theYear" name="theYear" class="custom-select"></select>
-        </div>
-        <div class="booked">fully booked</div> 
-        <div class="shortbreaks">some short breaks</div >
-        <div>Click to view booking conditions</div>
-    </div>
+  <!-- debug info div for validation and error messages -->
+  <div id="info" class="">info</div>
+
+  <!-- debug info div for validation and error messages -->
+  <div id="output1" class="">output1</div>
+
+  <div class="d-flex justify-content-between">
+      <div>Year:
+        <select id="theYear" name="theYear" class="custom-select"></select>
+      </div>
+      <div class="booked">fully booked</div> 
+      <div class="shortbreaks">some short breaks</div >
+      <div>Click to view booking conditions</div>
+  </div>
 
 
     <!-- <script src="js/jquery.js"></script> -->

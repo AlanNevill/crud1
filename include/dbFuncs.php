@@ -25,7 +25,6 @@ class dbFuncs
   // generarte a unique id string of given length and case
   Public function generateUnique($length, $case)
   {
-    // $randomString = substr(str_shuffle(md5(time())), 0, $length);
     switch (strtoupper($case)) {
       case 'U':
         return substr(str_shuffle('123456789BCDFGHJKLMNPQRSTVWXYZ987654321'), 0, $length);
@@ -34,7 +33,7 @@ class dbFuncs
         return substr(str_shuffle('123456789bcdfghjkmnpqrstvwxyz987654321'), 0, $length);
       break;
       default:
-        return substr(str_shuffle('123456789BCDFGHJKLMNPQRSTVWXYZ987654321bcdfghjkmnpqrstvwxyz987654321'), 0,$length);
+        return substr(str_shuffle('123456789BCDFGHJKLMNPQRSTVWXYZ987654321bcdfghjkmnpqrstvwxyz987654321'), 0, $length);
       break;
     }
   }
@@ -534,7 +533,7 @@ class dbFuncs
   } // end of function CottageBook_updStatus
 
 
-  // create or update a row in DeviceId table
+  // insert a row in DeviceId table
   function DeviceId_insert($deviceId, $userAgentString)
   {
     $returnArray = array('success'      =>true,
@@ -559,11 +558,93 @@ class dbFuncs
       $returnArray['message'] = $e->getMessage();
     }
     finally{ return $returnArray; }
-  } // end of function DeviceId_upsert
+  } // end of function DeviceId_insert
+
+
+  // select all DeviceId table rows
+  function DeviceId_selectAll()
+  {
+    $returnArray = array('success'      =>true,
+                        'DeviceIdRows'  =>false,
+                        'message'       =>null);
+
+    $sql = "select * from DeviceId order by UserAgentString";
+
+    $sth = $this->db->prepare($sql);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+       $returnArray['success'] = false; 
+       $returnArray['message'] = "no rows found"; 
+       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.DeviceId_selectAll', "No rows found", $sql);
+
+    }
+    else {
+      $returnArray['DeviceIdRows'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return $returnArray;
+  } // end of function DeviceId_selectAll
+
+
+  // update DeviceDesc for given DeviceId row
+  function DeviceId_updDeviceDesc($DeviceId, $DeviceDesc)
+  {
+    $returnArray = array('success'    =>true,
+                        'rowUpdated'  =>false,
+                        'message'     =>null);
+
+    $sql = "call spDeviceId_updDeviceDesc(?,?)";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $DeviceId,   PDO::PARAM_STR,20);
+    $sth->bindParam(2, $DeviceDesc, PDO::PARAM_STR,50);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+       $returnArray['success'] = false; 
+       $returnArray['message'] = "row not updated"; 
+       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.DeviceId_updDeviceDesc', "Row not updated",
+       "$DeviceId: " . $DeviceId . " $DeviceDesc: " . $DeviceDesc);
+    }
+    else {
+      $returnArray['rowUpdated'] = true;
+    }
+
+    return $returnArray;
+  } // end of function DeviceId_updDeviceDesc
+
+
+  // Delete a given DeviceId row
+  function DeviceId_delete($DeviceId)
+  {
+    $returnArray = array('success'      =>true,
+                        'rowDeleted'    =>false,
+                        'message'       =>null);
+
+    $sql = "delete from DeviceId where DeviceId = ?";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $DeviceId,   PDO::PARAM_STR,20);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+       $returnArray['success'] = false; 
+       $returnArray['message'] = "row not deleted"; 
+       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.DeviceId_delete', "Row not deleted",
+       "$DeviceId: " . $DeviceId);
+
+    }
+    else {
+      $returnArray['rowDeleted'] = true;
+    }
+
+    return $returnArray;
+  } // end of function DeviceId_delete
 
 
 } // end of class dbFuncs
 
-$dbFuncs = new dbFuncs($db); // instantiate the class as $dbFuncs ising the PDO connection object $db
+$dbFuncs = new dbFuncs($db); // instantiate the class as $dbFuncs using the PDO connection object $db
 
 ?>
