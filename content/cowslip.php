@@ -9,8 +9,8 @@
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!-- Latest compiled and minified Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
   <link rel="stylesheet" href="../css/crud1.css" />
@@ -80,7 +80,7 @@
         A pretty double bedroom, with fresh white linen, provides views over the lake and ample hanging and storage space.
       </p>
       <p>
-        Cowslip’s twin bedroom with its pretty views.is equipped with ample storage and provides two single beds, which may be exchanged for wooden cots.
+        Cowslip’s twin bedroom with its pretty views is equipped with ample storage and provides two single beds, which may be exchanged for wooden cots.
       </p>
       <p>
         The modern bathroom contains a walk-in shower, sink, heated towel rail and w.c.

@@ -9,8 +9,8 @@
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!-- Latest compiled and minified Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
   <link rel="stylesheet" href="../css/crud1.css" />
@@ -92,7 +92,7 @@
           <img class="img-fluid w-100" src=../images/meadowsweet/Meadowsweet-exterior-3-1000-compressor.jpg alt="Ninth slide">
           <!--<div class="carousel-caption">
               <h3>Eight slide</h3>
-              <p>Meadowswett exterior 3 1000</p>
+              <p>Meadowsweet exterior 3 1000</p>
           </div>-->
         </div>
       </div>
@@ -120,7 +120,7 @@
         The staircase from the lounge leads up to the three bedrooms on the first floor. The master boasts a super king bed and double aspect views over the meadows. A large double bedroom is situated down the hall and provides ample space and picturesque views. The twin is equipped with ample storage and two generous single beds, which may be exchanged for wooden cots.
       </p>
       <p>
-        TThe cottage has two bathrooms, the first is located on the ground floor and features a large separate walk in power shower, heated towel rail, wash basin, and w.c. The second located on the upper floor has a bath, heated towel rail, wash basin and w.c.
+        The cottage has two bathrooms, the first is located on the ground floor and features a large separate walk in power shower, heated towel rail, wash basin, and w.c. The second located on the upper floor has a bath, heated towel rail, wash basin and w.c.
       </p>
       <p>
         Enjoy al fresco dining on the sunny patio complete with comfortable garden furniture and BBQ.
