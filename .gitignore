@@ -337,3 +337,12 @@ mysql_credentials.txt
 
 # prettier settings
 .prettierrc
+
+# composer
+composer.*
+
+# vendor folder
+vendor/
+
+# phpinfo.php
+phpinfo.php

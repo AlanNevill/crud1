@@ -38,6 +38,34 @@ class dbFuncs
     }
   }
 
+  
+  // get all rows from ProcessLog table
+  public function ProcessLog_selectAll($MessType)
+  {
+    $returnArray = array('success'        =>true,
+                        'ProcessLogRows'  =>false,
+                        'message'         =>null);
+
+    $sql = "select * from ProcessLog where MessType =? order by IdNum";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $MessType, PDO::PARAM_STR,1);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+       $returnArray['success'] = false; 
+       $returnArray['message'] = "No MessType: " . $MessType . " rows found"; 
+       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.ProcessLog_selectAll', "No rows found", $sql);
+
+    }
+    else {
+      $returnArray['message'] = "Number of MessType: " . $MessType . " ProcessLog rows: " . $rowCount;
+      $returnArray['ProcessLogRows'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return $returnArray;
+  } // end of function ProcessLog_selectAll
+
 
   # Function to insert a row into ProcessLog table
   public function ProcessLog_insert(

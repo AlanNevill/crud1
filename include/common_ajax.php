@@ -55,4 +55,38 @@ if ($_POST['method']==='ProcessLog_insert') {
 }
 
 
+// send an email test
+if ($_POST['method']==='sendEmail') {
+
+  $returnArray = array('success'  =>true,
+                      'message'   =>null);
+
+  $to      = 'alannevill@gmail.com, alannevill@outlook.com';
+  $subject = 'Subject 04';
+  $message = 'Hello 04';
+  $headers = 'From:alan@meadowgreenfarm.co.uk' . '\r\n'
+              . 'Reply-To:alan@meadowgreenfarm.co.uk' . '\r\n'
+              . 'X-Mailer:PHP/' . phpversion();
+  // $headers = array(
+  //     'From'      => 'alan@meadowgreenfarm.co.uk',
+  //     'Reply-To'  => 'alan@meadowgreenfarm.co.uk',
+  //     'X-Mailer'  => 'PHP/' . phpversion()
+  // );
+  
+  try {
+    $boSend = mail($to, $subject, $message, $message, '-falan@meadowgreenfarm.co.uk');
+    $returnArray['message'] = '$boSend: [' . $boSend . ']. $headers: ' . $headers;
+
+  } catch (\Throwable $error) {
+    $returnArray['success'] = false;
+    $returnArray['message'] = $error->getMessage();
+
+    //throw $error;
+  }
+
+  // return the return array to javascript caller
+  echo json_encode($returnArray);
+  exit();
+ }
+
 ?>

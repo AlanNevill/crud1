@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>MGF booking</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
+  <title>MGF booking</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
 
-    <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!-- Latest compiled and minified Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/crud1.css" />
-    <link rel="stylesheet" href="css/bookingView.css" />
+  <!-- Fork-awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css" integrity="sha256-P64qV9gULPHiZTdrS1nM59toStkgjM0dsf5mK/UwBV4=" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/crud1.css" />
+  <link rel="stylesheet" href="css/bookingView.css" />
 
 </head>
 
@@ -20,101 +23,101 @@
 
 <div class="container">
 
-    <!-- debug info div for validation and error messages -->
-    <div id="info" class="d-none">info</div>
+  <!-- debug info div for validation and error messages -->
+  <div id="info" class="d-none">info</div>
 
-    <h4 id="title">MGF Booking Calendar</h4><span></span>
+  <h4 id="title">MGF Booking Calendar</h4><span></span>
 
-    <!-- form to allow user to select the wc Sat date and the cottage number -->
-    <form  id="formGet" >
-      <!-- <label for="wcDateSat">W/c Sat. date</label>
-      <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
-          <option value="-1" selected disabled hidden>Select Saturday</option>
-      </select> -->
-      <!-- <div class="form-row"> -->
-      <div>
-        <label for="cottageNum">Cottage </label>
-        <select id="cottageNum" name="cottageNum" class="custom-select" style="width:150px">
-            <option value="-1" selected disabled hidden>Select cottage</option>
-            <option value="1">Cornflower</option>
-            <option value="2">Cowslip</option>
-            <option value="3">Meadowsweet</option>
-        </select>
-      </div>
-      <div class="provisional float-right" 
-        style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">rovisional</div>
-      <div class="confirmed float-right" style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">onfirmed</div>
-      <!-- </div> -->
-    </form>
-
-    <p class="d-sm-none"><small>Scroll right to view details</small></p>
-
-    <!-- calendar for the cottage number -->
-    <div class="table-responsive">
-        <table id="tblBookings" class="table table-light table-bordered">
-            <caption class="d-sm-none"><small>Scroll right to view details</small></caption>
-            <thead class="thead-light">
-                <tr>
-                  <th>wc.</th>
-                  <th data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>SB</th>
-                  <th>Sa</th>
-                  <th>Su</th>
-                  <th>Mo</th>
-                  <th>Tu</th>
-                  <th>We</th>
-                  <th>Th</th>
-                  <th>Fr</th>
-                  <th data-toggle='tooltip' data-placement='auto' title='View details of the weeks bookings'>View</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyBookings"></tbody>
-        </table>
+  <!-- form to allow user to select the wc Sat date and the cottage number -->
+  <form  id="formGet" >
+    <!-- <label for="wcDateSat">W/c Sat. date</label>
+    <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
+        <option value="-1" selected disabled hidden>Select Saturday</option>
+    </select> -->
+    <!-- <div class="form-row"> -->
+    <div>
+      <label for="cottageNum">Cottage </label>
+      <select id="cottageNum" name="cottageNum" class="custom-select" style="width:150px">
+        <option value="-1" selected disabled hidden>Select cottage</option>
+        <option value="1">Cornflower</option>
+        <option value="2">Cowslip</option>
+        <option value="3">Meadowsweet</option>
+      </select>
     </div>
-    
-    <!-- error & warning messages -->
-    <div id="output1" class="text-white bg-dark"></div> 
+    <div class="provisional float-right" 
+      style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">rovisional</div>
+    <div class="confirmed float-right" style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">onfirmed</div>
+    <!-- </div> -->
+  </form>
 
-    <!-- div for in progress gif during ajax calls -->
-    <div class="ajaxLoading"></div>
+  <p class="d-sm-none"><small>Scroll right to view details</small></p>
+
+  <!-- calendar for the cottage number -->
+  <div class="table-responsive">
+    <table id="tblBookings" class="table table-light table-bordered">
+      <caption class="d-sm-none"><small>Scroll right to view details</small></caption>
+      <thead class="thead-light">
+        <tr>
+          <th>wc.</th>
+          <th data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>SB</th>
+          <th>Sa</th>
+          <th>Su</th>
+          <th>Mo</th>
+          <th>Tu</th>
+          <th>We</th>
+          <th>Th</th>
+          <th>Fr</th>
+          <th data-toggle='tooltip' data-placement='auto' title='View details of the weeks bookings'>View</th>
+        </tr>
+      </thead>
+      <tbody id="tbodyBookings"></tbody>
+    </table>
+  </div>
+  
+  <!-- error & warning messages -->
+  <div id="output1" class="text-white bg-dark"></div> 
+
+  <!-- div for in progress gif during ajax calls -->
+  <div class="ajaxLoading"></div>
 
 </div>
 
-    <!-- <script src="js/jquery.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- <script src="js/jquery.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-    <!-- jquery.form library NB. not compatible with jquery.min.slim.js-->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script> -->
+  <!-- jquery.form library NB. not compatible with jquery.min.slim.js-->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script> -->
 
-    <!-- Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"     crossorigin="anonymous"></script>
+  <!-- Popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"     crossorigin="anonymous"></script>
 
-    <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified Bootstrap JavaScript -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-    <!-- Latest compiled and minified mustache.js templating JavaScript -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script> -->
+  <!-- Latest compiled and minified mustache.js templating JavaScript -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script> -->
 
-    <!-- moment date formatting library -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> -->
+  <!-- moment date formatting library -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> -->
 
-    <!-- currency formatting
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script> -->
+  <!-- currency formatting
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script> -->
 
-    <!-- date formatting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+  <!-- date formatting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
 
-    <!-- clientJS class used to get fingerprint & userAgentString -->
-    <script src="js/client.min.js"></script>
+  <!-- clientJS class used to get fingerprint & userAgentString -->
+  <script src="js/client.min.js"></script>
 
-    <!-- my classes -->
-    <script src="js/classes.js"></script>
+  <!-- my classes -->
+  <script src="js/classes.js"></script>
 
-    <!-- page javascipt -->
-    <script src="js/bookingView.js"></script>
+  <!-- page javascipt -->
+  <script src="js/bookingView.js"></script>
 
-    <script type="application/javascript">
-        // save todays date into global var momDateSat
-        var momDateSat = new Date('<?php echo date("Y-m-d") ?>');
-    </script>
+  <script type="application/javascript">
+    // save todays date into global var momDateSat
+    var momDateSat = new Date('<?php echo date("Y-m-d") ?>');
+  </script>
 </body>
 </html>

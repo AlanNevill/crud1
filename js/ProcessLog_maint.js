@@ -1,30 +1,37 @@
-// DeviceId_maint.js
+// ProcessLog_maint.js
 "use strict";
 
-var DeviceIdRows, DeviceIdRow;
+var ProcessLogRows, ProcessLogRow;
 
-// Function to get all the DeviceId rows. Display in table tblDeviceId
-function showDeviceId() {
-  // clear any previous DeviceId rows
-  $("#tbodyDeviceId").empty();
+// Function to get all the ProcessLog rows. Display in table tblProcessLog
+function showProcessLog() {
+  // clear any previous ProcessLog rows
+  $("#tbodyProcessLog").empty();
 
-  $.post("DeviceId_ajax.php", {
-    method: "DeviceId_selectAll"
+  $.post("ProcessLog_ajax.php", {
+    method: "ProcessLog_selectAll",
+    MessType: "W"
   }).done(function(data) {
-    // update the DeviceId rows into table tblDeviceId
+    // update the ProcessLog rows into table tblProcessLog
 
     let funcReturn = JSON.parse(data);
 
     if (funcReturn.success === true) {
-      DeviceIdRows = funcReturn.DeviceIdRows;
+      ProcessLogRows = funcReturn.ProcessLogRows;
 
       // iterate over the rows updating the table
-      DeviceIdRows.forEach(DeviceIdRow => {
+      ProcessLogRows.forEach(ProcessLogRow => {
         let newRow = `
-          <tr DeviceId='${DeviceIdRow.DeviceId}'> 
-            <td>${DeviceIdRow.DeviceId}</td> 
-            <td>${DeviceIdRow.DeviceDesc}</td>
-            <td>${DeviceIdRow.UserAgentString}</td>
+          <tr ProcessLog='${ProcessLogRow.IdNum}'> 
+            <td>${ProcessLogRow.IdNum}</td> 
+            <td>${ProcessLogRow.MessDateTime}</td>
+            <td>${ProcessLogRow.MessType}</td>
+            <td>${ProcessLogRow.Application}</td> 
+            <td>${ProcessLogRow.Routine}</td>
+            <td>${ProcessLogRow.UserId}</td>
+            <td>${ProcessLogRow.ErrorMess}</td> 
+            <td>${ProcessLogRow.Remarks}</td>
+            <td>${ProcessLogRow.AlarmRaised}</td>
             <td>
               <div class="btn-group pull right">
                 <button id="bEdit" type="button" class="btn btn-sm btn-success" onclick="rowEdit(this);">
@@ -45,9 +52,11 @@ function showDeviceId() {
         `;
 
         // add the row to the table body
-        $(newRow).appendTo($("#tbodyDeviceId"));
-      }); // end of foreach DeviceIdRows
-      $("#output1").append("Select success: " + funcReturn.success);
+        $(newRow).appendTo($("#tbodyProcessLog"));
+      }); // end of foreach ProcessLogRows
+      $("#output1")
+        .empty()
+        .append("Select success: " + funcReturn.success + ". " + funcReturn.message);
     } else {
       $("#output1")
         .empty()
@@ -55,17 +64,17 @@ function showDeviceId() {
       alert("An error has occured\n\n" + funcReturn.message);
     }
   });
-} // end of showDeviceId function
+} // end of showProcessLog function
 
 // update the new DeviceDesc into the DB
 function deviceDesc_upd($row) {
   const cols = $row.find("td"); // create array of columns in the row
-  const deviceId = cols[0].innerHTML; // get the PK, DeviceId from column 0
+  const ProcessLog = cols[0].innerHTML; // get the PK, ProcessLog from column 0
   const newDeviceDesc = cols[1].innerHTML; // get the new device desc from column 1
 
-  $.post("DeviceId_ajax.php", {
-    method: "DeviceId_updDeviceDesc",
-    PK_deviceId: deviceId,
+  $.post("ProcessLog_ajax.php", {
+    method: "ProcessLog_updDeviceDesc",
+    PK_ProcessLog: ProcessLog,
     newDesc: newDeviceDesc
   }).done(function(response) {
     let returnArray = JSON.parse(response);
@@ -75,21 +84,21 @@ function deviceDesc_upd($row) {
   });
 } // end of function deviceDesc_upd
 
-// delete the DeviceId row
-function deviceId_del($row) {
+// delete the ProcessLog row
+function ProcessLog_del($row) {
   const cols = $row.find("td"); // create array of columns in the row
-  const deviceId = cols[0].innerHTML; // get the PK, DeviceId from column 0
+  const ProcessLog = cols[0].innerHTML; // get the PK, ProcessLog from column 0
 
-  $.post("DeviceId_ajax.php", {
-    method: "DeviceId_delete",
-    PK_deviceId: deviceId
+  $.post("ProcessLog_ajax.php", {
+    method: "ProcessLog_delete",
+    PK_ProcessLog: ProcessLog
   }).done(function(response) {
     let returnArray = JSON.parse(response);
     $("#output1")
       .empty()
       .append("Delete success: " + returnArray.success);
   });
-} // end of function deviceId_del
+} // end of function ProcessLog_del
 
 // document ready
 $(document).ready(function() {
@@ -105,43 +114,25 @@ $(document).ready(function() {
   });
 
   // setup the table as editable with options
-  $("#tblDeviceId").SetEditable({
+  $("#tblProcessLog").SetEditable({
     columnsEd: "1", // Ex.: "1,2,3,4,5"
     onEdit: function($row) {
       deviceDesc_upd($row);
     }, // end of onEdit function
     onDelete: function($row) {
-      deviceId_del($row);
+      ProcessLog_del($row);
     }
   });
 
   // go to bookingMaint.php to view or make a booking for the selected cottageNum and DateSat of the row clicked
-  $("#tbodyDeviceId").delegate(".DeviceId_upd", "click", function() {
+  $("#tbodyProcessLog").delegate(".ProcessLog_upd", "click", function() {
     // get the DateSat from the nearest TR and update into bookingMaint session storage
     let rowTR = $(this).closest("tr");
     bookingMaint.dateSat = rowTR.attr("dateSat");
 
     // call bookingMaint.php to view or book for the selected week and cottageNum
     window.location = "bookingMaint.php";
-  }); // end of DeviceId_upd button click event
+  }); // end of ProcessLog_upd button click event
 
   $('[data-toggle="tooltip"]').tooltip();
-
-  // send an email
-  $.post("common_ajax.php", {
-    method: "sendEmail"
-  }).done(function(data) {
-    // Check returnArray
-
-    let funcReturn = JSON.parse(data);
-
-    $("#output1")
-      .empty()
-      .append(
-        "Email success: " +
-          funcReturn.success +
-          ". Email message: " +
-          funcReturn.message
-      );
-  });
 }); // end of document ready

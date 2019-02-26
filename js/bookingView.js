@@ -55,16 +55,17 @@ function showCottageBook() {
 
             let newRow = `
               <tr dateSat='${DateSat}'> 
-              <td>${fDateSat}</td> 
-              <td>${shortBreaks}</td>
-              <td dayofWeek='1'></td> 
-              <td dayofWeek='2'></td> 
-              <td dayofWeek='3'></td> 
-              <td dayofWeek='4'></td> 
-              <td dayofWeek='5'></td> 
-              <td dayofWeek='6'></td> 
-              <td dayofWeek='7'></td> 
-              <td><button type='button' class='btn view_details'></button></td></tr>
+                <td>${fDateSat}</td> 
+                <td>${shortBreaks}</td>
+                <td dayofWeek='1'></td> 
+                <td dayofWeek='2'></td> 
+                <td dayofWeek='3'></td> 
+                <td dayofWeek='4'></td> 
+                <td dayofWeek='5'></td> 
+                <td dayofWeek='6'></td> 
+                <td dayofWeek='7'></td> 
+                <td><button type='button' class='btn btn-sm btn-warning'><i class="fa fa-search" aria-hidden="true"></i></button></td>
+              </tr>
             `;
 
             // add the row to the calendar table
@@ -178,7 +179,7 @@ $(document).ready(function() {
   });
 
   // go to bookingMaint.php to view or make a booking for the selected cottageNum and DateSat of the row clicked
-  $("#tbodyBookings").delegate(".view_details", "click", function() {
+  $("#tbodyBookings").delegate(".fa-search", "click", function() {
     // get the DateSat from the nearest TR and update into bookingMaint session storage
     let rowTR = $(this).closest("tr");
     bookingMaint.dateSat = rowTR.attr("dateSat");

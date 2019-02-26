@@ -20,30 +20,34 @@
 <body>
 
 <?php
-    // session_start(); //start the PHP_session function
+  require_once 'vendor/autoload.php';
 
-    // if(isset($_SESSION['page_count']))
-    // {
-    //     $_SESSION['page_count'] += 1;
-    // }
-    // else
-    // {
-    //     $_SESSION['page_count'] = 1;
-    // }
+  // Create the Transport
+  $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 26))
+    ->setUsername('alan@meadowgreenfarm.co.uk')
+    ->setPassword('uY^4#bWX')
+  ;
 
-    // $messages = 'You are visitor number ' . $_SESSION['page_count'] . '\n';
+  // Create the Mailer using your created Transport
+  $mailer = new Swift_Mailer($transport);
 
-    // setcookie("user_name", "Guru99", time()+ 60,'/'); // expires after 60 seconds
-    // print_r($_COOKIE);    //output the contents of the cookie array variable 
+  // Create a message
+  $message = (new Swift_Message('Test Subject 01'))
+    ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan MGF'])
+    ->setTo(['alannevill@gmail.com', 'alannevill@outlook.com' => 'Alan Outlook'])
+    ->setBody('Here is the message itself 01')
+    ;
 
-    // $messages .= 'the cookie has been set for 60 seconds\n';
-    // echo nl2br($messages);
+  ini_set('max_execution_time', 60);
+
+  // Send the message
+  $result = $mailer->send($message);
 
 ?>
 
 <div class="container">
 
-   <h4 id="title">testHarness2.php</h4><span></span>
+  <h5 id="title"><?php echo $result ?></h5><span></span>
 
   <div class="list-group">
     <a class="list-group-item" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
