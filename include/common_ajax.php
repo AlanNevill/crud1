@@ -61,6 +61,8 @@ if ($_POST['method']==='ProcessLog_insert') {
 if ($input['method']==='EnquiryResponseEmail') {
 
   require_once '../vendor/autoload.php';
+  include('reCaptcha.php');
+  include('emailConfig.php');
 
   $returnArray = array('success'        => true,
                       'allValid'        => true,
@@ -111,7 +113,7 @@ if ($input['method']==='EnquiryResponseEmail') {
   }
 
   if (empty($input['captcha']))    {
-    $error_message .= "<li>Please click 'I'm not a robot'.</li>"; 
+    $error_message .= "<li>Please check the 'I'm not a robot' checkbox.</li>"; 
   }
 
   if(strlen($error_message) > 0) {
@@ -145,27 +147,27 @@ if ($input['method']==='EnquiryResponseEmail') {
   }
 
   // verfiy the recaptcha
-  $secret = "6Lc3-pUUAAAAALfiGb7tp_vLaPW35Y8z9l4afEiv";
-  $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$input['captcha']}");
+  $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$input['captcha']}");
 
   $captchaVerify = json_decode($verifySite);
   if ($captchaVerify->success == false) {
     $error_message .= "Please verify that you are not a robot."; 
   }
 
+  // return error message if any errors found
   if(strlen($error_message) > 0) {
     $returnArray['allValid'] = false;
     died($returnArray, $error_message);
   }
 
-  // format the message
+  // no errors so format and send the message
   $email_subject = "Confirmation of your enquiry submitted to Meadow Green Farm";
 
   $email_message = "Dear {$first_name} {$last_name},\n\nThankyou for your enquiry. We will respond within 24 hours.\n\n";
 
   // $email_message .= "First name: "  . $first_name . "\n";
   // $email_message .= "Last name: "   . $last_name  . "\n";
-  $email_message .= "Email: {$email_to}\t\tContact no.: {$telephone}\n\n";
+  $email_message .= "Your email: {$email_to}\t\tYour contact no.: {$telephone}\n\n";
   // $email_message .= "Telephone: "   . $telephone  . "\n\n";
   $email_message .= $enquiry . "\n\nKind regards,\n\nMeadow Green Farm";
 
@@ -180,8 +182,9 @@ if ($input['method']==='EnquiryResponseEmail') {
 
   // Create a message
   $message = (new Swift_Message($email_subject))
-    ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
-    ->setReplyTo(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
+    ->setFrom($emailConfig['enquiry']['From'])
+    // ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
+    ->setReplyTo($emailConfig['enquiry']['ReplyTo'])
     ->setTo($email_to)
     ->setCc(['a1@lansdowne-place.myzen.co.uk' => 'a1 Zen'])
     ->setBcc('info@meadowgreenfarm.co.uk')

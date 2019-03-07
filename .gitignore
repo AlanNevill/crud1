@@ -329,8 +329,11 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-# mysql credentials
+# credentials
 mysql_credentials.txt
+dbFuncs0.php
+reCapcha.php
+emailConfig.php
 
 # PDF documents
 *.pdf

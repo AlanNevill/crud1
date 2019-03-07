@@ -4,5 +4,9 @@
 	Deny from all
 </Files>
 
+<FilesMatch "\.htaccess|emailConfig\.php|reCaptcha\.php">
+    Require all denied
+</FilesMatch>
+
 # prevent browsing of this folder
 Options All -Indexes
