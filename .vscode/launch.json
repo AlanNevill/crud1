@@ -7,16 +7,16 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome",
-      "url": "http://crud1.localhost/testHarness.php",
+      "name": "Launch Chrome enquiry.php",
+      "url": "http://crud1.localhost:80/content/enquiry.php",
       "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Launch testHarness2.php",
       "type": "chrome",
       "request": "launch",
-      "trace" : true,
-      "file": "${workspaceFolder}/testHarness2.php"
+      "url": "http://crud1.localhost:80/testHarness2.php",
+      "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Listen for XDebug",

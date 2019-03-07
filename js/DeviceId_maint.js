@@ -126,22 +126,4 @@ $(document).ready(function() {
   }); // end of DeviceId_upd button click event
 
   $('[data-toggle="tooltip"]').tooltip();
-
-  // send an email
-  $.post("common_ajax.php", {
-    method: "sendEmail"
-  }).done(function(data) {
-    // Check returnArray
-
-    let funcReturn = JSON.parse(data);
-
-    $("#output1")
-      .empty()
-      .append(
-        "Email success: " +
-          funcReturn.success +
-          ". Email message: " +
-          funcReturn.message
-      );
-  });
 }); // end of document ready

@@ -2,7 +2,7 @@
 <html dir="ltr" lang="en-US">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
   <title>MGF booking</title>
   <!-- Favicon -->
@@ -20,34 +20,33 @@
 <body>
 
 <?php
-  require_once 'vendor/autoload.php';
+  // require_once 'vendor/autoload.php';
 
-  // Create the Transport
-  $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 26))
-    ->setUsername('alan@meadowgreenfarm.co.uk')
-    ->setPassword('uY^4#bWX')
-  ;
+  // // Create the Transport
+  // $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 465, 'ssl'))
+  //   ->setUsername('alan@meadowgreenfarm.co.uk')
+  //   ->setPassword('uY^4#bWX')
+  // ;
 
-  // Create the Mailer using your created Transport
-  $mailer = new Swift_Mailer($transport);
+  // // Create the Mailer using your created Transport
+  // $mailer = new Swift_Mailer($transport);
 
-  // Create a message
-  $message = (new Swift_Message('Test Subject 01'))
-    ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan MGF'])
-    ->setTo(['alannevill@gmail.com', 'alannevill@outlook.com' => 'Alan Outlook'])
-    ->setBody('Here is the message itself 01')
-    ;
+  // // Create a message
+  // $message = (new Swift_Message('Test Subject 03 with ssl'))
+  //   ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
+  //   ->setTo(['alannevill@gmail.com', 'a1@lansdowne-place.myzen.co.uk' => 'a1 Zen'])
+  //   ->setBody('Here is the message itself 03 - with ssl port 465')
+  //   ;
 
-  ini_set('max_execution_time', 60);
+  // ini_set('max_execution_time', 60);
 
-  // Send the message
-  $result = $mailer->send($message);
+  // // Send the message
+  // $result = $mailer->send($message);
 
 ?>
 
 <div class="container">
 
-  <h5 id="title"><?php echo $result ?></h5><span></span>
 
   <div class="list-group">
     <a class="list-group-item" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
