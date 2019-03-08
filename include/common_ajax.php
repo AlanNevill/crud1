@@ -173,8 +173,8 @@ if ($input['method']==='EnquiryResponseEmail') {
 
   // Create the Transport
   $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 465, 'ssl'))
-    ->setUsername('alan@meadowgreenfarm.co.uk')
-    ->setPassword('uY^4#bWX')
+    ->setUsername($emailConfig['enquiry']['setUsername'])
+    ->setPassword($emailConfig['enquiry']['setPassword'])
   ;
 
   // Create the Mailer using the created Transport
@@ -183,11 +183,10 @@ if ($input['method']==='EnquiryResponseEmail') {
   // Create a message
   $message = (new Swift_Message($email_subject))
     ->setFrom($emailConfig['enquiry']['From'])
-    // ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
     ->setReplyTo($emailConfig['enquiry']['ReplyTo'])
     ->setTo($email_to)
-    ->setCc(['a1@lansdowne-place.myzen.co.uk' => 'a1 Zen'])
-    ->setBcc('info@meadowgreenfarm.co.uk')
+    ->setCc($emailConfig['enquiry']['Cc'])
+    ->setBcc($emailConfig['enquiry']['Bcc'])
     ->setBody($email_message)
     ;
 

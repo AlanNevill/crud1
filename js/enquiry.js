@@ -77,6 +77,9 @@ function postEnquiry(event) {
 
           // enquiry was successfully sent
           if (funcReturn.success === true) {
+            // reset the captcha
+            grecaptcha.reset();
+
             // inject an alert to message div into the form
             $("#output1").html(
               `
