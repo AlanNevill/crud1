@@ -1,0 +1,3 @@
+# bookingMaint.php & bookingView.php moved from root to /content
+Redirect 301 /bookingMaint.php  /content/bookingMaint.php
+Redirect 301 /bookingView.php   /content/bookingView.php

@@ -106,7 +106,7 @@
     <!-- <script type="module" src="/js/commonFuncs.js"></script> -->
 
     <!-- this page javascipt -->
-    <script src="/js/testHarness2.js"></script>
+    <script src="js/testHarness2.js"></script>
 
     <script>
     </script>

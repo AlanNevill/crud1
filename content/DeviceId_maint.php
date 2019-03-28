@@ -36,6 +36,7 @@
                   <th>DeviceId (PK)</th>
                   <th>DeviceDesc</th>
                   <th>UserAgentString</th>
+                  <th name="buttons">edit delete</th>
                 </tr>
             </thead>
             <tbody id="tbodyDeviceId"></tbody>
@@ -53,6 +54,7 @@
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
 
+  <!-- table editing library -->
   <script src="../js/bootstable.js"></script>  
 
   <!-- page javascipt -->

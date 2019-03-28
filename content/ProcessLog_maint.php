@@ -5,17 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   <title>ProcessLog</title>
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
 
-  <!-- Latest compiled and minified Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-  <!-- Fork-awesome -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css" integrity="sha256-P64qV9gULPHiZTdrS1nM59toStkgjM0dsf5mK/UwBV4=" crossorigin="anonymous">
-
-  <link rel="stylesheet" href="../css/crud1.css" />
-  <link rel="stylesheet" href="../css/DeviceId_maint.css" />
+  <?php include '../include/MGF_header.html'; ?>  <!-- favicon.ico + bootstrap.css & fork awesome.css style sheets -->
 
 </head>
 
@@ -23,13 +14,11 @@
 
   <main role="main" class="container">
 
-    <h5 id="title">ProcessLog maintenance</h5><span></span>
-
-    <p class="d-sm-none"><small>Scroll right to view details</small></p>
+    <h5 id="title">ProcessLog maintenance</h5><span>hostname: <?php echo gethostname() ?></span>
 
     <!-- table of ProcessLog rows -->
     <div class="table-responsive">
-      <table id="tblDeviceId" class="table table-light table-bordered table-striped table-hover">
+      <table id="tblDeviceId" class="table table-dark table-bordered table-striped table-hover">
         <caption class="d-sm-none"><small>Scroll right to view details</small></caption>
         <thead class="thead-light">
           <tr>
@@ -57,7 +46,7 @@
   </main>
 
   <!-- include the bootstrap, jquery and date libraries -->
-  <?php include  '../include/MGF_libs.html'; ?>
+  <?php include '../include/MGF_libs.html'; ?>
 
   <script src="../js/bootstable.js"></script>  
 

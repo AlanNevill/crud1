@@ -4,14 +4,6 @@
   line-height: 1.0;
 }
 
-table#tblBookings {
-   line-height: 0.6;
-}
-
-.table td, .table th {
-   padding: 0.4rem;
-   text-align: center;
-}
 
 
  /* header area */
@@ -54,41 +46,59 @@ table#tblBookings {
   margin-top: 150px;
 }
 
-@media only screen and (max-width:600px) {
+/* on wide screens */
+@media only screen and (min-width:600px) {
   .table-area {
-    margin-top: 200px;
+    margin-top: 160px;
+  }
+  .card {
+    min-width: 200px;
   }
 }
 
-@media only screen and (max-width:370px) {
+/* on small screens */
+@media only screen and (max-width:599px) {
   .table-area {
-    margin-top: 200px;
+    margin-top: 180px;
+  }
+  .table-fixed th {
+    white-space: normal !important;
+    word-wrap: break-word;
+    height: 55px;
   }
 }
 
+table#tblBookings {
+  line-height: 1;
+}
+
+.table td, .table th {
+  padding: 0.3rem;
+  text-align: center;
+}
 
 .table-fixed tbody {
   height: 700px;
   overflow-y: auto;
   width: 100%;
-  }
+}
 
-  .table-fixed thead,
-  .table-fixed tbody,
-  .table-fixed tr,
-  .table-fixed td,
-  .table-fixed th {
-  display: block;
-  }
+.table-fixed tbody,
+.table-fixed th,
+.table-fixed tr,
+.table-fixed td {
+display: block;
+}
 
-  .table-fixed tr:after {
-  content: "";
-  display: block;
-  visibility: hidden;
-  clear: both;
-  }
+.table-fixed tr:after {
+content: "";
+display: block;
+visibility: hidden;
+clear: both;
+}
 
-  .table-fixed tbody td,
-  .table-fixed thead > tr > th {
-    float: left;
-  }
+.table-fixed tbody td,
+.table-fixed thead > tr > th {
+  float: left;
+}
+  

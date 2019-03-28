@@ -9,7 +9,10 @@ class dbFuncs
   {
     $this->db = $db;
 
-    // get the devideId if the js classes.clsDeviceIdCookie has written the cookie
+    # ProcessLog informational rows if using development server SNOWBALL
+    $this->writeProcessLogInfo = (gethostname() == "SNOWBALL") ? true : false;
+
+    # get the devideId if the js classes.clsDeviceIdCookie has written the cookie
     if (isset($_COOKIE['deviceId'])) {
       $UserId = 'deviceId: ' . $_COOKIE['deviceId'];
     }
@@ -17,7 +20,7 @@ class dbFuncs
       $UserId = "deviceId: **unknown**";
     }
 
-    // used in function ProcessLog_insert2
+    # used in function ProcessLog_insert2
     $this->deviceId = $UserId;
   }
 
@@ -39,14 +42,14 @@ class dbFuncs
   }
 
   
-  // get all rows from ProcessLog table
+  // get all rows from ProcessLog table with given MessType (I, E, W)
   public function ProcessLog_selectAll($MessType)
   {
     $returnArray = array('success'        =>true,
-                        'ProcessLogRows'  =>false,
+                        'ProcessLogRows'  =>null,
                         'message'         =>null);
 
-    $sql = "select * from ProcessLog where MessType =? order by IdNum";
+    $sql = "select * from ProcessLog where MessType ='?' order by IdNum";
 
     $sth = $this->db->prepare($sql);
     $sth->bindParam(1, $MessType, PDO::PARAM_STR,1);
@@ -54,18 +57,97 @@ class dbFuncs
     $rowCount = $sth->rowCount();
     if ($rowCount == 0) {
        $returnArray['success'] = false; 
-       $returnArray['message'] = "No MessType: " . $MessType . " rows found"; 
+       $returnArray['message'] = "No MessType: {$MessType} rows found"; 
        $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.ProcessLog_selectAll', "No rows found", $sql);
 
     }
     else {
-      $returnArray['message'] = "Number of MessType: " . $MessType . " ProcessLog rows: " . $rowCount;
+      $returnArray['message'] = "Number of MessType: {$MessType}, ProcessLog rows: {$rowCount}";
       $returnArray['ProcessLogRows'] = $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     return $returnArray;
   } // end of function ProcessLog_selectAll
 
+
+  // get max(IdNum) from ProcessLog table with MessType = 'E' or 'W' and AlarmRaised = 'N'
+  public function ProcessLog_selectMaxIdNum()
+  {
+    $sql = "select IFNULL(max(IdNum),0) from ProcessLog where MessType<>'I' and AlarmRaised='N'";
+
+    $maxIdNum = $this->db->query($sql)->fetchColumn();
+
+    return $maxIdNum;
+  } // end of function ProcessLog_selectMaxIdNum
+
+
+  // get all rows from ProcessLog table with MessType = 'E' or 'W' and AlarmRaised = 'N' less or equal to max(Idnum)
+  public function ProcessLog_selectErrorsNotReported($maxIdNum)
+  {
+    $returnArray = array('success'        =>true,
+                        'ProcessLogRows'  =>null,
+                        'message'         =>null);
+
+    $sql = "select * from ProcessLog where MessType<>'I' and AlarmRaised='N' and IdNum<=? order by IdNum";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $maxIdNum, PDO::PARAM_INT);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+        $returnArray['success'] = false; 
+        $returnArray['message'] = "No ProcessLog rows with MessType E or W found where IdNum<=: {$maxIdNum}"; 
+        $this->ProcessLog_insert2('W',
+                                  'ProcessLog_ajax - method: ProcessLog_reportErrors',
+                                  'dbFuncs->ProcessLog_selectErrorsNotReported', 
+                                  'No ProcessLog rows found',
+                                  "sql: {$sql}, maxIdNum: {$maxIdNum}" );
+    }
+    else {
+      $returnArray['message'] = "ProcessLog: {$rowCount} rows of MessType E or W less than or equal to IdNum: {$maxIdNum}";
+      $returnArray['ProcessLogRows'] = $sth->fetchAll(PDO::FETCH_NUM);
+    }
+
+    return $returnArray;
+  } // end of function ProcessLog_selectErrorsNotReported
+  
+
+  // update AlarmRaised to 'Y' for ProcessLog rows with MessType = 'E' or 'W' and AlarmRaised = 'N' less or equal to max(Idnum)
+  public function ProcessLog_updateErrorsNotReported($maxIdNum)
+  {
+    $returnArray = array( 'success' =>true,
+                          'message' =>null);
+
+    $sql = "call spProcessLog_updAlarmRaised(?)";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $maxIdNum, PDO::PARAM_INT);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+        $returnArray['success'] = false; 
+        $returnArray['message'] = "No ProcessLog rows with MessType E or W with IdNum<=: {$maxIdNum} were updated"; 
+        $this->ProcessLog_insert2('E',
+                                  'ProcessLog_ajax - method: ProcessLog_reportErrors',
+                                  'dbFuncs->ProcessLog_updateErrorsNotReported', 
+                                  $returnArray['message'],
+                                  "sql: {$sql}, maxIdNum: {$maxIdNum}" );
+    }
+    else {
+      $returnArray['message'] = "ProcessLog: {$rowCount} rows of MessType E or W <= to IdNum: {$maxIdNum} were updated";
+      if ($writeProcessLogInfo) {
+        $this->ProcessLog_insert2('I',
+                                  'ProcessLog_ajax - method: ProcessLog_reportErrors',
+                                  'dbFuncs->ProcessLog_updateErrorsNotReported', 
+                                  $returnArray['message'],
+                                  "sql: {$sql}, maxIdNum: {$maxIdNum}" );
+      }
+
+    }
+
+    return $returnArray;
+  } // end of function ProcessLog_updateErrorsNotReported
+  
 
   # Function to insert a row into ProcessLog table
   public function ProcessLog_insert(
@@ -85,18 +167,8 @@ class dbFuncs
                                     '$Remarks'
                                     )";
 
-    /*  using Prepare
-          $stmt = $this->conn->prepare($q);
-          $var = $stmt->execute([1]);
-    */
-
-    try {
-          $this->db->exec ( $q );
-          return;
-        }
-    catch (Exception $e) {
-      echo 'ERROR - ' . $e->getMessage();
-      }
+    $this->db->exec ( $q );
+    return;
   }
 
 
@@ -109,13 +181,7 @@ class dbFuncs
         $Remarks
   )
   {
-    $sql = "call spProcessLog_Insert(?,
-                                     ?,
-                                     ?,
-                                     ?,
-                                     ?,
-                                     ?
-                                     )";
+    $sql = "call spProcessLog_Insert(?, ?,  ?,  ?,  ?,  ? )";
     $stmt = $this->db->prepare($sql);
     # , array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false)
     $stmt->bindParam(1, $MessType,          PDO::PARAM_STR,1);
@@ -125,50 +191,66 @@ class dbFuncs
     $stmt->bindParam(5, $ErrorMess,         PDO::PARAM_STR,2000);
     $stmt->bindParam(6, $Remarks,           PDO::PARAM_STR,2000);
     $stmt->execute();
+
+    return;
   }
 
 
   // retrieve a single CottageWeek row
   public function cottageWeek_get($dateSat, $cottageNum)
   {
-    $returnArray = array('success' =>true,
-                        'data'     =>null);
+    $returnArray = array('success'  => true,
+                        'data'      => null,
+                        'message'   => null);
     
     $sql = "select RentDay, RentWeek, bShortBreaksAllowed from CottageWeek where DateSat=? and CottageNum=?;";
 
-    try {
-      $stmt = $this->db->prepare($sql);
-      $stmt->bindParam(1, $dateSat,    PDO::PARAM_STR);
-      $stmt->bindParam(2, $cottageNum, PDO::PARAM_INT);
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindParam(1, $dateSat,    PDO::PARAM_STR);
+    $stmt->bindParam(2, $cottageNum, PDO::PARAM_INT);
 
-      $stmt->execute();
-      $returnArray['data'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch (Exception $e) {
-      $returnArray['success'] = false;
-      $returnArray['data'] = $e->getMessage();
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.cottageWeek_get', $e->getMessage(), $sql);
-    }
-    finally{return $returnArray;}
+    $stmt->execute();
+    $returnArray['data'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $returnArray;
   }
 
 
   // select all cottage week from table CottageWeek for given cottageNum after given date
   public function cottageWeek_selectAll($dateSat, $cottageNum)
   {
+    $returnArray = array( 'success'         => true,
+                          'cottageWeekRows' => null,
+                          'message'         => null);
+
     $sql='select * from CottageWeek where DateSat>=? and CottageNum=?;';
 
-    try {
-      $stmt = $this->db->prepare($sql);
-      $stmt->bindParam(1, $dateSat,    PDO::PARAM_STR);
-      $stmt->bindParam(2, $cottageNum, PDO::PARAM_INT);
-      $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindParam(1, $dateSat,    PDO::PARAM_STR);
+    $stmt->bindParam(2, $cottageNum, PDO::PARAM_INT);
+    $stmt->execute();
+    $rowCount = $stmt->rowCount();
+    if ($rowCount==0) {
+      $returnArray['success'] = false; 
+      $returnArray['message'] = "No CottageWeek rows for cottage num [{$cottageNum}] after {$dateSat}"; 
+      $this->ProcessLog_insert2('E',
+                                'bookingView_ajax - method: cottageWeek_selectAll',
+                                'dbFuncs->cottageWeek_selectAll', 
+                                $returnArray['message'],
+                                null );
+    } else {
+      $returnArray['cottageWeekRows'] = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+      $returnArray['message'] = "{$rowCount} CottageWeek rows for cottage num [{$cottageNum}] after {$dateSat}"; 
+      if ($this->writeProcessLogInfo) {
+        $this->ProcessLog_insert2('I',
+                                  'bookingView_ajax - method: cottageWeek_selectAll',
+                                  'dbFuncs->cottageWeek_selectAll', 
+                                  null,
+                                  $returnArray['message']
+        );
+      }
     }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.cottageWeek_selectAll', $e->getMessage(), $sql);
-      return 'ERROR - ' . $e->getMessage();
-    }
+    return $returnArray;
   }
   
   
@@ -234,7 +316,11 @@ class dbFuncs
         $returnArray['cottageBookRows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // get all the individual confirmed bookings for use in the modal popup for a selected week
-        $sql = 'select DateSat, CottageNum, FirstNight, LastNight, (lastnight-firstnight)+1 as numNights
+        $sql = 'select DateSat, 
+                  CottageNum, 
+                  FirstNight, 
+                  LastNight, 
+                  DATEDIFF(lastnight,firstnight)+1 as numNights
                 from CottageBook
                 where DateSat between ? and ?
                 and BookingStatus="C"
@@ -409,22 +495,43 @@ class dbFuncs
   // return all rows from CottageBook for given CottageNum with dateSat >= given date
   public function CottageBook_selectAll( $DateSat, $CottageNum)
   {      
+    // set up the return array
+    $returnArray = array( 'success'           =>true,
+                          'cottageBookRows'   =>null,
+                          'message'           =>null
+                      );
+
     $sql =  "select *, "
             . "datediff(lastnight,firstnight)+1 as numNights "
             . "from CottageBook where DateSat >=? and CottageNum =? order by DateSat;";
             
-    try {
-      $sth = $this->db->prepare($sql);
-      $sth->bindParam(1, $DateSat,    PDO::PARAM_STR);
-      $sth->bindParam(2, $CottageNum, PDO::PARAM_INT);
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $DateSat,    PDO::PARAM_STR);
+    $sth->bindParam(2, $CottageNum, PDO::PARAM_INT);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount==0) {
+      $returnArray['success'] = false; 
+      $returnArray['message'] = "No CottageBook rows for cottage num [{$cottageNum}] after {$dateSat}"; 
+      $this->ProcessLog_insert2('E',
+                                'bookingView_ajax - method: cottageBook_selectAll',
+                                'dbFuncs->cottageBook_selectAll', 
+                                $returnArray['message'],
+                                null );
+    } else {
+      $returnArray['cottageBookRows'] = $sth->fetchAll(PDO::FETCH_ASSOC); 
+      $returnArray['message'] = "{$rowCount} CottageBook rows for cottage num [{$CottageNum}] after {$DateSat}"; 
 
-      $sth->execute();
-      return $sth->fetchAll(PDO::FETCH_ASSOC);
+      if ($this->writeProcessLogInfo) {
+        $this->ProcessLog_insert2('I',
+                                  'bookingView_ajax - method: cottageBook_selectAll',
+                                  'dbFuncs->cottageBook_selectAll', 
+                                  null,
+                                  $returnArray['message']
+        );
+      }
     }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.CottageBook_selectAll', $e->getMessage(), $sql);      
-      return 'ERROR - ' . $e->getMessage();
-    }
+    return $returnArray;
   }
   
 
@@ -432,58 +539,53 @@ class dbFuncs
   function CottageBook_delete( $IdNum )
   {     
     // set up the return array
-    $returnArray = array('success'    =>true,
-                        'errorMess'   =>null);
+    $returnArray = array('success'  =>true,
+                        'message'   =>null);
+
+    if (empty($IdNum)) {
+      $returnArray['success'] = false;
+      $returnArray['message'] = '$IdNum is empty';
+      return $returnArray;
+    }                    
 
     $sql = "call spCottageBook_delete(?)"; 
-    try {
-      $sth = $this->db->prepare($sql);
-      $sth->bindParam(1, $IdNum, PDO::PARAM_INT);
-      $sth->execute();
-      $count = $sth->rowCount();
-      if( !$count===1 ) {
-        $returnArray['success'] = false;
-        $returnArray['errorMess'] = 'Records deleted count: ' . $count . ', should be 1';
-        $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.CottageBook_delete','Deletion failed', $sql . ' IdNum: ' . $IdNum . ' ' . $returnArray['errorMess']);
-      }
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $IdNum, PDO::PARAM_INT);
+    $sth->execute();
+    $count = $sth->rowCount();
+    $returnArray['message'] = "$count booking deleted";
+
+    # stored procedure should return a count of 1
+    if( !$count===1 ) {
+      $returnArray['success'] = false;
+      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.CottageBook_delete','Deletion failed', 
+                                $sql . ' IdNum: ' . $IdNum . ' ' . $returnArray['message']
+                              );
     }
-    catch (Exception $e) {
-      $returnArray['success']   = false;
-      $returnArray['errorMess'] = $e->getMessage();
-      $this->ProcessLog_insert2('E','MGF2','dbFuncs.CottageBook_delete', $e->getMessage(), $sql. ' IdNum: ' . $IdNum);
-    }
-    finally{return $returnArray;}
+    return $returnArray;
   } // end of function CottageBook_delete
 
 
   // check proposed dates for a new booking against existing bookings in the database. returns number of clashes
   function CottageBook_check($DateSat, $CottageNum, $FirstNight, $LastNight)
   {
-    // set up the return array
-    $returnArray = array('success'    =>true,
-                        'clashCount'  =>0,
-                        'errorMess'   =>null);
+    # set up the return array
+    $returnArray = array('success'    => true,
+                        'clashCount'  => 0,
+                        'errorMess'   => null);
 
     $sql = "call spCottageBook_check(?,?,?,?)";
 
-    try {
-      $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
-      $sth->bindParam(1, $DateSat,      PDO::PARAM_STR);
-      $sth->bindParam(2, $CottageNum,   PDO::PARAM_INT);
-      $sth->bindParam(3, $FirstNight,   PDO::PARAM_STR);
-      $sth->bindParam(4, $LastNight,    PDO::PARAM_STR);
+    $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
+    $sth->bindParam(1, $DateSat,      PDO::PARAM_STR);
+    $sth->bindParam(2, $CottageNum,   PDO::PARAM_INT,1);
+    $sth->bindParam(3, $FirstNight,   PDO::PARAM_STR);
+    $sth->bindParam(4, $LastNight,    PDO::PARAM_STR);
 
-      $sth->execute();
-      $returnArray['clashCount'] = $sth->fetchColumn();
-    }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_Insert', $e->getMessage(), $sql);
-      $returnArray['success'] = false;
-      $returnArray['errorMess'] = $e->getMessage();
-    }
-    finally {
-      return $returnArray;
-    }
+    $sth->execute();
+    $returnArray['clashCount'] = $sth->fetchColumn();
+    
+    return $returnArray;
   } // end of function CottageBook_check
 
 
@@ -496,96 +598,106 @@ class dbFuncs
 
     $sql = "call spCottageBook_Insert(?,?,?,?,?,?,?,?)";
 
-    try {
-      $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
-      $sth->bindParam(1, $DateSat,        PDO::PARAM_STR);
-      $sth->bindParam(2, $CottageNum,     PDO::PARAM_INT);
-      $sth->bindParam(3, $FirstNight,     PDO::PARAM_STR);
-      $sth->bindParam(4, $LastNight,      PDO::PARAM_STR);
-      $sth->bindParam(5, $BookingStatus,  PDO::PARAM_STR,1);
-      $sth->bindParam(6, $BookingRef,     PDO::PARAM_STR,4);
-      $sth->bindParam(7, $Rental,         PDO::PARAM_INT);
-      $sth->bindParam(8, $Notes,          PDO::PARAM_STR);
-      $sth->execute();
+    $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
+    $sth->bindParam(1, $DateSat,        PDO::PARAM_STR);
+    $sth->bindParam(2, $CottageNum,     PDO::PARAM_INT,1);
+    $sth->bindParam(3, $FirstNight,     PDO::PARAM_STR);
+    $sth->bindParam(4, $LastNight,      PDO::PARAM_STR);
+    $sth->bindParam(5, $BookingStatus,  PDO::PARAM_STR,1);
+    $sth->bindParam(6, $BookingRef,     PDO::PARAM_STR,4);
+    $sth->bindParam(7, $Rental,         PDO::PARAM_INT);
+    $sth->bindParam(8, $Notes,          PDO::PARAM_STR);
+    $sth->execute();
 
-      $returnArray['insertedIdNum'] = $sth->fetchColumn();
+    $returnArray['insertedIdNum'] = $sth->fetchColumn();
 
-      // check for SQL id returning 0
-      if($returnArray['insertedIdNum'] == 0 ) {
-        $this->ProcessLog_insert2('E','MGF2','dbFuncs.spCottageBook_Insert','Insert failed', $sql);
-        $returnArray['success'] = false;
-        $returnArray['errorMess'] = 'ERROR - Insert failed; $returnArray[insertedIdNum] :' . $returnArray['insertedIdNum'] ;
-      }
-    }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_Insert', $e->getMessage(), $sql);
+    // check for SQL id returning 0
+    if($returnArray['insertedIdNum'] == 0 ) {
+      $this->ProcessLog_insert2('E','MGF2','dbFuncs.spCottageBook_Insert','Insert failed', $sql);
       $returnArray['success'] = false;
-      $returnArray['errorMess'] = 'ERROR - ' . $e->getMessage();
+      $returnArray['errorMess'] = 'ERROR - Insert failed; $returnArray[insertedIdNum]: ' . $returnArray['insertedIdNum'] ;
     }
-    finally{ return $returnArray; }
+
+    return $returnArray;
   } // end of function CottageBook_insert
   
 
   // update the BookingStatus column in CottageBook table
   function CottageBook_updStatus ($IdNum, $BookingStatus) {
 
-    $returnArray = array('success'      =>true,
-                        'errorMess'     =>null);
+    $returnArray = array('success'    => true,
+                        'message'     => "CottageBook status updated");
+
+    if (empty($IdNum) || empty($BookingStatus)) {
+      $returnArray['success'] = false;
+      $errMess = "One or both of the 2 parameters are empty. IdNum: [$IdNum] BookingStatus: [$BookingStatus]";
+      $returnArray['message'] = $errMess;
+      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_updStatus', $errMess, null);
+      return $returnArray; 
+    }
 
     $sql = "call spCottageBook_updStatus(?,?)";
 
-    try {
-      $sth = $this->db->prepare($sql);
-      $sth->bindParam(1, $IdNum,          PDO::PARAM_INT);
-      $sth->bindParam(2, $BookingStatus,  PDO::PARAM_STR,1);
-      $sth->execute();
-      $rowCount = $sth->rowCount();
-      if (!$rowCount == 1) {
-        $returnArray['success'] = false;
-        $returnArray['errorMess'] = 'ERROR - Contact Support';
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $IdNum,          PDO::PARAM_INT);
+    $sth->bindParam(2, $BookingStatus,  PDO::PARAM_STR,1);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if (!$rowCount == 1) {
+      $returnArray['success'] = false;
+      $errMess = "rowCount: $rowCount should be 1. IdNum: $IdNum BookingStatus: $BookingStatus";
+      $returnArray['message'] = $errMess;
 
-        $errMess =   '$rowCount: ' . $rowCount . ' should be 1.' .
-          '$IdNum: ' . $IdNum .
-          ' $BookingStatus: ' . $BookingStatus;
-        $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_updStatus', 
-          $errMess, 
-          $sql);
-      }
+      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_updStatus', $errMess, $sql);
     }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_updStatus', $e->getMessage(), $sql);
-      $returnArray['success']   = false;
-      $returnArray['errorMess'] = $e->getMessage();
-    }
-    finally{ return $returnArray; }
+    
+    return $returnArray; 
   } // end of function CottageBook_updStatus
+
+  
+  // update the BookingNotes column in CottageBook table
+  function CottageBook_updNotes ($IdNum, $Notes) {
+
+    $returnArray = array('success'    => true,
+                        'message'     => "CottageBook notes updated");
+
+
+    $sql = "call spCottageBook_updNotes(?,?)";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $IdNum,  PDO::PARAM_INT);
+    $sth->bindParam(2, $Notes,  PDO::PARAM_STR,100);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if (!$rowCount == 1) {
+      $returnArray['success'] = false;
+      $errMess = "rowCount: $rowCount should be 1. IdNum: $IdNum Notes: $Notes";
+      $returnArray['message'] = $errMess;
+
+      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_updNotes', $errMess, $sql);
+    }
+    
+    return $returnArray; 
+  } // end of function CottageBook_updNotes
 
 
   // insert a row in DeviceId table
   function DeviceId_insert($deviceId, $userAgentString)
   {
-    $returnArray = array('success'      =>true,
-                         'rowInserted'  =>false,
-                         'message'      =>null);
+    $returnArray = array('success'      => true,
+                         'rowInserted'  => false,
+                         'message'      => null);
 
     $sql = "call spDeviceId_insert(?,?)";
 
-    try {
-      $sth = $this->db->prepare($sql);
-      $sth->bindParam(1, $deviceId,        PDO::PARAM_STR,20);
-      $sth->bindParam(2, $userAgentString, PDO::PARAM_STR,250);
-      $sth->execute();
-      $rowCount = $sth->rowCount();
-      if ($rowCount == 1) { $returnArray['rowInserted'] = true; }
-    }
-    catch (Exception $e) {
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.DeviceId_insert', $e->getMessage(),
-        "$deviceId: " . $deviceId . " userAgentString: " . $userAgentString);
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $deviceId,        PDO::PARAM_STR,20);
+    $sth->bindParam(2, $userAgentString, PDO::PARAM_STR,250);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 1) { $returnArray['rowInserted'] = true; }
 
-      $returnArray['success'] = false;
-      $returnArray['message'] = $e->getMessage();
-    }
-    finally{ return $returnArray; }
+    return $returnArray; 
   } // end of function DeviceId_insert
 
 
@@ -618,9 +730,9 @@ class dbFuncs
   // update DeviceDesc for given DeviceId row
   function DeviceId_updDeviceDesc($DeviceId, $DeviceDesc)
   {
-    $returnArray = array('success'    =>true,
-                        'rowUpdated'  =>false,
-                        'message'     =>null);
+    $returnArray = array('success'    => true,
+                        'rowUpdated'  => false,
+                        'message'     => null);
 
     $sql = "call spDeviceId_updDeviceDesc(?,?)";
 

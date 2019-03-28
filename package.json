@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "MGFv4",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "bootstrap-confirmation2": "^4.0.4",
+    "jquery": "^3.3.1",
+    "popper": "^1.0.1",
+    "popper.js": "^1.14.7"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "eslint": "^5.12.1",

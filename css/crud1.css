@@ -8,7 +8,7 @@ html {
 
 body {
   font-family: 'B612', sans-serif;
-  background-color: lightgray;
+  background-color: #f8f9fa;
 }
 
 main {
@@ -25,7 +25,7 @@ main {
   height:     100%;
   width:      100%;
   background: rgba( 255, 255, 255, 0.5 ) 
-              url('/images/progress.gif')
+              url('../images/progress.gif')
               50% 50% 
               no-repeat;
 }
@@ -68,3 +68,29 @@ footer p {
   margin-bottom: 0;
   font-size: .75rem;
 }
+
+@media only screen and (min-width:600px) {
+  .myNavBarBrand {
+    background-image: url('../images/Banner_v3.svg');
+    background-repeat: no-repeat;
+    width: 350px;
+    height: 40px;
+  } 
+}
+
+@media only screen and (max-width:599px) {
+  .myNavBarBrand {
+    background-image: url('../images/Sheep-icon.svg');
+    background-repeat: no-repeat;
+    width: 55px;
+    height: 55px;
+  } 
+}
+
+/* extra small button for tables */
+.btn-group-xs > .btn, .btn-xs {
+  padding  : 0rem .4rem;
+  font-size  : .875rem;
+  /* line-height: .5rem; */
+  border-radius : .4rem;
+}  

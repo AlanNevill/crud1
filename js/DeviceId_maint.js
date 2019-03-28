@@ -8,7 +8,7 @@ function showDeviceId() {
   // clear any previous DeviceId rows
   $("#tbodyDeviceId").empty();
 
-  $.post("DeviceId_ajax.php", {
+  $.post("../include/DeviceId_ajax.php", {
     method: "DeviceId_selectAll"
   }).done(function(data) {
     // update the DeviceId rows into table tblDeviceId
@@ -63,7 +63,7 @@ function deviceDesc_upd($row) {
   const deviceId = cols[0].innerHTML; // get the PK, DeviceId from column 0
   const newDeviceDesc = cols[1].innerHTML; // get the new device desc from column 1
 
-  $.post("DeviceId_ajax.php", {
+  $.post("../include/DeviceId_ajax.php", {
     method: "DeviceId_updDeviceDesc",
     PK_deviceId: deviceId,
     newDesc: newDeviceDesc
@@ -80,7 +80,7 @@ function deviceId_del($row) {
   const cols = $row.find("td"); // create array of columns in the row
   const deviceId = cols[0].innerHTML; // get the PK, DeviceId from column 0
 
-  $.post("DeviceId_ajax.php", {
+  $.post("../include/DeviceId_ajax.php", {
     method: "DeviceId_delete",
     PK_deviceId: deviceId
   }).done(function(response) {
@@ -116,14 +116,14 @@ $(document).ready(function() {
   });
 
   // go to bookingMaint.php to view or make a booking for the selected cottageNum and DateSat of the row clicked
-  $("#tbodyDeviceId").delegate(".DeviceId_upd", "click", function() {
-    // get the DateSat from the nearest TR and update into bookingMaint session storage
-    let rowTR = $(this).closest("tr");
-    bookingMaint.dateSat = rowTR.attr("dateSat");
+  // $("#tbodyDeviceId").delegate(".DeviceId_upd", "click", function() {
+  //   // get the DateSat from the nearest TR and update into bookingMaint session storage
+  //   let rowTR = $(this).closest("tr");
+  //   bookingMaint.dateSat = rowTR.attr("dateSat");
 
-    // call bookingMaint.php to view or book for the selected week and cottageNum
-    window.location = "bookingMaint.php";
-  }); // end of DeviceId_upd button click event
+  //   // call bookingMaint.php to view or book for the selected week and cottageNum
+  //   window.location = "bookingMaint.php";
+  // }); // end of DeviceId_upd button click event
 
   $('[data-toggle="tooltip"]').tooltip();
 }); // end of document ready

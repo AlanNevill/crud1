@@ -1,45 +1,53 @@
 // bookingView.js
-"use strict";
+'use strict';
 
-// load bookingMaint from session storage
+// load bookingMaint from session storage if it exists
 var bookingMaint = new clsbookingMaint();
 
-var cottageNum = -1,
+var cottageNum = 0,
   cottageWeekRows,
   booCalendarDisplayed = 0;
 
 // Create a new clsDeviceIdCookie class which set up the deviceId cookie
 const _clsDeviceIdCookie = new clsDeviceIdCookie();
 
-// clear the cottage selection in case user presses the back button to get here
-$("#cottageNum").val("-1");
-
-/**
- * Function to get all the CottageBook rows for the selected cottage number
- * Display in a table
- * @returns {boolean} true if successful
- */
+/*////////////////////////////////////////////////////////////////////////////
+// Function to get all the CottageBook rows for the selected cottage number
+////////////////////////////////////////////////////////////////////////////*/
 function showCottageBook() {
   // clear any new booking messages when dateSat or cottageNum change
-  $("#newBookingInfo").empty();
-  $("#output1").empty();
+  $('#newBookingInfo').empty();
+  $('#output1').empty();
+
+  // if the session storage variable 'bookingMaint' has already been set then re-use the cottageNum
+  if (bookingMaint.bookingMaintExists) {
+    cottageNum = bookingMaint.cottageNum;
+    $('#cottageNum').val(cottageNum);
+  } else {
+    return;
+  }
 
   // if the calendar has already been retrieved then just get the bookings
   if (booCalendarDisplayed) {
     getCottageBook();
   } else {
     // get the calendar for the cottage from the selected date
-    $.post("include/bookingView_ajax.php", {
-      method: "cottageWeek_selectAll",
+    $.post('../include/bookingView_ajax.php', {
+      method: 'cottageWeek_selectAll',
       dateSat: dateFns.format(momDateSat),
       cottageNum: cottageNum
     })
       .done(function(data) {
-        // put the CottageWeek data into the table
+        // check for error in PHP
+        if (!isJSON(data)) {
+          alert('An error has occured\n\n' + data);
+          return;
+        }
 
+        // put the CottageWeek data into the table
         let funcReturn = JSON.parse(data);
 
-        if (funcReturn.success === true) {
+        if (funcReturn.success) {
           cottageWeekRows = funcReturn.cottageWeekRows;
 
           // iterate over the rows adding them to the calendar table
@@ -47,11 +55,8 @@ function showCottageBook() {
             // debug console.log(index, cottageWeekRow);
 
             let DateSat = cottageWeekRow.DateSat;
-            let fDateSat = dateFns.format(
-              new Date(cottageWeekRow.DateSat),
-              "DD MMM"
-            );
-            let shortBreaks = cottageWeekRow.bShortBreaksAllowed ? "Y" : "N";
+            let fDateSat = dateFns.format(new Date(cottageWeekRow.DateSat), 'DD MMM');
+            let shortBreaks = cottageWeekRow.bShortBreaksAllowed ? 'Y' : 'N';
 
             let newRow = `
               <tr dateSat='${DateSat}'> 
@@ -64,18 +69,18 @@ function showCottageBook() {
                 <td dayofWeek='5'></td> 
                 <td dayofWeek='6'></td> 
                 <td dayofWeek='7'></td> 
-                <td><button type='button' class='btn btn-sm btn-warning'><i class="fa fa-search" aria-hidden="true"></i></button></td>
+                <td><button type='button' class='btn btn-sm btn-success'><i class="fa fa-book fa-lg" aria-hidden="true"></i></button></td>
               </tr>
             `;
 
             // add the row to the calendar table
-            $(newRow).appendTo($("#tblBookings"));
+            $(newRow).appendTo($('tbody'));
           });
         } else {
-          $("#output1")
+          $('#output1')
             .empty()
-            .append(funcReturn.cottageWeekRows);
-          alert("An error has occured\n\n" + funcReturn.cottageWeekRows);
+            .append(funcReturn.message);
+          alert('An error has occured\n\n' + funcReturn.message);
         }
       })
       .always(
@@ -84,92 +89,100 @@ function showCottageBook() {
   } // end of else
 } // end of function showCottageBook
 
+/*////////////////////////////////////////////////////////////////////////////
 // Function to get the bookings for the cottage number after the given date
+////////////////////////////////////////////////////////////////////////////*/
 function getCottageBook() {
   // remove all the booking highlight classes
-  $("td").removeClass("provisional");
-  $("td").removeClass("confirmed");
+  $('td').removeClass('provisional');
+  $('td').removeClass('confirmed');
   // $("td").css("border","");
 
-  $.post("include/bookingView_ajax.php", {
-    method: "cottageBook_selectAll",
+  $.post('../include/bookingView_ajax.php', {
+    method: 'cottageBook_selectAll',
     dateSat: dateFns.format(momDateSat),
     cottageNum: cottageNum
   }).done(function(data) {
     // update the CottageBook rows into the calendar table
 
-    let funcReturn = JSON.parse(data);
+    if (isJSON(data)) {
+      let funcReturn = JSON.parse(data);
 
-    if (funcReturn.success === true) {
-      let cottageBookRows = funcReturn.cottageBookRows;
+      if (funcReturn.success === true) {
+        let cottageBookRows = funcReturn.cottageBookRows;
 
-      // iterate over the rows updating the calendar table
-      cottageBookRows.forEach(cottageBookRow => {
-        // convert firstNight into day of the week where Sat = 1
-        let dowFirstNight = new Date(cottageBookRow.FirstNight).getDay() + 2;
-        if (dowFirstNight === 8) {
-          dowFirstNight = 1;
-        }
-
-        // find the table row with the dateSat attribute
-        let tr = $("[datesat=" + cottageBookRow.DateSat + "]");
-
-        // for day = firstnight to (firstnight + numNights)
-        for (
-          let index = dowFirstNight;
-          index < dowFirstNight + cottageBookRow.numNights;
-          index++
-        ) {
-          let dDay = $(tr).children("[dayofweek=" + index + "]");
-          // $(dDay).css("border","1px solid black"); // add a black border to all bookings
-
-          // add class 'provisional' P or 'confirmed' C
-          if (cottageBookRow.BookingStatus === "P") {
-            $(dDay).addClass("provisional");
-          } else {
-            $(dDay).addClass("confirmed");
+        // iterate over the rows updating the calendar table
+        cottageBookRows.forEach(cottageBookRow => {
+          // convert firstNight into day of the week where Sat = 1
+          let dowFirstNight = new Date(cottageBookRow.FirstNight).getDay() + 2;
+          if (dowFirstNight === 8) {
+            dowFirstNight = 1;
           }
-        }
-      }); // end of foreach cottageBookRows
+
+          // find the table row with the dateSat attribute
+          let tr = $('[datesat=' + cottageBookRow.DateSat + ']');
+
+          // for day = firstnight to (firstnight + numNights)
+          for (let index = dowFirstNight; index < dowFirstNight + cottageBookRow.numNights; index++) {
+            let dDay = $(tr).children('[dayofweek=' + index + ']');
+            // $(dDay).css("border","1px solid black"); // add a black border to all bookings
+
+            // add class 'provisional' P or 'confirmed' C
+            if (cottageBookRow.BookingStatus === 'P') {
+              $(dDay).addClass('provisional');
+            } else {
+              $(dDay).addClass('confirmed');
+            }
+          }
+        }); // end of foreach cottageBookRows
+      } else {
+        $('#output1')
+          .empty()
+          .append(funcReturn.message);
+        alert('An error has occured\n\n' + funcReturn.message);
+      }
     } else {
-      $("#output1")
-        .empty()
-        .append(funcReturn.cottageBookRows);
-      alert("An error has occured\n\n" + funcReturn.cottageBookRows);
+      alert('An error has occured\n\n' + data);
     }
   });
-}
+} // end of function getCottageBook
 
+/*////////////////////////////////////////////////////////////////////////////
 // document ready
+////////////////////////////////////////////////////////////////////////////*/
 $(document).ready(function() {
   // set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
-  let body = $("body");
+  let body = $('body');
   $(document).on({
     ajaxStart: function() {
-      body.addClass("loading");
+      body.addClass('loading');
     },
     ajaxStop: function() {
-      body.removeClass("loading");
+      body.removeClass('loading');
     }
   });
 
-  // show current global version and deviceId on title click or double click
-  $("#title").on("dblclick click", function() {
+  /*////////////////////////////////////////////////////////////////////////////////////
+  // listener to show current global version and deviceId on title click or double click
+  ////////////////////////////////////////////////////////////////////////////////////*/
+  $('#title').on('click', function() {
     $(this)
       .next()
       .html(`${_VERSION}-${_clsDeviceIdCookie.deviceId}`)
       .toggle();
   });
 
+  /*////////////////////////////////////////////////////////////////////////////
   // get the selected cottageNum when selection changes
-  $("#cottageNum").change(function() {
+  ////////////////////////////////////////////////////////////////////////////*/
+  $('#cottageNum').change(function() {
     // debugger;
-    cottageNum = $("#cottageNum").val();
+    cottageNum = $('#cottageNum').val();
 
-    if (cottageNum === "-1") {
-      $("#output1").html("Invalid cottage number: " + cottageNum);
+    if (cottageNum === '-1') {
+      $('#output1').html('Invalid cottage number: ' + cottageNum);
     } else {
-      // update and save the cottage number in session storage
+      // update and save the cottage number into session storage key bookingMaint
       bookingMaint.cottageNum = cottageNum;
 
       showCottageBook();
@@ -178,20 +191,39 @@ $(document).ready(function() {
     }
   });
 
+  // FIXME - change delegate for "on".(click) per Notes note
   // go to bookingMaint.php to view or make a booking for the selected cottageNum and DateSat of the row clicked
-  $("#tbodyBookings").delegate(".fa-search", "click", function() {
+  // $("tbody").delegate(".fa-book", "click", function() {
+
+  //   // $(this).confirmation("show");
+
+  //   // get the DateSat from the nearest TR and update into bookingMaint session storage
+  //   let rowTR = $(this).closest("tr");
+  //   bookingMaint.dateSat = rowTR.attr("dateSat");
+
+  //   // call bookingMaint.php to view or book for the selected week and cottageNum
+  //   window.location = "bookingMaint.php";
+  // }); // end of view_details button click event
+
+  /*////////////////////////////////////////////////////////////////////////////
+  // event listener for clicks on any buttons with class "fa-book" within "tbody".
+  // replaces the jquery delegate method which is deprecated.
+  // updates the DateSat into session storage and then calls bookingMaint.php.
+  ////////////////////////////////////////////////////////////////////////////*/
+  $('tbody').on('click', '.fa-book', function() {
     // get the DateSat from the nearest TR and update into bookingMaint session storage
-    let rowTR = $(this).closest("tr");
-    bookingMaint.dateSat = rowTR.attr("dateSat");
+    let rowTR = $(this).closest('tr');
+    bookingMaint.dateSat = rowTR.attr('dateSat');
 
-    // call bookingMaint.php to view or book for the selected week and cottageNum
-    window.location = "bookingMaint.php";
-  }); // end of view_details button click event
+    // call bookingMaint.php to view or book for the selected week and cottageNum already in session storage
+    window.location = 'bookingMaint.php';
+  });
 
+  // initiatise the tooltips
   $('[data-toggle="tooltip"]').tooltip();
 
   // get the selected dateSat when selection changes
-  $("#wcDateSat").change(function() {
+  $('#wcDateSat').change(function() {
     // debugger;
     // if ($("#wcDateSat").val() === "-1") {
     //   $("#output1").html("Selected date is not valid");

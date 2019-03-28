@@ -89,7 +89,7 @@
           Cornflower has central heating. Towels and bed linen are provided. All electricity, heating and Wi-Fi are included in the rental.
         </p>
         <p>
-            Smaller pets are welcome at Cornflower however smoking is not permitted inside the property.
+            Dogs are not allowed in Cornflower and smoking is not permitted inside the property.
         </p>
     </section>
 

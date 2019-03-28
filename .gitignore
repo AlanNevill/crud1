@@ -349,3 +349,6 @@ vendor/
 
 # phpinfo.php
 phpinfo.php
+
+# any git status reports
+gitStatus*
