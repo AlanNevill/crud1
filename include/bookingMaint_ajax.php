@@ -2,12 +2,6 @@
 
 include('dbFuncs.php');     // open db connection and instantiate dbFuncs class
 
-// mustache templating in PHP
-// require 'C:/Users/User/Downloads/Mustache/mustache.php-2.12.0/src/Mustache/autoloader.php';
-// Mustache_Autoloader::register();
-// $m = new Mustache_Engine;
-// echo $m->render('Hello, {{planet}}!', array('planet' => 'World')); // "Hello, World!"
-
 // get the bookings for the wc date and cottage num selected
 if($_POST['method']==='CottageBook_select'){
   $errors = array(); // validation errors
@@ -186,9 +180,9 @@ if ($_POST['method']==='cottageBook_updStatus') {
 // update the BookingNotes of a CottageBook row
 if ($_POST['method']==='cottageBook_updNotes') {
 
-  if (empty($_POST['IdNum']) || empty($_POST['Notes'])) {
+  if (empty($_POST['IdNum'])) {
 
-    $errMess = 'One or both of the 2 parameters are empty. IdNum: [' . $_POST["IdNum"] . '] Notes: [' . $_POST["Notes"] . ']';
+    $errMess = 'IdNum is empty. IdNum: [' . $_POST["IdNum"] . ']';
     $returnArray = array('success'    => false,
                           'message'   => $errMess);
 
@@ -197,6 +191,9 @@ if ($_POST['method']==='cottageBook_updNotes') {
     exit;
   }
 
+  if(empty($_POST['Notes'])) {
+    $_POST['Notes'] = "";
+  }
   $returnArray = $dbFuncs->cottageBook_updNotes($_POST['IdNum'], $_POST['Notes']);
 
   echo json_encode($returnArray);

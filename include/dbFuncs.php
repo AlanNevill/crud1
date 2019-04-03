@@ -1,15 +1,40 @@
 <?php
+# load Dotenv package
+require dirname( __DIR__ , 1) . '/vendor/autoload.php';
 
-include('dbFuncs0.php');
+use Dotenv\Environment\Adapter\EnvConstAdapter;
+use Dotenv\Environment\Adapter\ServerConstAdapter;
+use Dotenv\Environment\DotenvFactory;
+use Dotenv\Dotenv;
+
+$factory = new DotenvFactory([new EnvConstAdapter(), new ServerConstAdapter()]);
+
+Dotenv::create(dirname( __DIR__ , 3), null, $factory)->load();
+
+# load the .env environment file
+// $dotenv = Dotenv\Dotenv::create( dirname( __DIR__ , 3) );
+// $dotenv->load();
 
 class dbFuncs
 {
-  // constructor using the PDO connection variable $db from dbFuncs0.php
-  public function __construct(PDO $db)
+  // constructor 
+  public function __construct()
   {
+    # create a PDO connection object using the environment variables
+    try {
+      $db = new PDO("mysql:host=" . $_ENV["HOST"] . ";dbname=" . $_ENV["DBNAME"], $_ENV["USERNAME"], $_ENV["PASSWORD"]);
+  
+      $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+      $db->exec("SET CHARACTER SET utf8");
+    } catch(PDOException $e) {
+      die('ERROR - dbfuncs: ' . $e->getMessage());
+    }
+  
+    # define a class level variable for the PDO connection
     $this->db = $db;
 
-    # ProcessLog informational rows if using development server SNOWBALL
+    # class variable for ProcessLog informational rows if using development server SNOWBALL
     $this->writeProcessLogInfo = (gethostname() == "SNOWBALL") ? true : false;
 
     # get the devideId if the js classes.clsDeviceIdCookie has written the cookie
@@ -20,13 +45,13 @@ class dbFuncs
       $UserId = "deviceId: **unknown**";
     }
 
-    # used in function ProcessLog_insert2
+    # class variable used in function ProcessLog_insert2
     $this->deviceId = $UserId;
-  }
+  } # end of constructor
 
 
   // generarte a unique id string of given length and case
-  Public function generateUnique($length, $case)
+  public function generateUnique($length, $case)
   {
     switch (strtoupper($case)) {
       case 'U':
@@ -184,12 +209,12 @@ class dbFuncs
     $sql = "call spProcessLog_Insert(?, ?,  ?,  ?,  ?,  ? )";
     $stmt = $this->db->prepare($sql);
     # , array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false)
-    $stmt->bindParam(1, $MessType,          PDO::PARAM_STR,1);
-    $stmt->bindParam(2, $Application,       PDO::PARAM_STR,100);
-    $stmt->bindParam(3, $Routine,           PDO::PARAM_STR,100);
-    $stmt->bindParam(4, $this->deviceId,    PDO::PARAM_STR,100);  // UserId column
-    $stmt->bindParam(5, $ErrorMess,         PDO::PARAM_STR,2000);
-    $stmt->bindParam(6, $Remarks,           PDO::PARAM_STR,2000);
+    $stmt->bindParam(1, $MessType,        PDO::PARAM_STR,1);
+    $stmt->bindParam(2, $Application,     PDO::PARAM_STR,100);
+    $stmt->bindParam(3, $Routine,         PDO::PARAM_STR,100);
+    $stmt->bindParam(4, $this->deviceId,  PDO::PARAM_STR,100);  // UserId column
+    $stmt->bindParam(5, $ErrorMess,       PDO::PARAM_STR,2000);
+    $stmt->bindParam(6, $Remarks,         PDO::PARAM_STR,2000);
     $stmt->execute();
 
     return;
@@ -691,7 +716,7 @@ class dbFuncs
     $sql = "call spDeviceId_insert(?,?)";
 
     $sth = $this->db->prepare($sql);
-    $sth->bindParam(1, $deviceId,        PDO::PARAM_STR,20);
+    $sth->bindParam(1, $deviceId,  PDO::PARAM_STR,20);
     $sth->bindParam(2, $userAgentString, PDO::PARAM_STR,250);
     $sth->execute();
     $rowCount = $sth->rowCount();
@@ -785,6 +810,6 @@ class dbFuncs
 
 } // end of class dbFuncs
 
-$dbFuncs = new dbFuncs($db); // instantiate the class as $dbFuncs using the PDO connection object $db
+$dbFuncs = new dbFuncs(); // instantiate the class as $dbFuncs
 
 ?>

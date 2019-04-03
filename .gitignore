@@ -352,3 +352,6 @@ phpinfo.php
 
 # any git status reports
 gitStatus*
+
+# .env files
+.env*

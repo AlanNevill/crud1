@@ -192,7 +192,7 @@ $(document).ready(function() {
   });
 
   // FIXME - change delegate for "on".(click) per Notes note
-  // go to bookingMaint.php to view or make a booking for the selected cottageNum and DateSat of the row clicked
+  // go to bookingMaint.php to view or makephp composer.phar install a booking for the selected cottageNum and DateSat of the row clicked
   // $("tbody").delegate(".fa-book", "click", function() {
 
   //   // $(this).confirmation("show");

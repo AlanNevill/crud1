@@ -2,7 +2,7 @@
 'use strict';
 
 /* global _VERSION */
-const _VERSION = 'v0.9';
+const _VERSION = 'v1.0';
 
 // class to get the deviceId (fingerprint) & userAgentString and store in db and session cookie
 class clsDeviceIdCookie {

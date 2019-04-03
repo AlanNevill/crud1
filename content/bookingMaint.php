@@ -16,7 +16,7 @@
 <body>
 
   <?php
-    // get the future date Saturday dates from CottageWeek to populate the dropdown select w/c Sat. date
+    // get the future Saturday dates from CottageWeek to populate the dropdown select w/c Sat. date
 
     include('../include/dbFuncs.php');     // open db connection and instantiate dbFuncs class
 
@@ -28,7 +28,7 @@
 
     // warning if no rows returned
     if(count($data)==0) {
-      $dbFuncs->ProcessLog_insert2('E', 'bookingMaint.php', 'dbFuncs.dateSat_select', 'No weeks found', $dateSat);
+      $dbFuncs->ProcessLog_insert2('E', 'bookingMaint.php', 'dbFuncs.dateSat_select', 'No weeks found: ', $dateSat);
       die('<h1>No weeks found</h1>');
     }
 

@@ -200,7 +200,7 @@ $(document).ready(function() {
               .append(returned.message);
           }
         } else {
-          $('#output1').append('Error occurred - See ErrorLog');
+          $('#output1').append('1 Error occurred - See ErrorLog');
         }
       });
 
@@ -221,7 +221,7 @@ $(document).ready(function() {
 
             $('#output1').append(returnArray.errorMess); // always display the returned message
           } else {
-            $('#output1').append('Error occurred - See ErrorLog');
+            $('#output1').append('2 Error occurred - See ErrorLog');
           }
         })
         .always(function() {
@@ -272,7 +272,7 @@ $(document).ready(function() {
   }); // end of firstNight or lastNight selection changes
 
   /*////////////////////////////////////////////////////////////////////////////
-   // user clicks submit button on frmNewBooking form
+  // user clicks submit button on frmNewBooking form
   ////////////////////////////////////////////////////////////////////////////*/
   $('#submitNewBooking').click(function(e) {
     e.preventDefault();
@@ -623,7 +623,7 @@ $('#bookingUpdSave').click(function(e) {
       // put the new booking Notes value into the existing bookings table
       let rowTR = $('tr[IdNum="' + IdNum + '"]');
       let cols = rowTR.find('td');
-      cols[5].firstChild.textContent = $('#notesUpd').val();
+      cols[5].textContent = $('#notesUpd').val();
     } else {
       // returnArray.success == false
       // update the error messages & output the error message
@@ -644,8 +644,8 @@ $('#bookingUpdSave').click(function(e) {
   } else {
     $('#newBookingInfo')
       .empty()
-      .append('Booking ref. ${$("#bookingRefUpd").val()} was amended')
-      .fadeOut(5000);
+      .append(`Booking ref. ${$('#bookingRefUpd').val()} was amended`)
+      .fadeOut(6000);
   }
 }); // end of function $("#bookingUpdSave").click
 

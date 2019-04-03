@@ -1,16 +1,17 @@
 <?php // common_ajax.php
 
-$input = filter_input_array(INPUT_POST);
+  # open a db connection and instantiate dbFuncs class. This also loads the environment variables used by smtp email
+  include('dbFuncs.php');     
+
+  $input = filter_input_array(INPUT_POST);
 
 // create a row in the DeviceId table if the deviceId does not already exist
 if ($_POST['method']==='DeviceId_insert') {
 
-  include('dbFuncs.php');     // open db connection and instantiate dbFuncs class
-
   $return = $dbFuncs->DeviceId_insert($_POST['deviceId'], 
                                       $_POST['userAgentString']);
 
-  // if the return is not an array then it's an error message
+  # if the return is not an array then it's an error message
   if ( is_array($return) ) {
     if ($return['rowInserted']==1) {
 
@@ -43,8 +44,6 @@ if ($_POST['method']==='DeviceId_insert') {
 // write a row to the ProcessLog table
 if ($_POST['method']==='ProcessLog_insert') {
 
-  include('dbFuncs.php');     // open db connection and instantiate dbFuncs class
-
   $dbFuncs->ProcessLog_insert($_POST['MessType'], 
                              $_SERVER['REQUEST_URI'],
                              $_POST['Routine'],
@@ -75,12 +74,12 @@ if ($input['method']==='EnquiryResponseEmail') {
 
   // function to format validation errors and return to user
   function died($returnArray, $error) {
-    // error message to user
+    # error message to user
     $mess  = "We are very sorry, but there were error(s) found with the form you submitted. ";
     $mess .= "These errors appear below.<br /><ul>" . $error . "</ul>";
     $mess .= "Please go back and fix these errors.<br />";
 
-    // return the return array to javascript caller
+    # return the return array to javascript caller
     $returnArray['success'] = false;
     $returnArray['message'] = $mess;
     echo json_encode($returnArray);
@@ -93,7 +92,7 @@ if ($input['method']==='EnquiryResponseEmail') {
     return str_replace($bad, "", strip_tags($string));
   }
 
-  // validate the required fields
+  # validate the required fields
   $error_message = "";
   if (empty($input['first_name'])) {
     $error_message .= "<li>First name is blank.</li>"; 
@@ -121,8 +120,7 @@ if ($input['method']==='EnquiryResponseEmail') {
     died($returnArray, $error_message);
   }
 
-
-  // clean up the user supplied fields
+  # clean up the user supplied fields
   $first_name     = clean_string($input['first_name']); // required
   $last_name      = clean_string($input['last_name']);  // required
   $email_to       = clean_string($input['email_to']);   // required
@@ -146,7 +144,7 @@ if ($input['method']==='EnquiryResponseEmail') {
     $returnArray['email_toValid'] = false;
   }
 
-  // verfiy the recaptcha
+  # verfiy the recaptcha
   $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$input['captcha']}");
 
   $captchaVerify = json_decode($verifySite);
@@ -154,13 +152,13 @@ if ($input['method']==='EnquiryResponseEmail') {
     $error_message .= "Please verify that you are not a robot."; 
   }
 
-  // return error message if any errors found
+  # return error message if any errors found
   if(strlen($error_message) > 0) {
     $returnArray['allValid'] = false;
     died($returnArray, $error_message);
   }
 
-  // no errors so format and send the message
+  # no errors so format and send the message
   $email_subject = "Confirmation of your enquiry submitted to Meadow Green Farm";
 
   $email_message = "Dear {$first_name} {$last_name},\n\nThankyou for your enquiry. We will respond within 24 hours.\n\n";
@@ -171,28 +169,28 @@ if ($input['method']==='EnquiryResponseEmail') {
   // $email_message .= "Telephone: "   . $telephone  . "\n\n";
   $email_message .= $enquiry . "\n\nKind regards,\n\nMeadow Green Farm";
 
-  // Create the Transport
+  # Create the Transport
   $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 465, 'ssl'))
-    ->setUsername($emailConfig['enquiry']['setUsername'])
-    ->setPassword($emailConfig['enquiry']['setPassword'])
+    ->setUsername($_ENV['SMTP_SETUSERNAME'])
+    ->setPassword($_ENV['SMTP_SETPASSWORD'])
   ;
 
-  // Create the Mailer using the created Transport
+  # Create the Mailer using the created Transport
   $mailer = new Swift_Mailer($transport);
 
-  // Create a message
+  # Create a message
   $message = (new Swift_Message($email_subject))
-    ->setFrom($emailConfig['enquiry']['From'])
-    ->setReplyTo($emailConfig['enquiry']['ReplyTo'])
+    ->setFrom($_ENV['SMTP_FROM'])
+    ->setReplyTo($_ENV['SMTP_REPLYTO'])
     ->setTo($email_to)
-    ->setCc($emailConfig['enquiry']['Cc'])
-    ->setBcc($emailConfig['enquiry']['Bcc'])
+    ->setCc($_ENV['SMTP_CC'])
+    ->setBcc($_ENV['SMTP_BCC'])
     ->setBody($email_message)
-    ;
+  ;
 
-  // ini_set('max_execution_time', 60);
+  # ini_set('max_execution_time', 60);
 
-  // Send the message
+  # Send the message
   $result = $mailer->send($message);
   if ($result) {
     $returnArray['message'] = "# messages sent: " . $result;
@@ -202,7 +200,7 @@ if ($input['method']==='EnquiryResponseEmail') {
     $returnArray['message'] = "ERROR - Number of messages sent: " . $result;
   }
 
-  // return the return array to javascript caller
+  # return the return array to javascript caller
   echo json_encode($returnArray);
   exit();
 }
