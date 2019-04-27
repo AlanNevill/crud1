@@ -7,7 +7,7 @@
   <title>MGF booking</title>
   <?php include '../include/MGF_header.html'; ?>        <!-- favicon + bootstrap & fork awesome style sheets -->
 
-  <link rel="stylesheet" href="../css/crud1.css" />        <!-- Project style sheet -->
+  <link rel="stylesheet" href="../css/MGF.css" />        <!-- Project style sheet -->
   <link rel="stylesheet" href="../css/bookingView.css" />  <!-- Page style sheet -->
 </head>
 

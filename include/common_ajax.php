@@ -60,8 +60,11 @@ if ($_POST['method']==='ProcessLog_insert') {
 if ($input['method']==='EnquiryResponseEmail') {
 
   require_once '../vendor/autoload.php';
-  include('reCaptcha.php');
-  include('emailConfig.php');
+  # include('reCaptcha.php');
+  # include('emailConfig.php');
+
+  # increase the default script execution time from 30 seconds to 1 minute
+  # ini_set('max_execution_time', 60);
 
   $returnArray = array('success'        => true,
                       'allValid'        => true,
@@ -145,7 +148,13 @@ if ($input['method']==='EnquiryResponseEmail') {
   }
 
   # verfiy the recaptcha
-  $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$input['captcha']}");
+  // $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$input['captcha']}");
+
+  # ini_set('allow_url_fopen', 1);
+
+  # verfiy the recaptcha
+  $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$_ENV['SECRETKEY']}&response={$input['captcha']}");
+
 
   $captchaVerify = json_decode($verifySite);
   if ($captchaVerify->success == false) {
@@ -188,7 +197,8 @@ if ($input['method']==='EnquiryResponseEmail') {
     ->setBody($email_message)
   ;
 
-  # ini_set('max_execution_time', 60);
+  # allow extra 30 seconds for smtp to complete
+  # set_time_limit(30);
 
   # Send the message
   $result = $mailer->send($message);

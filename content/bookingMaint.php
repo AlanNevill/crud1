@@ -8,7 +8,6 @@
 
   <?php include '../include/MGF_header.html'; ?>        <!-- favicon + bootstrap & fork awesome style sheets -->
 
-  <link rel="stylesheet" href="../css/crud1.css" />
   <link rel="stylesheet" href="../css/bookingMaint.css" />
 
 </head>
@@ -56,7 +55,7 @@
     <div class="form-row">
       <div class="form-group col-6">
         <label for="wcDateSat" class="mb-0">W/c Sat. date</label>
-        <select id="wcDateSat"  name="wcDateSat" class="custom-select" >
+        <select id="wcDateSat" name="wcDateSat" class="custom-select">
             <option value="-1" selected disabled hidden>Select Saturday</option>
             <?php echo $options ?>
         </select>
@@ -77,19 +76,20 @@
 
   <!-- existingBookings holds the list of existing bookings for the wc Sat date and the cottage number -->
   <h5 class="mt-3">Existing bookings</h5>
+  <div class="d-sm-none">Scroll right to edit or delete</div>
 
-  <table id="tblBookings" class="table table-bordered table-responsive-md">
+  <table id="tblBookings" class="table table-bordered table-responsive table-fit">
     <caption class="d-sm-none">Scroll right to edit or delete</caption>
     <thead class="thead-light">
-      <tr class="d-flex">
-        <th class="col-2">Arrive date</th>
-        <th class="col-2">Last night</th>
-        <th class="col-1">Nights</th>
-        <th class="col-1">Rent</th>
-        <th class="col-1">Ref.</th>
-        <th class="col-2">Notes</th>
-        <th class="col-2" data-toggle='tooltip' data-placement='auto' title='A booking is (C)onfirmed or (P)rovisional'>Status</th>
-        <th class="col-1" data-toggle='tooltip' data-placement='auto' title='Edit or delete the booking'>Edit Del.</th>
+      <tr>
+        <th>Arrive date</th>
+        <th>Last night</th>
+        <th>Nights</th>
+        <th>Rent</th>
+        <th class="d-none d-md-table-cell">Our ref.</th> <!-- hide booking ref on xs and sm screens -->
+        <th>Notes</th>
+        <th data-toggle='tooltip' data-placement='auto' title='A booking is (C)onfirmed or (P)rovisional'>Status</th>
+        <th data-toggle='tooltip' data-placement='auto' title='Edit or delete the booking'>Edit Del.</th>
       </tr>
     </thead>
     <tbody id="tbodyBookings">
@@ -100,70 +100,78 @@
   <div id="output1" class="text-white bg-dark"></div> 
 
   <!-- cottageWeek row data -->
-  <section class="CottageWeek_data text-white bg-secondary ">
+  <section class="CottageWeek_data text-white bg-secondary">
     <div class="row mt-3 mb-3">
       <div id="WeekRent" class="col-4"></div>
-      <div id="bShortBreaksAllowed" class="col-5 text-align-center"></div>
-      <div id="DayRent" class="col-3"></div>
+      <div id="bShortBreaksAllowed" class="col-5 text-center"></div>
+      <div id="DayRent" class="col-3 text-right"></div>
     </div>
   </section>
 
 
-  <!-- new booking form -->
-  <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal p-2 " style="display:none;">
+  <!-- button to reveal / collapse the new booking form -->
+  <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseForm">
+    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+    Toggle new booking form
+    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+  </button>
 
-    <h5>New booking form</h5>
+  <div class="collapse" id="collapseForm">
+    <!-- new booking form -->
+    <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal p-2">
 
-    <input type="hidden" id="method"  name="method" value="insert">
-        <!-- method=insert for bookingMaint2 function insert -->
-    <input type="hidden" id="dateSat" name="dateSat">         <!-- dateSat    for bookingMaint2 functions check & insert -->
-    <input type="hidden" id="cottageNum" name="cottageNum">   <!-- cottageNum for bookingMaint2 functions check & insert -->
-    <div class="form-row">
+      <h5>New booking form</h5>
+      <!-- FIXME: remove  3 hidden form fields -->
+      <input type="hidden" id="method"  name="method" value="insert">
+          <!-- method=insert for bookingMaint2 function insert -->
+      <input type="hidden" id="dateSat" name="dateSat">         <!-- dateSat    for bookingMaint2 functions check & insert -->
+      <input type="hidden" id="cottageNum" name="cottageNum">   <!-- cottageNum for bookingMaint2 functions check & insert -->
+      <div class="form-row">
 
-      <div class="form-group m-2">
-          <label for="firstNight" class="form-control-label mb-0">Arrival date</label>
-          <select id="firstNight" name="firstNight" class="form-select form-control"></select>
+        <div class="form-group m-2">
+            <label for="firstNight" class="form-control-label mb-0">Arrival date</label>
+            <select id="firstNight" name="firstNight" class="form-select form-control"></select>
+        </div>
+
+        <div class="form-group m-2">
+            <label for="lastNight" class="form-control-label mb-0">Last night</label>
+            <select id="lastNight" name="lastNight" class="form-select form-control"></select>
+        </div> 
+
+        <div class="form-group m-2" style="width: 70px">
+            <label for="nights" class="form-control-label mb-0">Nights</label>
+            <input id="nights" name="nights" type="text" class="form-control-plaintext text-center" value="7" readonly>
+        </div>
+
+        <div class="form-group m-2" style="width: 100px">
+            <label for="Rental" class="form-control-label mb-0">Rent</label>
+            <input id="Rental" name="Rental" type="text" class="form-control" value="0" required>
+        </div>
+        <div class="form-group m-2" style="width: 150px">
+            <label for="BookingStatus" class="form-control-label mb-0">Status</label>
+            <select id="BookingStatus" name="BookingStatus" class="custom-select">
+                <!-- TODO load status options from DB table StatusCodes where category='booking' -->
+                <option value="P" selected>Provisional</option>
+                <option value="C">Confirmed</option>
+            </select>
+        </div>
+
       </div>
 
-      <div class="form-group m-2">
-          <label for="lastNight" class="form-control-label mb-0">Last night</label>
-          <select id="lastNight" name="lastNight" class="form-select form-control"></select>
-      </div> 
+      <label for="notes" id="notesLabel" class="form-control-label mb-0">Notes</label>
+      <textarea id="notes" name="notes" class="form-control rounded-0" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span class="ml-1 mb-3"></span>
 
-      <div class="form-group m-2" style="width: 70px">
-          <label for="nights" class="form-control-label mb-0">Nights</label>
-          <input id="nights" name="nights" type="text" class="form-control-plaintext text-center" value="7" readonly>
+      <div class="form-row">
+        <div class="col-12 text-center mb-3">
+            <input id="submitNewBooking" class="btn btn-lg btn-success" type="button" value=" Make new booking ">
+        </div>
       </div>
 
-      <div class="form-group m-2" style="width: 100px">
-          <label for="Rental" class="form-control-label mb-0">Rent</label>
-          <input id="Rental" name="Rental" type="text" class="form-control" value="0" required>
-      </div>
-      <div class="form-group m-2" style="width: 150px">
-          <label for="BookingStatus" class="form-control-label mb-0">Status</label>
-          <select id="BookingStatus" name="BookingStatus" class="custom-select">
-              <!-- TODO load status options from DB table StatusCodes where category='booking' -->
-              <option value="P" selected>Provisional</option>
-              <option value="C">Confirmed</option>
-          </select>
-      </div>
+    </form>
 
-    </div>
-
-    <label for="notes" id="notesLabel" class="form-control-label mb-0">Notes</label>
-    <textarea id="notes" name="notes" class="form-control rounded-0" type="textarea" rows="1" maxlength="100" placeholder="Name of guest,  contact no., email etc." ></textarea><span class="ml-1 mb-3"></span>
-
-    <div class="form-row">
-      <div class="col-12 text-center mb-3">
-          <input id="submitNewBooking" class="btn btn-lg btn-success" type="button" value=" Make new booking ">
-      </div>
-    </div>
-
-  </form>
-
-  <!-- div for new booking form messages -->
-  <div id="newBookingInfo"></div>
-
+    <!-- div for new booking form messages -->
+    <div id="newBookingInfo"></div>
+  </div>
   <!-- div for in progress gif during ajax calls -->
   <div class="ajaxLoading"></div>
 

@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
   <?php include '../include/googleTrackingCoUk.html';  ?>
@@ -38,22 +38,22 @@
       </ol>
       <div class="carousel-inner embed-responsive" role="listbox">
         <div class="carousel-item active">
-          <img class="img-fluid w-100" src=/images/cowslip/IMG_0063-1000-compressor.jpg alt="Lounge slide">
+          <img class="img-fluid w-100" src=../images/cowslip/IMG_0063-1000-compressor.jpg alt="Lounge slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/cowslip/Cowslip-double-room-1-1000-compressor.jpg alt="Main bedroom slide">
+          <img class="lazy img-fluid w-100" src=../images/cowslip/Cowslip-double-room-1-1000-compressor.jpg alt="Main bedroom slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/cowslip/Cowslip-twin-room-5-1000-compressor.jpg alt="Twin bedroom slide">
+          <img class="lazy img-fluid w-100" src=../images/cowslip/Cowslip-twin-room-5-1000-compressor.jpg alt="Twin bedroom slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/cowslip/IMG_1139-1000-compressor.jpg alt="Kitchen slide">
+          <img class="lazy img-fluid w-100" src=../images/cowslip/IMG_1139-1000-compressor.jpg alt="Kitchen slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/cowslip/Cowslip-garden-1-1000-compressor.jpg alt="Back garden slide">
+          <img class="lazy img-fluid w-100" src=../images/cowslip/Cowslip-garden-1-1000-compressor.jpg alt="Back garden slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/cowslip/Cowslip-garden-3-1000-compressor.jpg alt="Back garden 2 slide">
+          <img class="lazy img-fluid w-100" src=../images/cowslip/Cowslip-garden-3-1000-compressor.jpg alt="Back garden 2 slide">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
   <?php include '../include/googleTrackingCoUk.html';  ?>
@@ -25,7 +25,7 @@
   <?php include '../include/MGF_menu.html';  ?>
 
   <!-- main content container -->
-  <main role="main" class="container text-center">
+  <main role="main" class="container">
 
     <div id="carouselExampleIndicators" class="carousel carousel-fade" data-ride="carousel" data-interval="3000">
       <ol class="carousel-indicators">
@@ -37,19 +37,19 @@
       </ol>
       <div class="carousel-inner embed-responsive" role="listbox">
         <div class="carousel-item active">
-          <img class="lazy img-fluid w-100" src=/images/facilities/lakesWoods/IMG_1298-1000-compressor.jpg alt="Second slide">
+          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/IMG_1298-1000-compressor.jpg alt="Second slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/facilities/lakesWoods/IMG_9025-1000-compressor.jpg alt="Third slide">
+          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/IMG_9025-1000-compressor.jpg alt="Third slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/facilities/lakesWoods/DSC03576-1000-compressor.jpg alt="Fourth slide">
+          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/DSC03576-1000-compressor.jpg alt="Fourth slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/facilities/lakesWoods/lake-4-1000-compressor.jpg alt="Fifth slide">
+          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/lake-4-1000-compressor.jpg alt="Fifth slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/facilities/lakesWoods/trail-2-1000-compressor.jpg alt="Sixth slide">
+          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/trail-2-1000-compressor.jpg alt="Sixth slide">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

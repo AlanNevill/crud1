@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
   <?php include '../include/googleTrackingCoUk.html';  ?>
@@ -34,10 +34,10 @@
       </ol>
       <div class="carousel-inner embed-responsive" role="listbox">
         <div class="carousel-item active">
-          <img class="img-fluid w-100" src=/images/facilities/babies/image1-compressor.jpeg alt="Full size wooden cot">
+          <img class="img-fluid w-100" src=../images/facilities/babies/image1-compressor.jpeg alt="Full size wooden cot">
         </div>
         <div class="carousel-item">
-          <img class="img-fluid w-100" src=/images/facilities/babies/image2-compressor.jpeg alt="Single beds with bed guard">
+          <img class="img-fluid w-100" src=../images/facilities/babies/image2-compressor.jpeg alt="Single beds with bed guard">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

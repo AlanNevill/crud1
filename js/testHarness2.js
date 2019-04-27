@@ -1,5 +1,5 @@
 // testHarness2.js
-"use strict";
+'use strict';
 
 // var clsbookingMaint = new clsbookingMaint();
 
@@ -88,36 +88,36 @@ function confirmDialog(message, handler) {
            </div> 
        </div> 
     </div> 
-  </div>`).appendTo("body");
+  </div>`).appendTo('body');
 
   //Trigger the modal
-  $("#myModal").modal({
-    backdrop: "static",
+  $('#myModal').modal({
+    backdrop: 'static',
     keyboard: false
   });
 
   //Pass true to a callback function
-  $(".btn-yes").click(function() {
+  $('.btn-yes').click(function() {
     handler(true);
-    $("#myModal").modal("hide");
+    $('#myModal').modal('hide');
   });
 
   //Pass false to callback function
-  $(".btn-no").click(function() {
+  $('.btn-no').click(function() {
     handler(false);
-    $("#myModal").modal("hide");
+    $('#myModal').modal('hide');
   });
 
   //Remove the modal once it is closed.
-  $("#myModal").on("hidden.bs.modal", function() {
-    $("#myModal").remove();
+  $('#myModal').on('hidden.bs.modal', function() {
+    $('#myModal').remove();
   });
 }
 
-confirmDialog("Is this working?", ans => {
+confirmDialog('Is this working?', ans => {
   if (ans) {
-    console.log("yes");
+    console.log('yes');
   } else {
-    console.log("no");
+    console.log('no');
   }
 });

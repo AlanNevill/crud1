@@ -9,7 +9,7 @@
 
   <?php include '../include/MGF_header.html'; ?>  <!-- favicon + bootstrap & fork awesome style sheets -->
   
-  <link rel="stylesheet" href="../css/crud1.css" /> <!-- Project specific stylesheet here-->
+  <link rel="stylesheet" href="../css/MGF.css" /> <!-- Project specific stylesheet here-->
   
   <?php include '../include/googleTrackingCoUk.html';  ?> <!-- load the Google tracking code for MGF.co.Uk -->
 

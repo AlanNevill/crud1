@@ -6,20 +6,19 @@
 
   <title>MGF booking</title>
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
+  
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-  <!-- Latest compiled and minified Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css" integrity="sha256-P64qV9gULPHiZTdrS1nM59toStkgjM0dsf5mK/UwBV4=" crossorigin="anonymous">
-
-  <link rel="stylesheet" href="css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
 </head>
 
 <body>
 
 <?php
+
+  //include 'include/MGF_menu.html';
   // require_once 'vendor/autoload.php';
 
   // // Create the Transport
@@ -46,7 +45,67 @@
 ?>
 
 <div class="container">
+<main>
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top font-weight-bold" style="padding-top: 5px;">
 
+  <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand myNavBarBrand" href="home.php"></a>
+
+  <div id="my-nav" class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+          <a id="Meadowsweet" class="nav-link" href="meadowsweet.php">Meadowsweet Cottage</a>
+      </li>
+
+      <li class="nav-item">
+          <a id="Cowslip" class="nav-link" href="cowslip.php">Cowslip Cottage</a> 
+      </li>
+
+      <li class="nav-item">
+          <a id="Cornflower" class="nav-link" href="cornflower.php">Cornflower Cottage</a>
+      </li>
+
+      <li class="nav-item dropdown">
+          <a id="Facilities" class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              Facilities
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Preview">
+              <a class="dropdown-item" href="facilitiesSummary.php">Summary</a>
+              <div class="dropdown-divider"></div>
+              <a id="Beachhut"    class="dropdown-item" href="facilitiesBeachHut.php">The Beach Hut</a>
+              <a id="Play_area"   class="dropdown-item" href="facilitiesPlayArea.php">Childrens' play area</a>
+              <a id="Babies"      class="dropdown-item" href="facilitiesBabies.php">Babies &amp; Toddlers</a>
+              <a id="Our_Animals" class="dropdown-item" href="facilitiesAnimals.php">Our animals</a>
+              <a id="Lakes_and_woods" class="dropdown-item" href="facilitiesLakesWoods.php">The lakes and trails</a>
+          </div>
+      </li>
+
+      <li class="nav-item">
+          <a id="Booking" class="nav-link" href="newBooking.php">Booking &amp; prices</a>
+      </li>
+
+      <li class="nav-item">
+          <a id="Enquiry" class="nav-link" href="enquiry.php">Make Enquiry</a>
+      </li>
+
+      <li class="nav-item">
+        <a id="Attractions" class="nav-link" href="attractions.php">Things to do</a>
+      </li>
+
+      <li class="nav-item">
+          <a id="Guest_Book" class="nav-link" href="guestBook.php">Guest book</a>
+      </li>
+
+      <li class="nav-item">
+        <a id="Contact" class="nav-link" href="contact.php">Find us</a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
 
   <div class="list-group">
     <a class="list-group-item" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
@@ -74,7 +133,7 @@
       <div>Click to view booking conditions</div>
   </div>
 
-
+  </main>
     <!-- <script src="js/jquery.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
@@ -98,15 +157,15 @@
     <!-- currency formatting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
 
-    <script src="js/client.min.js"></script>
+    <script src="../js/client.min.js"></script>
 
     <!-- class functions -->
-    <script src="js/classes.js"></script>
+    <script src="../js/classes.js"></script>
 
     <!-- <script type="module" src="/js/commonFuncs.js"></script> -->
 
     <!-- this page javascipt -->
-    <script src="js/testHarness2.js"></script>
+    <!-- <script src="../js/testHarness2.js"></script> -->
 
     <script>
     </script>

@@ -1,5 +1,5 @@
 // enquiry.js
-"use strict";
+'use strict';
 
 // window.addEventListener(
 //   "load",
@@ -32,42 +32,42 @@
 
 // onSumit function for the form post
 function postEnquiry(event) {
-  $("#output1").empty();
+  $('#output1').empty();
 
   event.preventDefault();
   event.stopPropagation();
 
   //  call validate on the form
-  let enquiryForm = document.getElementById("enquiryForm");
+  let enquiryForm = document.getElementById('enquiryForm');
   let formIsValid = enquiryForm.checkValidity();
-  enquiryForm.classList.add("was-validated");
+  enquiryForm.classList.add('was-validated');
 
   // process depending on form validity
   if (formIsValid) {
     // clear any is-invalid classes and mark all fields as valid before server validation
-    $("#first_name")
-      .removeClass("is-invalid")
-      .addClass("is-valid");
-    $("#last_name")
-      .removeClass("is-invalid")
-      .addClass("is-valid");
-    $("#email_to")
-      .removeClass("is-invalid")
-      .addClass("is-valid");
-    $("#enquiry")
-      .removeClass("is-invalid")
-      .addClass("is-valid");
+    $('#first_name')
+      .removeClass('is-invalid')
+      .addClass('is-valid');
+    $('#last_name')
+      .removeClass('is-invalid')
+      .addClass('is-valid');
+    $('#email_to')
+      .removeClass('is-invalid')
+      .addClass('is-valid');
+    $('#enquiry')
+      .removeClass('is-invalid')
+      .addClass('is-valid');
 
     // submit to common_ajax.php/method: "EnquiryResponseEmail"
     $.post(
-      "../include/common_ajax.php",
+      '../include/common_ajax.php',
       {
-        method: "EnquiryResponseEmail",
-        first_name: $("#first_name").val(), // required
-        last_name: $("#last_name").val(), // required
-        email_to: $("#email_to").val(), // required
-        telephone: $("#telephone").val(), // not required
-        enquiry: $("#enquiry").val(), // required
+        method: 'EnquiryResponseEmail',
+        first_name: $('#first_name').val(), // required
+        last_name: $('#last_name').val(), // required
+        email_to: $('#email_to').val(), // required
+        telephone: $('#telephone').val(), // not required
+        enquiry: $('#enquiry').val(), // required
         captcha: grecaptcha.getResponse()
       },
       function(data, textStatus, jqXHR) {
@@ -81,7 +81,7 @@ function postEnquiry(event) {
             grecaptcha.reset();
 
             // inject an alert to message div into the form
-            $("#output1").html(
+            $('#output1').html(
               `
               <div class="alert alert-success alert-dismissable fade show" role="alert">
                 <div class="row">
@@ -103,25 +103,25 @@ function postEnquiry(event) {
           } else {
             // iterate the fields setting class is-invalid on invalid fields
             if (!funcReturn.first_nameValid) {
-              $("#first_name").addClass("is-invalid");
+              $('#first_name').addClass('is-invalid');
             }
             if (!funcReturn.last_nameValid) {
-              $("#last_name").addClass("is-invalid");
+              $('#last_name').addClass('is-invalid');
             }
             if (!funcReturn.email_toValid) {
-              $("#email_to").addClass("is-invalid");
+              $('#email_to').addClass('is-invalid');
             }
             if (!funcReturn.enquiryValid) {
-              $("#enquiry").addClass("is-invalid");
+              $('#enquiry').addClass('is-invalid');
             }
 
-            $(enquiryForm).removeClass("was-validated");
+            $(enquiryForm).removeClass('was-validated');
             enquiryForm.checkValidity(); // TODO - check if this is needed
 
             console.log(`success=false, message: ${funcReturn.message}`);
 
             // inject an alert to message div into the form
-            $("#output1").html(
+            $('#output1').html(
               `
               <div class="alert alert-warning alert-dismissable fade show" role="alert">
                 <div class="row">
@@ -142,11 +142,9 @@ function postEnquiry(event) {
           }
         } else {
           // invalid JSON returned
-          $("#output1")
+          $('#output1')
             .empty()
-            .append(
-              "ERROR - common_ajax.php/EnquiryResponseEmail: did not return JSON data"
-            );
+            .append('ERROR - common_ajax.php/EnquiryResponseEmail: did not return JSON data');
         }
       }
     ); // end of $.post
@@ -154,7 +152,7 @@ function postEnquiry(event) {
     // form is invalid
 
     // inject an alert to message div into the form
-    $("#output1").html(
+    $('#output1').html(
       `
       <div class="alert alert-warning alert-dismissable fade show" role="alert">
         <div class="row">
@@ -175,20 +173,20 @@ function postEnquiry(event) {
 } // end of form on submit
 
 // remove any 'is-invalid' class when user starts amending
-$("input").keyup(function() {
-  $(this).removeClass("is-invalid");
+$('input').keyup(function() {
+  $(this).removeClass('is-invalid');
 });
 
 // document ready
 $(document).ready(function() {
-  // set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
-  let body = $("body");
+  // set up functions which add and remove class 'loading' when ajax starts or stops. See MGF.css
+  let body = $('body');
   $(document).on({
     ajaxStart: function() {
-      body.addClass("loading");
+      body.addClass('loading');
     },
     ajaxStop: function() {
-      body.removeClass("loading");
+      body.removeClass('loading');
     }
   });
 }); // end of document ready

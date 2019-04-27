@@ -14,7 +14,7 @@
   <!-- Fork-awesome -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css" integrity="sha256-P64qV9gULPHiZTdrS1nM59toStkgjM0dsf5mK/UwBV4=" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
   <link rel="stylesheet" href="../css/DeviceId_maint.css" />
 
 </head>

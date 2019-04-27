@@ -686,7 +686,6 @@ class dbFuncs
     $returnArray = array('success'    => true,
                         'message'     => "CottageBook notes updated");
 
-
     $sql = "call spCottageBook_updNotes(?,?)";
 
     $sth = $this->db->prepare($sql);
@@ -704,6 +703,36 @@ class dbFuncs
     
     return $returnArray; 
   } // end of function CottageBook_updNotes
+
+  // CottageBook_upd
+  function CottageBook_upd($IdNum, $BookingStatus, $Rental, $Notes, $BookingSource, $ExternalReference, $ContactEmail) {
+
+    $returnArray = array('success'    => true,
+                        'message'     => "CottageBook updated");
+
+    $sql = "call spCottageBook_upd(?,?,?,?,?,?,?)";
+
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam(1, $IdNum,              PDO::PARAM_INT);
+    $sth->bindParam(2, $BookingStatus,      PDO::PARAM_STR,1);
+    $sth->bindParam(3, $Rental);
+    $sth->bindParam(4, $Notes,              PDO::PARAM_STR,100);
+    $sth->bindParam(5, $BookingSource,      PDO::PARAM_STR,1);
+    $sth->bindParam(6, $ExternalReference,  PDO::PARAM_STR,20);
+    $sth->bindParam(7, $ContactEmail,       PDO::PARAM_STR,50);
+
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if (!$rowCount == 1) {
+      $returnArray['success'] = false;
+      $errMess = "rowCount: $rowCount should be 1. IdNum: $IdNum";
+      $returnArray['message'] = $errMess;
+
+      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_upd', $errMess, $sql);
+    }
+    
+    return $returnArray; 
+  } # end of function CottageBook_upd
 
 
   // insert a row in DeviceId table

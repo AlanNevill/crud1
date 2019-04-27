@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
   <?php include '../include/googleTrackingCoUk.html';  ?>
@@ -37,27 +37,27 @@
         </ol>
         <div class="carousel-inner embed-responsive" role="listbox">
           <div class="carousel-item active">
-              <img class="img-fluid w-100" src=/images/facilities/playArea/Play-area-9-1000-compressor.jpg alt="First slide">
+              <img class="img-fluid w-100" src=../images/facilities/playArea/Play-area-9-1000-compressor.jpg alt="First slide">
               <!--<div class="carousel-caption">
                   <h3>First slide</h3>
                   <p>playArea/Play area 9 1000</p>
               </div>-->
           </div>
           <div class="carousel-item">
-              <img class="lazy img-fluid w-100" src=/images/facilities/playArea/IMG_2819-1000-compressor.jpg alt="Second slide">
+              <img class="lazy img-fluid w-100" src=../images/facilities/playArea/IMG_2819-1000-compressor.jpg alt="Second slide">
               <!--<div class="carousel-caption">
                   <h3>Second slide</h3>
                   <p>playArea/IMG_2819 1000</p>
               </div>-->
           </div>
           <div class="carousel-item">
-              <img class="lazy img-fluid w-100" src=/images/facilities/playArea/toy-2-1000-compressor.jpg alt="Third slide">
+              <img class="lazy img-fluid w-100" src=../images/facilities/playArea/toy-2-1000-compressor.jpg alt="Third slide">
           </div>
           <div class="carousel-item">
-              <img class="lazy img-fluid w-100" src=/images/facilities/playArea/IMG_2672-1000-compressor.jpg alt="Fourth slide">
+              <img class="lazy img-fluid w-100" src=../images/facilities/playArea/IMG_2672-1000-compressor.jpg alt="Fourth slide">
           </div>
           <div class="carousel-item">
-              <img class="lazy img-fluid w-100" src=/images/facilities/playArea/IMG_2672-1000-compressor.jpg alt="Fifth slide">
+              <img class="lazy img-fluid w-100" src=../images/facilities/playArea/IMG_2672-1000-compressor.jpg alt="Fifth slide">
               <!--<div class="carousel-caption">
                   <h3>Fith slide</h3>
                   <p>playArea/IMG_2690 1000</p>

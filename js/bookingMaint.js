@@ -38,8 +38,8 @@ $(document).ready(function() {
     }
   });
 
-  // show current global version and deviceId on title click or double click
-  $('#title').on('dblclick click', function() {
+  // show current global version held in commonClasses and deviceId on title click
+  $('#title').on('click', function() {
     $(this)
       .next()
       .html(`${_VERSION}-${_clsDeviceIdCookie.deviceId}`)
@@ -667,25 +667,25 @@ function setupConfirmations() {
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Function takes an associative array of a CottageBook row and formats it into an existing booking table row
-// If boolean booNewBooking = true then the new row is highlighted
+// Function takes an associative git statarray of a CottageBook row and formats it into an existing booking table row
+// If boolean booNewBooking = true then the new row is highlighted by adding the class 'highlight'
 // Called by: CottageBook2Table & $("#submitNewBooking").click
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 function formatCottageBookRow(cottageBookRow, booNewBooking) {
   let existingBooking = `
     <tr firstNight='${cottageBookRow.ArriveDate}' IdNum=${cottageBookRow.IdNum} 
-        class="d-flex ${booNewBooking ? 'highlight' : ''}">
-      <td class="col-2">${cottageBookRow.FirstNight}</td>
-      <td class="col-2">${cottageBookRow.LastNight}</td>
-      <td class="col-1 text-center">${cottageBookRow.numNights}</td>
-      <td class="col-1">${cottageBookRow.Rental}</td>
-      <td class="col-1">${cottageBookRow.BookingRef}</td>
-      <td class="col-2">${cottageBookRow.Notes}</td>
-      <td class="col-2">${cottageBookRow.BookingStatus === 'P' ? 'Provisional' : 'Confirmed'}</td>
-      <td class="col-1">
-        <div class="btn-group float-right">
+        class="${booNewBooking ? 'highlight' : ''}">
+      <td>${cottageBookRow.FirstNight}</td>
+      <td>${cottageBookRow.LastNight}</td>
+      <td class="text-center">${cottageBookRow.numNights}</td>
+      <td>${cottageBookRow.Rental}</td>
+      <td class="d-none d-md-table-cell">${cottageBookRow.BookingRef}</td>
+      <td>${cottageBookRow.Notes}</td>
+      <td>${cottageBookRow.BookingStatus === 'P' ? 'Provisional' : 'Confirmed'}</td>
+      <td>
+        <div class="btn-group" role="group">
           <button type="button" class="btn btn-sm btn-success" onclick="rowEdit(this);">
-            <i class="fa fa-pencil-square fa-lg"></i>
+            <i class="fa fa-pencil fa-lg"></i>
           </button>
           <button type="button" data-toggle="confirmation" class="btn btn-sm btn-danger">
             <i class="fa fa-trash fa-lg"></i>

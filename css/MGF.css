@@ -1,4 +1,4 @@
-/* General CSS file for CRUD1 pages */
+/* General CSS file for MGF v3 pages */
 @import url('https://fonts.googleapis.com/css?family=B612');
 
 html {
@@ -12,7 +12,14 @@ body {
 }
 
 main {
-  margin-top: 90px;
+  margin-top: 55px;
+  max-width: 70ch; 
+  padding: 2ch; 
+}
+
+section {
+  text-align: justify;
+  margin-top: 1ch;
 }
 
 /* class to display a ajaxLoading overlay while any ajax call is running */
@@ -69,16 +76,16 @@ footer p {
   font-size: .75rem;
 }
 
-@media only screen and (min-width:600px) {
+@media only screen and (min-width:768px) {
   .myNavBarBrand {
     background-image: url('../images/Banner_v3.svg');
     background-repeat: no-repeat;
-    width: 350px;
+    min-width: 310px;
     height: 40px;
   } 
 }
 
-@media only screen and (max-width:599px) {
+@media only screen and (max-width:767px) {
   .myNavBarBrand {
     background-image: url('../images/Sheep-icon.svg');
     background-repeat: no-repeat;

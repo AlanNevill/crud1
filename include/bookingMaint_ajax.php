@@ -182,7 +182,7 @@ if ($_POST['method']==='cottageBook_updNotes') {
 
   if (empty($_POST['IdNum'])) {
 
-    $errMess = 'IdNum is empty. IdNum: [' . $_POST["IdNum"] . ']';
+    $errMess = 'IdNum is empty.';
     $returnArray = array('success'    => false,
                           'message'   => $errMess);
 

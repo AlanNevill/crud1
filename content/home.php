@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
   <?php include '../include/googleTrackingCoUk.html';  ?>
@@ -24,8 +24,8 @@
   <!-- load the MGF menu -->
   <?php include '../include/MGF_menu.html';  ?>
 
-  <!-- container used within outer container to give white border -->
-  <main class="container text-center">
+  <!-- container used to give white border -->
+  <main class="container">
 
     <div id="carouselExampleIndicators" class="carousel carousel-fade" data-ride="carousel" data-interval="3000">
       <ol class="carousel-indicators">
@@ -39,25 +39,25 @@
       </ol>
       <div class="carousel-inner embed-responsive" role="listbox">
         <div class="carousel-item active">
-          <img class="img-fluid w-100" src=/images/home/IMG_1270-1000-compressor.jpg alt="Cowslip cottage">
+          <img class="img-fluid w-100" src=../images/home/IMG_1270-1000-compressor.jpg alt="Cowslip cottage">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/home/Cowslip-garden-1-1000-compressor.jpg alt="Cowslip cottage">
+          <img class="lazy img-fluid w-100" src=../images/home/Cowslip-garden-1-1000-compressor.jpg alt="Cowslip cottage">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/home/Cornflower-exterior-1000-compressor.jpg alt="Cornflower cottage">
+          <img class="lazy img-fluid w-100" src=../images/home/Cornflower-exterior-1000-compressor.jpg alt="Cornflower cottage">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/home/Meadowswett-exterior-3-1000-compressor.jpg alt="Meadowsweet cottage">
+          <img class="lazy img-fluid w-100" src=../images/home/Meadowswett-exterior-3-1000-compressor.jpg alt="Meadowsweet cottage">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/home/newLambs1000-compressor.jpg alt="New lambs">
+          <img class="lazy img-fluid w-100" src="../images/home/newLambs1000-compressor.jpg" alt="New lambs">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=/images/home/Play-area-9-1000-compressor.jpg alt="Childrens play area">
+          <img class="lazy img-fluid w-100" src="../images/home/Play-area-9-1000-compressor.jpg" alt="Childrens play area">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src="/images/home/Sunset 4 1000.jpg" alt="Sunset over the farm">
+          <img class="lazy img-fluid w-100" src="../images/home/Sunset 4 1000.jpg" alt="Sunset over the farm">
         </div>
 
       </div>
@@ -72,16 +72,15 @@
     </div>
 
     <section>
-
-      <p class="lead">
+      <p class="lead mt-3">
         Meadow Green Farm nestles in 23 acres of rolling green meadows in the Pembrokeshire National Park, on the outskirts of the pretty and bustling seaside village of Saundersfoot.
-      <p />
+      </p>
       <p>
         There are three contemporary self-catering cottages to provide you with an enchanting holiday. Each is fully stocked to provide a home away from home, and have their own private sunny gardens with tables, chairs and BBQs.
-      <p />
+      </p>
       <p>
         Everyone is well catered for at Meadow Green Farm: for couples a quiet haven of tranquillity. For families we have a trampoline, swings, a playhouse as well as numerous outdoor and indoor toys, books and board games to keep children of all ages entertained. Animal lovers may bring their own dogs, pet our friendly sheep and collect eggs daily from our free-range chickens. For those who love the outdoors, our two lakes may be fished, and you are free to explore our meadows and woods, discovering the many footpaths across the land.
-      <p />
+      </p>
       <p>
         Meadow Green Farm is within walking distance of Saundersfoot village, many picturesque beaches and the stunning coastal path. Indeed, we are just a short drive to numerous blue flag beaches including Barafundle Bay and fantastic seaside resorts such as Tenby, Pendine and Laugharne. As well as family attractions including Folly Farm, Tenby Dinosaur Park, Pembroke Castle and Oakwood Theme Park.
       </p>

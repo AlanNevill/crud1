@@ -11,7 +11,7 @@
 
     <?php include '../include/MGF_header.html'; ?>          <!-- favicon + bootstrap & fork awesome style sheets -->
 
-    <link rel="stylesheet" href="../css/crud1.css" />       <!-- Site stylesheet -->
+    <link rel="stylesheet" href="../css/MGF.css" />       <!-- Site stylesheet -->
     <link rel="stylesheet" href="../css/newBooking.css" />  <!-- Page stylesheet -->
 
 </head>

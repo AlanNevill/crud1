@@ -6,6 +6,7 @@ var bookingMaint = new clsbookingMaint();
 
 var cottageNum = 0,
   cottageWeekRows,
+  // FIXME: remove booCalendarDisplayed
   booCalendarDisplayed = 0;
 
 // Create a new clsDeviceIdCookie class which set up the deviceId cookie
@@ -185,6 +186,11 @@ $(document).ready(function() {
       // update and save the cottage number into session storage key bookingMaint
       bookingMaint.cottageNum = cottageNum;
 
+      // clear the table
+      $('tbody').empty();
+      booCalendarDisplayed = false;
+
+      // reload the table for the newly selected cottage
       showCottageBook();
       // set boolean so that no need to re load the calendar from the DB to save 0.5 seconds
       booCalendarDisplayed = true;

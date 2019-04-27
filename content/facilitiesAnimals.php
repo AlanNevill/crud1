@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Place your stylesheet here-->
-  <link rel="stylesheet" href="../css/crud1.css" />
+  <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
   <?php include '../include/googleTrackingCoUk.html';  ?>
@@ -35,21 +35,21 @@
         </ol>
         <div class="carousel-inner embed-responsive" role="listbox">
           <div class="carousel-item active">
-              <img class="img-fluid w-100" src=/images/facilities/animals/sheep-dog-1000-compressor.jpg alt="First slide">
+              <img class="img-fluid w-100" src=../images/facilities/animals/sheep-dog-1000-compressor.jpg alt="First slide">
               <!--<div class="carousel-caption">
                   <h3>First slide</h3>
                   <p>animals/sheep dog 1000</p>
               </div>-->
           </div>
           <div class="carousel-item">
-              <img class="lazy img-fluid w-100" src=/images/facilities/animals/hens-1000-compressor.jpg alt="Second slide">
+              <img class="lazy img-fluid w-100" src=../images/facilities/animals/hens-1000-compressor.jpg alt="Second slide">
               <!--<div class="carousel-caption">
                   <h3>Second slide</h3>
                   <p>animals/hens 1000</p>
               </div>-->
           </div>
           <div class="carousel-item">
-              <img class="lazy img-fluid w-100" src=/images/facilities/animals/herding-1000-compressor.jpg alt="Fith slide">
+              <img class="lazy img-fluid w-100" src=../images/facilities/animals/herding-1000-compressor.jpg alt="Fith slide">
               <!--<div class="carousel-caption">
                   <h3>Fourth slide</h3>
                   <p>animals/herding 1000</p>
@@ -71,7 +71,7 @@
           Our Ryeland sheep are family pets who like to be petted and hand fed. The ewes are named after flowers and the boys after herbs.
         </p>
         <p>
-          Maisy our border collie is 6 years old and has helped many children to overcome their fear of dogs. She adores having a ball thrown for her.
+          Maisy our border collie is 10 years old and has helped many children to overcome their fear of dogs. She adores having a ball thrown for her.
         </p>
       </section>
 
