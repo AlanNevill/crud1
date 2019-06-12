@@ -6,12 +6,9 @@ const nextYear = dateFns.getYear(new Date(dateFns.addYears(new Date(TODAY), 1)))
 
 var cottageWeekRows, cottageBookAllRows;
 
-// // filter function to select all the cottageBookAllRows for a given DateSat
-// function selectDateSat(DateSat) {
-//   return DateSat === cottageBookAllRows.DateSat;
-// }
-
+/*////////////////////////////////////////////////////////////////////////////
 // function called by showBookings()
+////////////////////////////////////////////////////////////////////////////*/
 function setWeekBooked(dateSat, cottageNum, numNights) {
   if (numNights === '0') {
     return;
@@ -20,9 +17,9 @@ function setWeekBooked(dateSat, cottageNum, numNights) {
   // find the table row with the dateSat attribute
   let tr = $('[datesat=' + dateSat + ']');
 
-  // select the correct column & remove the weekly rent
+  // select the correct column in the row
   let cottage = $(tr).children("[cottageNum='" + cottageNum + "']");
-  $(cottage).html('&nbsp'); // needed to use a non breaking space otherwise the background does not fill the cell
+  // $(cottage).html('&nbsp'); // needed to use a non breaking space otherwise the background does not fill the cell
 
   // select the background colour key based on the number of nights
   if (numNights === '7') {
@@ -34,6 +31,9 @@ function setWeekBooked(dateSat, cottageNum, numNights) {
   }
 }
 
+/*////////////////////////////////////////////////////////////////////////////
+// get newBooking_crosstab and format table
+////////////////////////////////////////////////////////////////////////////*/
 function showBookings() {
   // clear any messages when Year changes
   $('#output1').empty();
@@ -71,7 +71,9 @@ function showBookings() {
 
         let fDateSat = dateFns.format(new Date(cottageWeekRow.datesat), 'DD MMM');
 
-        let shortBreaks = cottageWeekRow.bShortBreaksAllowed ? 'Y' : 'N';
+        let shortBreaks = cottageWeekRow.bShortBreaksAllowed
+          ? '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
+          : '<i class="fa fa-thumbs-down" aria-hidden="true"></i>';
         let classForShortBreaks = cottageWeekRow.bShortBreaksAllowed
           ? `<button type="button" class="btn btn-xs btn-success" data-toggle='tooltip' data-placement='auto' title='Click to view details of short break availablilty for this week'><i class="fa fa-book fa-lg"></i></button>`
           : `<button type="button" class="btn btn-xs btn-success invisible" data-toggle='tooltip' data-placement='auto' title='Click to view details of short break availablilty for this week'><i class="fa fa-book fa-lg"></i></button>`;
@@ -80,9 +82,15 @@ function showBookings() {
             <tr dateSat='${cottageWeekRow.datesat}' > 
             <td style="width:10%;vertical-align:text-bottom;">${fDateSat}</td> 
             <td style="width:10%">${shortBreaks}</td>
-            <td style="width:20%" cottageNum='1'>£${parseInt(cottageWeekRow.CornflowerW).toLocaleString()}</td> 
-            <td style="width:20%" cottageNum='2'>£${parseInt(cottageWeekRow.CowslipW).toLocaleString()}</td> 
-            <td style="width:20%" cottageNum='3'>£${parseInt(cottageWeekRow.MeadowsweetW).toLocaleString()}</td> 
+            <td style="width:20%" cottageNum='1'>£${parseInt(cottageWeekRow.CornflowerW).toLocaleString()}
+              <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.CornflowerD).toLocaleString()}</sub>
+            </td> 
+            <td style="width:20%" cottageNum='2'>£${parseInt(cottageWeekRow.CowslipW).toLocaleString()}
+              <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.CowslipD).toLocaleString()}</sub>
+            </td> 
+            <td style="width:20%" cottageNum='3'>£${parseInt(cottageWeekRow.MeadowsweetW).toLocaleString()}
+              <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.MeadowsweetD).toLocaleString()}</sub>
+            </td> 
             <td style="width:20%">${classForShortBreaks}</td></tr>
           `;
 
@@ -110,7 +118,9 @@ function showBookings() {
   }); // end of $.post
 } // end of function showBookings
 
+/*////////////////////////////////////////////////////////////////////////////
 // document ready
+////////////////////////////////////////////////////////////////////////////*/
 $(document).ready(function() {
   // set up the year selection options
   $('#theYear').append(

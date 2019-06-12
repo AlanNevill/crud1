@@ -37,8 +37,8 @@
       </select>
     </div>
     <div class="provisional float-right" 
-      style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">rovisional</div>
-    <div class="confirmed float-right" style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">onfirmed</div>
+      style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">Provisional</div>
+    <div class="confirmed float-right" style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">Confirmed</div>
     <!-- </div> -->
   </form>
 
@@ -46,19 +46,19 @@
 
   <!-- calendar for the cottage number -->
   <div class="table-responsive">
-    <table id="tblBookings" class="table table-light table-striped">
+    <table id="tblBookings" class="table table-bordered">
       <caption class="d-sm-none"><small>Scroll right to view details</small></caption>
       <thead class="thead-light">
         <tr>
-          <th>wc Sat</th>
-          <th data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>SB</th>
-          <th>Sa</th>
-          <th>Su</th>
-          <th>Mo</th>
-          <th>Tu</th>
-          <th>We</th>
-          <th>Th</th>
-          <th>Fr</th>
+          <!-- <th style="text-align:center">Saturday</th> -->
+          <th style="color:blue">Sat</th>
+          <th style="color:blue">Sun</th>
+          <th style="color:blue">Mon</th>
+          <th style="color:blue">Tue</th>
+          <th style="color:blue">Wed</th>
+          <th style="color:blue">Thu</th>
+          <th style="color:blue">Fri</th>
+          <th style="text-align:center" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>short bks</th>
           <th data-toggle='tooltip' data-placement='auto' title='View details of the weeks bookings'>View</th>
         </tr>
       </thead>

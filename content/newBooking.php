@@ -23,22 +23,22 @@
   <main role="main" class="container">
     <div class="d-flex justify-content-between align-items-center header-area">
       <div class="ml-3">
-        <label for="theYear" class="mt-3 mb-0">Select year</label>
+        <label for="theYear" class="mt-3 mb-0 d-print-none">Select year</label>
         <select id="theYear" name="theYear" class="custom-select"></select>
       </div>
-      <div class="card mt-5 mb-1 ml-3 mr-3 text-center">
+      <div class="card mt-5 mb-1 ml-3 mr-3 text-center d-print-none">
         <div class="card-text booked px-3">Fully booked</div> 
         <div class="card-text shortbreaks px-3">Short breaks</div >
         </div>
       <div>
-        <a href="/include/Booking conditions 2015-05-05.pdf"><small class="text-muted mr-3">Click to view booking conditions</small>
+        <a href="/include/Booking conditions 2015-05-05.pdf"><small class="text-muted mr-3 d-print-none">Click to view booking conditions</small>
         </a>
       </div>
     </div>
 
     <div class="table-area ">
       <!-- weekly calendar for the cottages; wc date in rows and cottages in columns -->
-      <table id="tblBookings" class="table table-striped table-fixed">
+      <table id="tblBookings" class="table table-fixed">
           <!-- <caption class="d-sm-none"><small>Scroll right to view details</small></caption> -->
           <thead class="table-success">
             <tr>
@@ -102,7 +102,7 @@
     </div>
 
 
-  <!-- inlcude the bootstrap, jquery and date libraries -->
+  <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
  
   <!-- custom javascript for this page -->

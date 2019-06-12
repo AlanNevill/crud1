@@ -66,7 +66,57 @@ class dbFuncs
     }
   }
 
+
+  // validate a StatusCode
+  public function StatusCodes_validate($category, $code)
+  {
+    return $this->db->query("select count(*) from StatusCodes where Category='{$category}' and StatusCode='{$code}'")->fetchColumn();
+  }
+
+
+  // get all StatusCodes rows
+  public function StatusCodes_selectAll() 
+  {
+    $returnArray = array( 'success'           =>true,
+                          'bookingStatusRows' =>null,
+                          'bookingSourceRows' =>null,
+                          'message'           =>null);
+
+    # Category = 'bookingStatus'
+    $sql = "select * from StatusCodes where Category = 'bookingStatus'";
+    $sth = $this->db->prepare($sql);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+       $returnArray['success'] = false; 
+       $returnArray['message'] = "No bookingStatus rows found"; 
+       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.StatusCodes_selectAll', $returnArray['message'], $sql);
+       return $returnArray;
+    }
+    else {
+      $returnArray['bookingStatusRows'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+        # Category = 'bookingStatus'
+
+    $sql = "select * from StatusCodes where Category = 'bookingSource'";
+    $sth = $this->db->prepare($sql);
+    $sth->execute();
+    $rowCount = $sth->rowCount();
+    if ($rowCount == 0) {
+       $returnArray['success'] = false; 
+       $returnArray['message'] = "No bookingSource rows found"; 
+       $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.StatusCodes_selectAll', $returnArray['message'], $sql);
+       return $returnArray;
+    }
+    else {
+      $returnArray['bookingSourceRows'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return $returnArray;
+  }
   
+
   // get all rows from ProcessLog table with given MessType (I, E, W)
   public function ProcessLog_selectAll($MessType)
   {
@@ -615,32 +665,57 @@ class dbFuncs
 
 
   // insert a new CottageBook row
-  function CottageBook_insert( $DateSat, $CottageNum, $FirstNight, $LastNight, $Rental, $Notes, $BookingRef, $BookingStatus )
+  function CottageBook_insert($DateSat, 
+                              $CottageNum, 
+                              $FirstNight, 
+                              $LastNight, 
+                              $BookingName, 
+                              $BookingStatus,
+                              $BookingRef,
+                              $Rental, 
+                              $Notes, 
+                              $BookingSource,
+                              $ExternalReference,
+                              $ContactEmail,
+                              $NumAdults,
+                              $NumChildren,
+                              $Children,
+                              $NumDogs
+                              )
   { 
-    $returnArray = array('success'      =>true,
-                        'insertedIdNum' =>0,
-                        'errorMess'     =>null);
+    $returnArray = array('success'      => true,
+                        'insertedIdNum' => 0,
+                        'errorMess'     => null);
 
-    $sql = "call spCottageBook_Insert(?,?,?,?,?,?,?,?)";
+    $sql = "call spCottageBook_Insert(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     $sth = $this->db->prepare($sql, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false));
-    $sth->bindParam(1, $DateSat,        PDO::PARAM_STR);
-    $sth->bindParam(2, $CottageNum,     PDO::PARAM_INT,1);
-    $sth->bindParam(3, $FirstNight,     PDO::PARAM_STR);
-    $sth->bindParam(4, $LastNight,      PDO::PARAM_STR);
-    $sth->bindParam(5, $BookingStatus,  PDO::PARAM_STR,1);
-    $sth->bindParam(6, $BookingRef,     PDO::PARAM_STR,4);
-    $sth->bindParam(7, $Rental,         PDO::PARAM_INT);
-    $sth->bindParam(8, $Notes,          PDO::PARAM_STR);
+    $sth->bindParam(1,  $DateSat,            PDO::PARAM_STR);
+    $sth->bindParam(2,  $CottageNum,         PDO::PARAM_INT,1);
+    $sth->bindParam(3,  $FirstNight,         PDO::PARAM_STR);
+    $sth->bindParam(4,  $LastNight,          PDO::PARAM_STR);
+    $sth->bindParam(5,  $BookingName,        PDO::PARAM_STR,50);
+    $sth->bindParam(6,  $BookingStatus,      PDO::PARAM_STR,1);
+    $sth->bindParam(7,  $BookingRef,         PDO::PARAM_STR,4);
+    $sth->bindParam(8,  $Rental,             PDO::PARAM_INT);
+    $sth->bindParam(9,  $Notes,              PDO::PARAM_STR,100);
+    $sth->bindParam(10, $BookingSource,      PDO::PARAM_STR,1);
+    $sth->bindParam(11, $ExternalReference,  PDO::PARAM_STR,20);
+    $sth->bindParam(12, $ContactEmail,       PDO::PARAM_STR,50);
+    $sth->bindParam(13, $NumAdults,          PDO::PARAM_INT);
+    $sth->bindParam(14, $NumChildren,        PDO::PARAM_INT);
+    $sth->bindParam(15, $Children,           PDO::PARAM_STR,50);
+    $sth->bindParam(16, $NumDogs,            PDO::PARAM_INT);
+
     $sth->execute();
 
     $returnArray['insertedIdNum'] = $sth->fetchColumn();
 
     // check for SQL id returning 0
     if($returnArray['insertedIdNum'] == 0 ) {
-      $this->ProcessLog_insert2('E','MGF2','dbFuncs.spCottageBook_Insert','Insert failed', $sql);
       $returnArray['success'] = false;
-      $returnArray['errorMess'] = 'ERROR - Insert failed; $returnArray[insertedIdNum]: ' . $returnArray['insertedIdNum'] ;
+      $returnArray['errorMess'] = 'ERROR - Insert failed, insertedIdNum == 0';
+      $this->ProcessLog_insert2('E','MGF2','dbFuncs.spCottageBook_Insert', $returnArray['errorMess'], $sql);
     }
 
     return $returnArray;
@@ -704,31 +779,49 @@ class dbFuncs
     return $returnArray; 
   } // end of function CottageBook_updNotes
 
+  
   // CottageBook_upd
-  function CottageBook_upd($IdNum, $BookingStatus, $Rental, $Notes, $BookingSource, $ExternalReference, $ContactEmail) {
+  function CottageBook_upd( $IdNum, 
+                            $BookingName,
+                            $BookingStatus, 
+                            $Rental, 
+                            $Notes, 
+                            $BookingSource, 
+                            $ExternalReference, 
+                            $ContactEmail,
+                            $NumAdults,
+                            $NumChildren,
+                            $Children,
+                            $NumDogs
+                            ) {
 
-    $returnArray = array('success'    => true,
-                        'message'     => "CottageBook updated");
+    $returnArray = array('success' => true,
+                         'message' => null);
 
-    $sql = "call spCottageBook_upd(?,?,?,?,?,?,?)";
+    $sql = "call spCottageBook_upd(?,?,?,?,?,?,?,?,?,?,?,?)";
 
     $sth = $this->db->prepare($sql);
-    $sth->bindParam(1, $IdNum,              PDO::PARAM_INT);
-    $sth->bindParam(2, $BookingStatus,      PDO::PARAM_STR,1);
-    $sth->bindParam(3, $Rental);
-    $sth->bindParam(4, $Notes,              PDO::PARAM_STR,100);
-    $sth->bindParam(5, $BookingSource,      PDO::PARAM_STR,1);
-    $sth->bindParam(6, $ExternalReference,  PDO::PARAM_STR,20);
-    $sth->bindParam(7, $ContactEmail,       PDO::PARAM_STR,50);
+    $sth->bindParam(1,  $IdNum,             PDO::PARAM_INT);
+    $sth->bindParam(2,  $BookingName,       PDO::PARAM_STR,50);
+    $sth->bindParam(3,  $BookingStatus,     PDO::PARAM_STR,1);
+    $sth->bindParam(4,  $Rental,            PDO::PARAM_INT);
+    $sth->bindParam(5,  $Notes,             PDO::PARAM_STR,100);
+    $sth->bindParam(6,  $BookingSource,     PDO::PARAM_STR,1);
+    $sth->bindParam(7,  $ExternalReference, PDO::PARAM_STR,20);
+    $sth->bindParam(8,  $ContactEmail,      PDO::PARAM_STR,50);
+    $sth->bindParam(9,  $NumAdults,         PDO::PARAM_INT);
+    $sth->bindParam(10, $NumChildren,       PDO::PARAM_INT);
+    $sth->bindParam(11, $Children,          PDO::PARAM_STR,50);
+    $sth->bindParam(12, $NumDogs,           PDO::PARAM_INT);
 
     $sth->execute();
     $rowCount = $sth->rowCount();
+    # row count should be 1
     if (!$rowCount == 1) {
       $returnArray['success'] = false;
-      $errMess = "rowCount: $rowCount should be 1. IdNum: $IdNum";
-      $returnArray['message'] = $errMess;
+      $returnArray['message'] = "ERROR - rowCount: $rowCount should be 1. IdNum: $IdNum";
 
-      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_upd', $errMess, $sql);
+      $this->ProcessLog_insert2('E', 'MGF2', 'dbFuncs.spCottageBook_upd', $returnArray['message'], $sql);
     }
     
     return $returnArray; 

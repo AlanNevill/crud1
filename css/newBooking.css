@@ -30,7 +30,9 @@
   }
 
 .booked {
-  background-color: #a8cb17;
+  /* background: rgb(34,195,101); */
+  background-image: linear-gradient(0deg, rgb(168, 203, 23) 0%, rgb(168, 203, 23,1) 100%);
+  /* background-color: #a8cb17; */
 }
 
 .shortbreaks {
@@ -41,15 +43,15 @@
 }
 
 
-/* table formatting */
-.table-area {
-  margin-top: 150px;
-}
+/* table formatting
+ .table-area { 
+   margin-top: 100px; 
+} */
 
 /* on wide screens */
 @media only screen and (min-width:600px) {
   .table-area {
-    margin-top: 160px;
+    margin-top: 100px;
   }
   .card {
     min-width: 200px;
@@ -59,8 +61,12 @@
 /* on small screens */
 @media only screen and (max-width:599px) {
   .table-area {
-    margin-top: 180px;
+    margin-top: 160px;
   }
+  .card {
+    min-width: 100px;
+  }
+
   .table-fixed th {
     white-space: normal !important;
     word-wrap: break-word;

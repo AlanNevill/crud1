@@ -54,7 +54,8 @@
   <a class="navbar-brand myNavBarBrand" href="home.php"></a>
 
   <div id="my-nav" class="collapse navbar-collapse">
-    <ul class="navbar-nav mr-auto">
+    <!-- todo justify-content-right not working in <UL></UL> -->
+    <ul class="navbar-nav mr-auto justify-content-right"  style="width:100%">
 
       <li class="nav-item">
           <a id="Meadowsweet" class="nav-link" href="meadowsweet.php">Meadowsweet Cottage</a>

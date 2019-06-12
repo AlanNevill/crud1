@@ -6,16 +6,21 @@ table#tblBookings {
 
 .table td, .table th {
    padding: 0.4rem;
-   text-align: center;
-   vertical-align: middle;
+   text-align: left;
+   vertical-align: text-top;
+   /* color: blue; */
 }
 
 .provisional {
-  background-color: lightgrey;
+  background-image: linear-gradient(0deg, rgb(211, 211, 211) 0%, rgb(211, 211, 211,1) 100%);
+
+  /* background-color: lightgrey; */
 }
-.provisional::before { content: "P";}
+/* .provisional::before { content: "P";} */
 
 .confirmed {
-  background-color: #a8cb17;
+  background-image: linear-gradient(0deg, rgb(168, 203, 23) 0%, rgb(168, 203, 23,1) 100%);
+
+  /* background-color: #a8cb17; */
 }
-.confirmed::before { content: "C";}
+/* .confirmed::before { content: "C";} */

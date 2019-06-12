@@ -55,21 +55,43 @@ function showCottageBook() {
           cottageWeekRows.forEach(cottageWeekRow => {
             // debug console.log(index, cottageWeekRow);
 
-            let DateSat = cottageWeekRow.DateSat;
-            let fDateSat = dateFns.format(new Date(cottageWeekRow.DateSat), 'DD MMM');
-            let shortBreaks = cottageWeekRow.bShortBreaksAllowed ? 'Y' : 'N';
+            let dayNum = [];
+            for (let index = 0; index < 7; index++) {
+              let theDay = dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), 'D');
+              let monthNum = dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), 'MM');
+              dayNum[index] = `
+                <strong 
+                ${monthNum % 2 ? 'style="color:blue"' : 'style="color:brown"'}>
+                ${theDay}
+                </strong>
+              `;
+
+              // if day is Saturday or the 1st of the month then add month and make date bold
+              if (theDay === '1' || dateFns.isSaturday(dateFns.addDays(new Date(cottageWeekRow.DateSat), index))) {
+                dayNum[index] = `
+                  <strong 
+                  ${monthNum % 2 ? 'style="color:blue"' : 'style="color:brown"'}>
+                  ${dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), 'D')}
+                  ${dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), ' MMM')}
+                  </strong>
+                `;
+              }
+            }
 
             let newRow = `
-              <tr dateSat='${DateSat}'> 
-                <td>${fDateSat}</td> 
-                <td>${shortBreaks}</td>
-                <td dayofWeek='1'></td> 
-                <td dayofWeek='2'></td> 
-                <td dayofWeek='3'></td> 
-                <td dayofWeek='4'></td> 
-                <td dayofWeek='5'></td> 
-                <td dayofWeek='6'></td> 
-                <td dayofWeek='7'></td> 
+              <tr dateSat='${cottageWeekRow.DateSat}'> 
+                <td dayofWeek='1'><sup>${dayNum[0]}</sup></td> 
+                <td dayofWeek='2'><sup>${dayNum[1]}</sup></td> 
+                <td dayofWeek='3'><sup>${dayNum[2]}</sup></td> 
+                <td dayofWeek='4'><sup>${dayNum[3]}</sup></td> 
+                <td dayofWeek='5'><sup>${dayNum[4]}</sup></td> 
+                <td dayofWeek='6'><sup>${dayNum[5]}</sup></td> 
+                <td dayofWeek='7'><sup>${dayNum[6]}</sup></td> 
+                <td style="text-align:center">${
+                  cottageWeekRow.bShortBreaksAllowed
+                    ? '<i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i>'
+                    : '<i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i>'
+                }</td>
                 <td><button type='button' class='btn btn-sm btn-success'><i class="fa fa-book fa-lg" aria-hidden="true"></i></button></td>
               </tr>
             `;

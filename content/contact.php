@@ -28,7 +28,7 @@
   <main role="main" class="container text-center">
 
       <h5>Address: <strong>Meadow Green Farm, Hopshill Lane, Sundersfoot, SA69 9ED</strong></h5>
-      <h5>Telephone: <strong>07739 171080</strong></h5>
+      <h5>Telephone: <strong>0798 6990061 / 01834 810107</strong></h5>
       <h5>Email: <strong>meadowgreenfarm@gmail.com</strong></h5>
       <h5>Map: Satellite navigation or Google maps using our postcode SA69 9ED will bring you to our drive.</h5>
 
@@ -81,7 +81,7 @@
           });
 
       }
-
+/// FIXME: phone icons not appearing in page footer. Also page body too wide, not in container
   </script>
 
   <!-- Google map script including the key AIzaSyAHXdAq2C_2-Rnv64m4uan5ej4DwEcEEws and callback to initMap function -->

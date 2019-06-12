@@ -355,3 +355,6 @@ gitStatus*
 
 # .env files
 .env*
+
+# temp folder
+temp/
