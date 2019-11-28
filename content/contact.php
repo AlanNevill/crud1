@@ -71,7 +71,7 @@
           // add listener for marker click event //
           google.maps.event.addListener(marker, "click", function () {
               infowindow.open(map, marker);
-          });git commit
+          });
 
           // add listener for window resize event //
           google.maps.event.addDomListener(window, "resize", function () {

@@ -146,7 +146,7 @@ if($_POST['method']==='insert')
 
       # log the insert into ProcessLog table
       $dbFuncs->ProcessLog_insert2('I','bookingMaint_ajax.php','method=insert', null,
-          'Inserted: IdNum: '  . $returnArray['insertedIdNum']
+          'Inserted: IdNum: '   . $returnArray['insertedIdNum']
         . ', DateSat: '         . $DateSat
         . ', Cottage number: '  . $CottageNum
         . ', firstNight: '      . $FirstNight
