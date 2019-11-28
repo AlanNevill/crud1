@@ -23,190 +23,166 @@
 
   <!-- container used within outer container to give white border -->
   <main class="container text-center">
-    <h2>Our latest review - August 2019</h2>
-    <p class="lead">&quotWe would highly recommend Meadow Green Farm to anyone looking for a lovely week or two away. Beautiful quiet country location, within easy reach of the beach and town at Saundersfoot. The hospitality of the owners was second to none. They couldn’t have been more welcoming and helpful. We, as a family of 4, (2 adults, 2 girls - 17 and 15 years) stayed in the Cornflower Cottage, which was perfect for us.&quot
-    <br/>
-The Purvis Family</p>
-    <div class="text-white" style="background-color: #00C851;">
-      <p class="h1">Visitors Book</p>
-      <div id="carouselContent" class="carousel slide" data-ride="carousel" data-interval="10000">
-        <div class="carousel-inner" role="listbox">
+    <!-- <h3>Guest reviews</h3> -->
+    <div class="row" style="background-color: #00C851;">
+      <!-- carousel does not automatically cycle due to setting data-interval="false" -->
+      <div id="carouselContent" class="carousel slide" data-interval="false"> 
+        <div class="carousel-inner">
 
           <div class="carousel-item active">
-              <div class="card mx-auto mb-3 w-75">
-                  <img src="../images/guestBook/_GB1squoosh.jpg" alt="Guest book comments" />
+            <div class="card mx-auto w-75">
+              <div class="card-header">Elizabeth Bloomfield</div>
+              <div class="card-body">
+                <p class="lead">&quot;Beautiful Cottage in peaceful surroundings</p>
+                <p class="text-justify">We had a wonderful time. Meadowsweet Cottage is beautiful. The owners have thought of everything. Our dog was very welcome and had some lovely walks by the lake. We just loved how peaceful it was and not far from local attractions. So pleased to have found this gem in our favourite holiday destination.&quot;
+                </p>
               </div>
+              <div class="card-footer">September 2019</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB2squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+              <div class="card-header">Kaye Flack</div>
+              <div class="card-body">
+                <p class="text-justify">&quot;We only stayed 2 nights but I wish we had been there longer. The house was beautiful so clean and comfortable. It was so quiet and peaceful, excellent.&quot;
+                </p>
               </div>
+              <div class="card-footer">September 2019</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB3squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+              <div class="card-header">The Purvis Family</div>
+              <div class="lead">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
               </div>
+              <div class="card-body">
+                <p class="text-justify">&quot;We would highly recommend Meadow Green Farm to anyone looking for a lovely week or two away. Beautiful quiet country location, within easy reach of the beach and town at Saundersfoot. The hospitality of the owners was second to none. They couldn’t have been more welcoming and helpful. We, as a family of 4, (2 adults, 2 girls - 17 and 15 years) stayed in the Cornflower Cottage, which was perfect for us.&quot;
+                </p>
+              </div> 
+              <div class="card-footer">August 2019
+              </div>                                   
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB4squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+              <div class="card-header">Jamie Hussey</div>
+              <div class="card-body">
+                <p class="lead">&quot;Even better ....</p>
+                <p class="text-justify">The picture of the house doesn't really do justice to the lovely private setting. This house is round the back and detached from the other two holiday cottages. The small group of buildings have been thoughtfully landscaped to give everyone their privacy. On site there was a children's area which would have been lovely when the kids were smaller. Made us feel nostalgic. There were fields all around the property and yet it was a stroll (or short drive with beach kit!) into town. Inside, Meadowsweet is fully kitted out and spotlessly clean. The Wi-Fi was good and secure (our teens appreciated that) and the beds were comfortable. Fluffy towels galore, and general essentials in both kitchen and bathroom to get you started on a wonderfully relaxed holiday. Wonderful welcome from Alan and Gwen. Thank you so much.&quot;
+                </p>
               </div>
+              <div class="card-footer">August 2019</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB5squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+              <div class="card-header">Björn-Sirke Black</div>
+              <div class="card-body">
+                <p  class="lead">&quot;Ruhige und wunderschön gelegenes Ferienhaus</p>
+                <p class="text-justify">Uns empfing ein kleines Haus mit tollem Blick auf einen kleinen See. Die Wohnung ist sauber und ordentlich eingerichtet. Der Vermieter ist ,da am Haus wohnend, meist erreichbar und gerne für Fragen und Tipps bereit. Wir haben uns sehr wohl gefühlt.&quot;
+                </p>
+                <div class="font-italic">
+                  <p class="lead">Quiet and beautifully situated holiday home</p>
+                  <p class="text-justify">We received a small house with a great view of a small lake. The apartment is clean and well furnished. The landlord is, as living at the house, usually reachable and ready for questions and tips. We felt very comfortable.
+                  </p>
+                </div>
               </div>
+              <div class="card-footer">July 2019</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB6squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+            <div class="card-header">Annabel Russell</div>
+              <div class="card-body">
+                <p class="lead">&quot;A lovely cottage with a friendly welcome</p>
+                <p class="text-justify">We thoroughly enjoyed our stay at Meadowsweet Cottage. The children loved the play area at the end of the driveway, and we borrowed many of the toys, books and DVDs to use in the cottage. It’s a beautiful area to explore with small children, and we spent every day out finding new beaches to picnic at.&quot;
+                </p>
               </div>
+              <div class="card-footer">July 2019</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB7squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+            <div class="card-header">The Ball Family</div>
+              <div class="card-body">
+                <p class="text-justify">&quot;Another wonderful stay at our favourite holiday spot! We just love this place, spotless house, fantastic facilities, everything thought of for children, peaceful, amazing welcome, and lovely friendly family who make it all happen… Can’t wait to come back.&quot;
+                </p>
               </div>
+              <div class="card-footer">2019</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img src="../images/guestBook/_GB8squoosh.jpg" alt="Guest book comments" />
-              </div>
+
+          <div class="carousel-item">
+            <div class="card mx-auto w-75">
+            <div class="card-header">The Pensom Family</div>
+                <div class="card-body">
+                  <p class="text-justify">
+                    &quot;We love visiting Saundersfoot but this cottage is the best we’ve stayed in by far. Just minutes from Saundersfoot sea front. Great walks from Saundersfoot over to Stepaside, great pub at Wisemans Bridge, to stop off for a drink/food or just to sit and take in the wonderful views. We also took a drive out to Barafundle Bay, so worth a visit stunning. Golden sands and Crystal-clear waters. Only booked a 4 night stay, so wished I’d booked a week now. Thank you all for a lovely stay.&quot;
+                  </p>
+                </div>
+                <div class="card-footer">2017</div>                  
+            </div>
           </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB9squoosh.jpg" alt="Guest book comments" />
-              </div>
-          </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img src="../images/guestBook/_GB10squoosh.jpg" alt="Guest book comments" />
-              </div>
-          </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB11squoosh.jpg" alt="Guest book comments" />
-              </div>
-          </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img src="../images/guestBook/_GB12squoosh.jpg" alt="Guest book comments" />
-              </div>
-          </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy" src="../images/guestBook/_GB13squoosh.jpg" alt="Guest book comments" />
-              </div>
-          </div>
-          <div class="carousel-item ">
-              <div class="card mx-auto mb-3 w-75">
-                  <img src="../images/guestBook/_GB14squoosh.jpg" alt="Guest book comments" />
+
+          <div class="carousel-item">
+              <div class="card mx-auto w-75">
+              <div class="card-header">The Bini Family</div>
+                <div class="card-body">
+                  <p class="text-justify">
+                    &quot;Fabulous house probably the best we’ve rented in ten years. Very helpful hosts. We’ve had lovely picnics at Folly Farm and Tenby South Beach. The boys have loved playing with Maisy and the beach hut. We would love to come back and share with friends.&quot;
+                  </p>
+                </div>
+                <div class="card-footer">2017</div>                  
               </div>
           </div>
 
-          <!--old style-->
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <div class="card-block">
-                      <h4 class="card-title"></h4>
-                      <blockquote class="card-blockquote">
-                          &quot;A great deal of thought and detail goes into making this cottage in a class of its own.&quot;
-                          <footer>Lesley and Jacquie<cite title=""> - 2017</cite></footer>
-                      </blockquote>
+            <div class="card mx-auto w-75">
+              <div class="card-header">
+                <img class="card-img-top" src="../images/guestBook/image4044.png" alt="The Times Newspaper">
+              </div>
+                
+              <div class="card-title">
+                <h3>The 50 coolest holiday cottages</h3>
+              </div> 
+              <div class="card-body">
+                <div class="lead">No. 28 Back to nature, Pembrokeshire, sleeps 4</div>
+                <p class="text-justify">
+                  &quot;Cowslip Cottage has been scrubbed up to a shiny finish and is part of a trio that occupies 23 acres just outside Saundersfoot, one of Wales’s most popular seaside resorts. The pretty whitewashed hideaway is decorated with fresh white linen and has everything from wifi to a children’s play area. Guests have free access to rolling fields, fishing lakes and streamside walks, filled with wildlife.&quot;
+                </p>
+              </div> 
+              <div class="card-footer">
+                <cite title="The Sunday Times - The 50 coolest holiday cottages">By Susan d'Arcy - Published: 16 January 2011
+                </cite>
+              </div>                  
+            </div>
+          </div>
 
-                  </div>
-              </div>
-          </div>
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <div class="card-block">
-                      <h4 class="card-title"></h4>
-                      <blockquote class="card-blockquote">
-                          &quot;Another wonderful stay at our favourite holiday spot! We just love this place, spotless house, fantastic facilities, everything thought of for children, peaceful, amazing welcome, and lovely friendly family who make it all happen… Can’t wait to come back.&quot;
-                          <footer>The Ball Family<cite title=""> - 2017</cite></footer>
-                      </blockquote>
-                  </div>
+              <div class="card mx-auto w-75">
+                <div class="card-header">Claire Parry</div>
+                <div class="card-body">
+                  <p class="text-justify">
+                      &quot;We had a lovely weekend at the cottage. So much thought has gone into making it a fantastic experience for children and giving the grown ups a chance to kick back. Beautiful spot. My children are already asking to go back!.&quot;
+                  </p>
+                </div>
               </div>
+              <div class="card-footer">June 2019</div>                  
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <div class="card-block">
-                      <h4 class="card-title"></h4>
-                      <blockquote class="card-blockquote">
-                          &quot;Wonderful week. Many thanks for sharing your little bit of heaven!!.&quot;
-                          <footer>Julie and Mike<cite title=""> - 2017</cite></footer>
-                      </blockquote>
-                  </div>
-              </div>
-          </div>
-          <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <div class="card-block">
-                      <h4 class="card-title"></h4>
-                      <blockquote class="card-blockquote">
-                          &quot;We love visiting Saundersfoot but this cottage is the best we’ve stayed in by far. Just minutes from Saundersfoot sea front. Great walks from Saundersfoot over to Stepaside, great pub at Wisemans Bridge, to stop off for a drink/food or just to sit and take in the wonderful views. We also took a drive out to Barafundle Bay, so worth a visit stunning. Golden sands and Crystal-clear waters. Only booked a 4 night stay, so wished I’d booked a week now. Thank you all for a lovely stay.&quot;
-                          <footer>The Pensom Family<cite title=""> - 2017</cite></footer>
-                      </blockquote>
-                  </div>
-              </div>
-          </div>
-          <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <div class="card-block">
-                      <h4 class="card-title"></h4>
-                      <blockquote class="card-blockquote">
-                          &quot;Fabulous house probably the best we’ve rented in ten years. Very helpful hosts. We’ve had lovely picnics at Folly Farm and Tenby South Beach. The boys have loved playing with Maisy and the beach hut. We would love to come back and share with friends.&quot;
-                          <footer>The Bini Family<cite title=""> - 2017</cite></footer>
-                      </blockquote>
-                  </div>
-              </div>
-          </div>
-          <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <img class="lazy card-img-top" src="../images/guestBook/image4044.png" alt="Card image cap">
-                  <div class="card-block">
-                      <h4 class="card-title">The 50 coolest holiday cottages</h4>
-                      <blockquote class="card-blockquote">
-                          &quot;No. 28 Back to nature, Pembrokeshire, sleeps 4<br />
-                          Cowslip Cottage has been scrubbed up to a shiny finish and is part of a trio
-                          that occupies 23 acres just outside Saundersfoot, one of Wales’s most popular seaside resorts.
-                          The pretty whitewashed hideaway is decorated with fresh white linen and has everything from wifi to a children’s play area.
-                          Guests have free access to rolling fields, fishing lakes and streamside walks, filled with wildlife.&quot;
-                          <footer>By Susan d'Arcy <cite title="The Sunday Times - The 50 coolest holiday cottages">Published: 16 January 2011</cite></footer>
-                      </blockquote>
-                  </div>
-              </div>
-          </div>
-          <div class="carousel-item">
-              <div class="card card-inverse mx-auto mb-3 w-75">
-                  <div class="card-block ">
-                      <h4 class="card-title">Cornflower</h4>
-                      <blockquote class="card-blockquote">
-                          &quot;Another lovely holiday on our second stay in cornflower cottage. We had a
-                          fantastic time exploring the area again. Robs food was delicious and highly
-                          recommended. Sara enjoyed all the books and toys in the beach hut, the swings
-                          and of course playing with Maisie! Hope to return soon it certainly is a home
-                          from home.&quot;
-                          <footer>Liz, Paul &amp; Sara <cite title="Cornflower"></cite></footer>
-                      </blockquote>
-                  </div>
-              </div>
-          </div>
-          <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
-                  <div class="card-block">
-                      <h4 class="card-title">Meadowsweet</h4>
-                      <blockquote class="card-blockquote">
-                          &quot;Thank you for yet another great holiday, Meadowsweet is fantastic!!! (love the
-                          comfy bed :) and the optional car bed as well!. We all had a lovely holiday &amp;
-                          enjoyed Robs great cooking. Thanks again for such a lovely warm welcome again
-                          and will see you all soon!!&quot;
-                          <footer>Steve &amp; family <cite title="Meadowsweet"></cite></footer>
-                      </blockquote>
-                  </div>
-              </div>
-          </div>
-          <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Cowslip</h4>
                       <blockquote class="card-blockquote">
@@ -220,8 +196,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Cornflower</h4>
                       <blockquote class="card-blockquote">
@@ -235,8 +212,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Cowslip</h4>
                       <blockquote class="card-blockquote">
@@ -249,7 +227,7 @@ The Purvis Family</p>
               </div>
           </div>
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Cowslip</h4>
                       <blockquote class="card-blockquote">
@@ -261,8 +239,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Meadowsweet</h4>
                       <blockquote class="card-blockquote">
@@ -273,8 +252,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Meadowsweet</h4>
                       <blockquote class="card-blockquote">
@@ -288,8 +268,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Cornflower</h4>
                       <blockquote class="card-blockquote">
@@ -304,8 +285,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Meadowsweet</h4>
                       <blockquote class="card-blockquote">
@@ -318,8 +300,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                       <h4 class="card-title">Cornflower</h4>
                       <blockquote class="card-blockquote">
@@ -331,8 +314,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                   <div class="card-block">
                     <h4 class="card-title">Cornflower</h4>
                     <blockquote class="card-blockquote">
@@ -344,8 +328,9 @@ The Purvis Family</p>
                   </div>
               </div>
           </div>
+
           <div class="carousel-item">
-              <div class="card mx-auto mb-3 w-75">
+              <div class="card mx-auto w-75">
                 <div class="card-block">
                     <h4 class="card-title">Cowslip</h4>
                     <blockquote class="card-blockquote">
@@ -369,7 +354,6 @@ The Purvis Family</p>
     </div>
   </div>
 
-      <br />
   </main> <!-- end of inner container -->
 
   <!-- include the footer -->
@@ -378,22 +362,8 @@ The Purvis Family</p>
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
 
-  <!-- Lazy loading libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.plugins.min.js"></script>
-
   <!-- site javascipt -->
   <script src="../js/crud1.js"></script>
-
-  <!-- Lazy load images when document ready -->
-  <script>
-    $(function() {
-      // Lazy load images
-      $(function () {
-        $('.lazy').Lazy();
-      });
-    });
-  </script>
 
 </body>
 </html>

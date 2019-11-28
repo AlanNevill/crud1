@@ -9,9 +9,9 @@ use Dotenv\Dotenv;
 
 $factory = new DotenvFactory([new EnvConstAdapter(), new ServerConstAdapter()]);
 
+# load the .env environment file
 Dotenv::create(dirname( __DIR__ , 3), null, $factory)->load();
 
-# load the .env environment file
 // $dotenv = Dotenv\Dotenv::create( dirname( __DIR__ , 3) );
 // $dotenv->load();
 
@@ -545,7 +545,7 @@ class dbFuncs
                         'errorMess'         =>null
                       );
 
-    $sql = "select *,datediff(lastnight,firstnight)+1 as numNights from CottageBook where DateSat =? and CottageNum =? order by FirstNight;";
+    $sql = "select * from CottageBook where DateSat =? and CottageNum =? order by FirstNight;";
     try {
       $sth = $this->db->prepare($sql);
       $sth->bindParam(1, $DateSat,    PDO::PARAM_STR);
@@ -553,7 +553,7 @@ class dbFuncs
 
       $sth->execute();
       $returnArray['cottageBookCount'] = $sth->rowCount();
-      $returnArray['errorMess'] = ($returnArray['cottageBookCount']==0) ? 'No bookings yet' : '' ;
+      $returnArray['errorMess'] = ($returnArray['cottageBookCount']==0) ? 'No bookings yet' : null ;
       $returnArray['cottageBookRows'] = $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
     catch (Exception $e) {

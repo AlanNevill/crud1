@@ -6,11 +6,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
   <meta name="description" content="Holiday cottages in Saundersfoot, Pembrokeshire. A perfect family holiday and pets welcome." />
   <meta name="google-site-verification" content="a4KYq1XTIP3MdKDfpEZPIJjlyX8gvfMnMdIiDBmvq3w" />
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
-
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  
+  <?php include '../include/MGF_header.html'; ?>        <!-- favicon + bootstrap & fork awesome style sheets -->
 
   <!-- Place your stylesheet here-->
   <link rel="stylesheet" href="../css/MGF.css" />
@@ -68,10 +65,9 @@
 
       <section>
         <p class="lead">
-          Our Ryeland sheep are family pets who like to be petted and hand fed. The ewes are named after flowers and the boys after herbs.
-        </p>
-        <p>
-          Maisy our border collie is 10 years old and has helped many children to overcome their fear of dogs. She adores having a ball thrown for her.
+          Our Ryeland sheep are family pets who like to be petted and hand fed. The ewes are named after flowers and the boys after herbs. </br></br>
+          Maisy our border collie is <span id=maisyAge></span> old and has helped many children to overcome their fear of dogs. She adores having a ball thrown for her. </br></br>
+          The chickens are free range so don't leave your door open.
         </p>
       </section>
 
@@ -87,18 +83,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.plugins.min.js"></script>
 
+
   <!-- site javascipt -->
   <script src="../js/crud1.js"></script>
 
-  <!-- Lazy load images when document ready -->
-  <script>
-    $(function() {
-      // Lazy load images
-      $(function () {
-        $('.lazy').Lazy();
-      });
-    });
-  </script>
+  <!-- this page javascipt -->
+  <script src="../js/facilitiesAnimals.js"></script>
 
 </body>
 </html>

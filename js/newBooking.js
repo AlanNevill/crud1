@@ -1,10 +1,13 @@
 // newBooking.js
 'use strict';
 
+// const TODAY is defined in newBooking.php as the current date minus 7 days (forget why)
 const thisYear = dateFns.getYear(new Date(TODAY));
 const nextYear = dateFns.getYear(new Date(dateFns.addYears(new Date(TODAY), 1)));
 
 var cottageWeekRows, cottageBookAllRows;
+// initialise selectedYear to the current year
+var selectedYear = thisYear;
 
 /*////////////////////////////////////////////////////////////////////////////
 // function called by showBookings()
@@ -14,12 +17,14 @@ function setWeekBooked(dateSat, cottageNum, numNights) {
     return;
   }
 
-  // find the table row with the dateSat attribute
+  // find the table row with the DateSat attribute
   let tr = $('[datesat=' + dateSat + ']');
 
   // select the correct column in the row
   let cottage = $(tr).children("[cottageNum='" + cottageNum + "']");
-  // $(cottage).html('&nbsp'); // needed to use a non breaking space otherwise the background does not fill the cell
+
+  // remove the price for booked weeks
+  $(cottage).html('&nbsp'); // needed to use a non breaking space otherwise the background colour does not fill the cell
 
   // select the background colour key based on the number of nights
   if (numNights === '7') {
@@ -36,9 +41,9 @@ function setWeekBooked(dateSat, cottageNum, numNights) {
 ////////////////////////////////////////////////////////////////////////////*/
 function showBookings() {
   // clear any messages when Year changes
-  $('#output1').empty();
+  $('#output').empty();
 
-  let selectedYear = $('#theYear option:selected').text();
+  // selectedYear = $('#theYear option:selected').text();
   let startDate;
 
   // get the bookings from today to the end of the current year or from 1st Jan next year 'til the end of that year
@@ -71,27 +76,28 @@ function showBookings() {
 
         let fDateSat = dateFns.format(new Date(cottageWeekRow.datesat), 'DD MMM');
 
-        let shortBreaks = cottageWeekRow.bShortBreaksAllowed
-          ? '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
-          : '<i class="fa fa-thumbs-down" aria-hidden="true"></i>';
+        // let shortBreaks = cottageWeekRow.bShortBreaksAllowed
+        //   ? '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
+        //   : '<i class="fa fa-thumbs-down" aria-hidden="true"></i>';
+
         let classForShortBreaks = cottageWeekRow.bShortBreaksAllowed
           ? `<button type="button" class="btn btn-xs btn-success" data-toggle='tooltip' data-placement='auto' title='Click to view details of short break availablilty for this week'><i class="fa fa-book fa-lg"></i></button>`
           : `<button type="button" class="btn btn-xs btn-success invisible" data-toggle='tooltip' data-placement='auto' title='Click to view details of short break availablilty for this week'><i class="fa fa-book fa-lg"></i></button>`;
 
         let newRow = `
             <tr dateSat='${cottageWeekRow.datesat}' > 
-            <td style="width:10%;vertical-align:text-bottom;">${fDateSat}</td> 
-            <td style="width:10%">${shortBreaks}</td>
-            <td style="width:20%" cottageNum='1'>£${parseInt(cottageWeekRow.CornflowerW).toLocaleString()}
-              <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.CornflowerD).toLocaleString()}</sub>
-            </td> 
-            <td style="width:20%" cottageNum='2'>£${parseInt(cottageWeekRow.CowslipW).toLocaleString()}
-              <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.CowslipD).toLocaleString()}</sub>
-            </td> 
-            <td style="width:20%" cottageNum='3'>£${parseInt(cottageWeekRow.MeadowsweetW).toLocaleString()}
-              <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.MeadowsweetD).toLocaleString()}</sub>
-            </td> 
-            <td style="width:20%">${classForShortBreaks}</td></tr>
+              <td style="width:10%;" class="align-middle">${fDateSat}</td> 
+              <td style="width:22%">${classForShortBreaks}</td>
+              <td style="width:22%" cottageNum='1'>£${parseInt(cottageWeekRow.CornflowerW).toLocaleString()}
+                <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.CornflowerD).toLocaleString()}</sub>
+              </td> 
+              <td style="width:22%" cottageNum='2'>£${parseInt(cottageWeekRow.CowslipW).toLocaleString()}
+                <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.CowslipD).toLocaleString()}</sub>
+              </td> 
+              <td style="width:22%" cottageNum='3'>£${parseInt(cottageWeekRow.MeadowsweetW).toLocaleString()}
+                <sub class="d-none d-print-inline"> £${parseInt(cottageWeekRow.MeadowsweetD).toLocaleString()}</sub>
+              </td> 
+            </tr>
           `;
 
         // add the row to the calendar table
@@ -102,7 +108,7 @@ function showBookings() {
       if (funcReturn.cottageBookRows) {
         let cottageBookRows = funcReturn.cottageBookRows;
 
-        // iterate over the rows updating the calendar table
+        // iterate over the rows updating the calendar table by calling function setWeekBooked()
         cottageBookRows.forEach(cottageBookRow => {
           setWeekBooked(cottageBookRow.DateSat, 1, cottageBookRow.CornflowerNights);
           setWeekBooked(cottageBookRow.DateSat, 2, cottageBookRow.CowslipNights);
@@ -110,7 +116,7 @@ function showBookings() {
         }); // end of foreach cottageBookRows
       }
     } else {
-      $('#output1')
+      $('#output')
         .empty()
         .append(funcReturn.cottageWeekRows);
       alert('An error has occured\n\n' + funcReturn.cottageWeekRows);
@@ -118,49 +124,61 @@ function showBookings() {
   }); // end of $.post
 } // end of function showBookings
 
+$('#yearBtns .btn').on('click', function(event) {
+  selectedYear = $(this)
+    .find('input')
+    .val();
+
+  $('#output').html(selectedYear);
+
+  $('#tbodyBookings').empty();
+
+  showBookings(); // re-populate the bookings for the selected year
+});
+
+// set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
+let body = $('body');
+$(document).on({
+  ajaxStart: function() {
+    body.addClass('loading');
+  },
+  ajaxStop: function() {
+    body.removeClass('loading');
+  }
+});
+
 /*////////////////////////////////////////////////////////////////////////////
 // document ready
 ////////////////////////////////////////////////////////////////////////////*/
 $(document).ready(function() {
   // set up the year selection options
-  $('#theYear').append(
-    $('<option>', {
-      value: thisYear,
-      text: thisYear
-    })
-  );
+  // $('#theYear').append(
+  //   $('<option>', {
+  //     value: thisYear,
+  //     text: thisYear
+  //   })
+  // );
 
-  $('#theYear').append(
-    $('<option>', {
-      value: nextYear,
-      text: nextYear
-    })
-  );
+  // $('#theYear').append(
+  //   $('<option>', {
+  //     value: nextYear,
+  //     text: nextYear
+  //   })
+  // );
 
-  // select the current year
-  $('#theYear option[value=' + thisYear + ']').attr('selected', 'selected');
-
-  // set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
-  let body = $('body');
-  $(document).on({
-    ajaxStart: function() {
-      body.addClass('loading');
-    },
-    ajaxStop: function() {
-      body.removeClass('loading');
-    }
-  });
+  // // select the current year
+  // $('#theYear option[value=' + thisYear + ']').attr('selected', 'selected');
 
   // display the weekly bookings
   showBookings();
 
   // get the selected Year when selection changes
-  $('#theYear').change(function() {
-    // clear out previouysly displayed bookings
-    $('#tbodyBookings').empty();
+  // $('#theYear').change(function() {
+  //   // clear out previouysly displayed bookings
+  //   $('#tbodyBookings').empty();
 
-    showBookings(); // re-populate the bookings for the selected year
-  });
+  //   showBookings(); // re-populate the bookings for the selected year
+  // });
 
   // pop up modal form with the confirmed bookings by day for the selected week
   $('#tbodyBookings').delegate('.btn-success', 'click', function() {
@@ -178,11 +196,12 @@ $(document).ready(function() {
     let cottageWeekRow = cottageWeekRows.filter(function(row) {
       return row.datesat === DateSat;
     });
-    // loop for 3 cottages
-    for (let index = 1; index < 4; index++) {
+
+    // loop for 2 cottages (Cowslip 2 and Meadowsweet 3)
+    for (let index = 2; index < 4; index++) {
       // set up the cottage name and cost per night for the table row
       let cottageName, perDay;
-      let booked = ['', '', '', '', '', '', '']; //
+      let booked = ['', '', '', '', '', '', ''];
 
       switch (index) {
         case 1:
@@ -219,9 +238,9 @@ $(document).ready(function() {
       });
 
       // format the row
+      // <TD>${perDay}</TD> day prices removed 2019-09-29
       const cottageTemplate = `<TR>
                         <TD>${cottageName}</TD>
-                        <TD>${perDay}</TD>
                         <TD ${booked[0]}></TD>
                         <TD ${booked[1]}></TD>
                         <TD ${booked[2]}></TD>
@@ -236,5 +255,5 @@ $(document).ready(function() {
     } // end of for each cottage number 1-3
 
     $('#myModal').modal('show');
-  }); // end of view_details button click event
+  }); // end of short break view_details button click event
 }); // end of document ready

@@ -81,7 +81,7 @@ if($_POST['method']==='insert')
     if (empty($BookingSource)) { $returnArray['errorMess'] .= 'BookingSource is empty, '; }
     if ($Rental > 9999.99)     { $returnArray['errorMess'] .= 'Rental value greater than limit £9,999.99'; }
 
-
+    # any errors then return
     if (!empty($returnArray['errorMess'])) {
       $returnArray['success'] = false;
       $returnArray['messSeverity'] = 'E';
@@ -92,7 +92,7 @@ if($_POST['method']==='insert')
     # check for clashes with existing bookings by calling function CottageBook_check
     $CottageBook_check = $dbFuncs->CottageBook_check($DateSat, $CottageNum, $FirstNight, $LastNight);
 
-    # if error returned from CottageBook_check function copy into returnArray and return
+    # if error returned from CottageBook_check function, copy into returnArray and return
     if (!$CottageBook_check['success']) {
         $returnArray['success'] = $CottageBook_check['success'];
         $returnArray['messSeverity'] = 'E';
@@ -121,22 +121,22 @@ if($_POST['method']==='insert')
 
     
     # call the insert function; database errors are dealt with in the dbFuncs function
-    $insertReturnArray = $dbFuncs->CottageBook_insert(  $DateSat, 
-                                                        $CottageNum, 
-                                                        $FirstNight, 
-                                                        $LastNight, 
-                                                        $BookingName, 
-                                                        $BookingStatus,
-                                                        $bookingRef,
-                                                        $Rental, 
-                                                        $Notes, 
-                                                        $BookingSource,
-                                                        $ExternalReference,
-                                                        $ContactEmail,
-                                                        $NumAdults,
-                                                        $NumChildren,
-                                                        $Children,
-                                                        $NumDogs
+    $insertReturnArray = $dbFuncs->CottageBook_insert($DateSat, 
+                                                      $CottageNum, 
+                                                      $FirstNight, 
+                                                      $LastNight, 
+                                                      $BookingName, 
+                                                      $BookingStatus,
+                                                      $bookingRef,
+                                                      $Rental, 
+                                                      $Notes, 
+                                                      $BookingSource,
+                                                      $ExternalReference,
+                                                      $ContactEmail,
+                                                      $NumAdults,
+                                                      $NumChildren,
+                                                      $Children,
+                                                      $NumDogs
                                                       );
 
     if ($insertReturnArray['success']) {
@@ -207,18 +207,18 @@ if ($_POST['method']==='cottageBook_upd') {
     exit;    
   }
 
-  $FuncReturn = $dbFuncs->cottageBook_upd(  $_POST['IdNum'], 
-                                            $_POST['BookingName'],
-                                            $_POST['BookingStatus'],
-                                            $_POST['Rental'],
-                                            $_POST['Notes'],
-                                            $_POST['BookingSource'],
-                                            $_POST['ExternalReference'],
-                                            $_POST['ContactEmail'],
-                                            $_POST['NumAdults'],
-                                            $_POST['NumChildren'],
-                                            $_POST['Children'],
-                                            $_POST['NumDogs']
+  $FuncReturn = $dbFuncs->cottageBook_upd($_POST['IdNum'], 
+                                          $_POST['BookingName'],
+                                          $_POST['BookingStatus'],
+                                          $_POST['Rental'],
+                                          $_POST['Notes'],
+                                          $_POST['BookingSource'],
+                                          $_POST['ExternalReference'],
+                                          $_POST['ContactEmail'],
+                                          $_POST['NumAdults'],
+                                          $_POST['NumChildren'],
+                                          $_POST['Children'],
+                                          $_POST['NumDogs']
                                           );
 
   if (!$FuncReturn['success']) {

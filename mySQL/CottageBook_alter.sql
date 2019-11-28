@@ -1,3 +1,5 @@
+-- CottageBook_alter.sql
+
 ALTER TABLE `CottageBook` 
 ADD COLUMN `BookingSource` CHAR(1) NOT NULL DEFAULT 'O' AFTER `Notes`,
 ADD COLUMN `ExternalReference` VARCHAR(20) not NULL DEFAULT '' AFTER `BookingSource`,

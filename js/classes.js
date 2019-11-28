@@ -2,7 +2,7 @@
 'use strict';
 
 /* global _VERSION */
-const _VERSION = 'v1.0';
+const _VERSION = 'v3.0';
 
 // class to get the deviceId (fingerprint) & userAgentString and store in db and session cookie
 class clsDeviceIdCookie {
@@ -103,15 +103,16 @@ class clsbookingMaint {
 
 function isJSON(myTestStr) {
   try {
-    let json = JSON.parse(myTestStr); // error thrown if not json
     if (typeof myTestStr == 'string')
       if (myTestStr.length === 0)
         // check for 0 length string
         return false;
-  } catch (e) {
+
+    JSON.parse(myTestStr); // error thrown if not json
+    return true;
+  } catch {
     return false;
   }
-  return true;
 }
 
 // cookie functions

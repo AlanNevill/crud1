@@ -148,11 +148,6 @@ if ($input['method']==='EnquiryResponseEmail') {
   }
 
   # verfiy the recaptcha
-  // $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$input['captcha']}");
-
-  # ini_set('allow_url_fopen', 1);
-
-  # verfiy the recaptcha
   $verifySite = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$_ENV['SECRETKEY']}&response={$input['captcha']}");
 
 
@@ -170,12 +165,8 @@ if ($input['method']==='EnquiryResponseEmail') {
   # no errors so format and send the message
   $email_subject = "Confirmation of your enquiry submitted to Meadow Green Farm";
 
-  $email_message = "Dear {$first_name} {$last_name},\n\nThankyou for your enquiry. We will respond within 24 hours.\n\n";
+  $email_message = "Dear {$first_name} {$last_name},\n\nThank you for your enquiry. We will respond within 24 hours.\n\nYour email: {$email_to}\t\tYour contact no.: {$telephone}\n\n";
 
-  // $email_message .= "First name: "  . $first_name . "\n";
-  // $email_message .= "Last name: "   . $last_name  . "\n";
-  $email_message .= "Your email: {$email_to}\t\tYour contact no.: {$telephone}\n\n";
-  // $email_message .= "Telephone: "   . $telephone  . "\n\n";
   $email_message .= $enquiry . "\n\nKind regards,\n\nMeadow Green Farm";
 
   # Create the Transport
@@ -190,15 +181,15 @@ if ($input['method']==='EnquiryResponseEmail') {
   # Create a message
   $message = (new Swift_Message($email_subject))
     ->setFrom($_ENV['SMTP_FROM'])
-    ->setReplyTo($_ENV['SMTP_REPLYTO'])
     ->setTo($email_to)
+    ->setReplyTo($email_to)
     ->setCc($_ENV['SMTP_CC'])
     ->setBcc($_ENV['SMTP_BCC'])
     ->setBody($email_message)
   ;
 
   # allow extra 30 seconds for smtp to complete
-  # set_time_limit(30);
+  set_time_limit(30);
 
   # Send the message
   $result = $mailer->send($message);

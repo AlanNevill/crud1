@@ -1,13 +1,13 @@
-// bookingMaint.js
+// bookingMaint2.js
 'use strict';
 
 var objDateSat, cottageNum, trIdNum;
 var rentalVal; // AutoNumeric value for the cottage rental with £ sign and 2 dp bound to form id=Rental
-var cottageWeekRow; // row from CottageWeekRow table for the selected cottage and week
+var cottageWeekRow; // a row from CottageWeekRow table for the selected cottage and week
 var cottageBookRows; // array of existing CottageBookRows
 
-var booCottageNum = false; // is the selected cottage number valid
-var booDateSat = false; // is the selected date valid
+var booCottageNum = false; // is the user selected cottage number valid
+var booDateSat = false; // is the user selected date valid
 
 // Create a new clsDeviceIdCookie class which sets up the deviveId cookie
 const _clsDeviceIdCookie = new clsDeviceIdCookie();
@@ -41,37 +41,39 @@ $(document).ready(function() {
   $('#title').on('click', function() {
     $(this)
       .next()
-      .html(`${_VERSION} - server name: ${SERVER} - ${_clsDeviceIdCookie.deviceId}`)
-      .toggle();
+      .html(`${_VERSION}, server name: ${_SERVER}, devideId: ${_clsDeviceIdCookie.deviceId}`)
+      .fadeToggle(2000);
   });
 
   // get the selected dateSat when selection changes
   $('#wcDateSat').change(function() {
-    if ($('#wcDateSat').val() === '-1') {
+    objDateSat = $('#wcDateSat').val();
+
+    if (objDateSat === '-1') {
       $('#output1').html('Selected date is not valid');
-      objDateSat = null;
+      objDateSat = '-1';
       booDateSat = false;
-      // showFrmNewBooking();
-    } else {
-      // a valid date has been selected so save in global variable
-      objDateSat = moment($('#wcDateSat').val(), 'YYYY-MM-DD');
-      booDateSat = true;
-      showFrmNewBooking();
+      return;
     }
+
+    // a valid date has been selected so update global boolean variable and display form
+    booDateSat = true;
+    showFrmNewBooking();
   });
 
   // get the selected cottageNum when selection changes
-  $('#cottageNum').change(function() {
+  $('#cottageNum').on('change', function() {
+    cottageNum = $('#cottageNum').val();
+
     if (cottageNum === '-1') {
-      $('#output1').html('Invalid cottage number');
+      $('#output1').html('Invalid Cottage Number');
       booCottageNum = false;
-      // showFrmNewBooking();
-    } else {
-      // cottageNum is a valid selection
-      cottageNum = $('#cottageNum').val();
-      booCottageNum = true;
-      showFrmNewBooking();
+      return;
     }
+
+    // a valid cottage number has been selected so update global boolean variable and display form
+    booCottageNum = true;
+    showFrmNewBooking();
   });
 
   // check for values in session storage; if found then display the DateSat and CottageNum
@@ -80,7 +82,7 @@ $(document).ready(function() {
     booCottageNum = true;
     $('#cottageNum [value=' + cottageNum + ']').attr('selected', 'selected');
 
-    objDateSat = moment(_clsbookingMaint.dateSat, 'YYYY-MM-DD');
+    objDateSat = dateFns.format(_clsbookingMaint.dateSat, 'YYYY-MM-DD');
     $('#wcDateSat [value=' + _clsbookingMaint.dateSat + ']').attr('selected', 'selected');
     booDateSat = true;
 
@@ -104,7 +106,7 @@ $('#frmNewBooking').on('keyup keypress', function(e) {
 });
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Formats an array of CottageBook rows returned from SQL and formats into existing bookings table rows
+/// Formats an array of CottageBook rows returned from DB and formats into existing bookings table rows
 /// Called by: $("#submitButton").click
 ////////////////////////////////////////////////////////////////////////////////////////////////////*/
 function CottageBook2Table(cottageBookRows) {
@@ -229,17 +231,17 @@ $('#bookingUpdSave').click(function(e) {
   const spCottageBook_upd = {
     method: 'cottageBook_upd',
     IdNum: $('#innerbookingUpdFrm #IdNum').val(),
-    BookingName: $('#innerbookingUpdFrm #BookingName').val(),
+    BookingName: $('#innerbookingUpdFrm #BookingNameUpd').val(),
     BookingStatus: $('#innerbookingUpdFrm #BookingStatus').val(),
-    Rental: $('#innerbookingUpdFrm #Rental').val(),
+    Rental: $('#innerbookingUpdFrm #RentalUpd').val(),
     Notes: $('#innerbookingUpdFrm #Notes').val(),
     BookingSource: $('#innerbookingUpdFrm #BookingSource').val(),
-    ExternalReference: $('#innerbookingUpdFrm #ExternalReference').val(),
-    ContactEmail: $('#innerbookingUpdFrm #ContactEmail').val(),
+    ExternalReference: $('#innerbookingUpdFrm #ExternalReferenceUpd').val(),
+    ContactEmail: $('#innerbookingUpdFrm #ContactEmailUpd').val(),
     NumAdults: $('#innerbookingUpdFrm #NumAdults').val(),
     NumChildren: $('#innerbookingUpdFrm #NumChildren').val(),
     NumDogs: $('#innerbookingUpdFrm #NumDogs').val(),
-    Children: $('#innerbookingUpdFrm #Children').val()
+    Children: $('#innerbookingUpdFrm #ChildrenUpd').val()
   };
 
   // call bookingMaint_ajax.php with method 'cottageBook_upd'
@@ -342,38 +344,33 @@ function showFrmNewBooking() {
     // $('#submitButton').click();
 
     // put the date into the frmNewBooking in case the user does an insert
-    $('#frmNewBooking #dateSat').val(moment(objDateSat, 'YYYY-MM-DD').format('YYYY-MM-DD'));
+    $('#frmNewBooking #dateSat').val(objDateSat);
 
     // remove any previous dates then set up the firstNight & lastNight date selection drop down options
     $('#firstNight option').remove();
     $('#lastNight option').remove();
 
+    const tempDate = new Date(objDateSat);
     for (let i = 0; i < 7; i++) {
       $('#firstNight').append(
         $('<option>', {
-          text: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('ddd DD MMM'),
-          value: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('YYYY-MM-DD')
-        })
-      );
-
-      $('#lastNight').append(
-        $('<option>', {
-          text: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('ddd DD MMM'),
-          value: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('YYYY-MM-DD')
+          text: dateFns.format(dateFns.addDays(tempDate, i), 'ddd DD MMM'),
+          value: dateFns.format(dateFns.addDays(tempDate, i), 'YYYY-MM-DD')
         })
       );
     }
 
-    // set selected lastNight to next Friday
-    $('#lastNight option:eq(6)').prop('selected', true);
+    for (let i = 2; i < 14; i++) {
+      $('#lastNight').append(
+        $('<option>', {
+          text: dateFns.format(dateFns.addDays(tempDate, i), 'ddd DD MMM'),
+          value: dateFns.format(dateFns.addDays(tempDate, i), 'YYYY-MM-DD')
+        })
+      );
+    }
+
+    // set selected lastNight to next Friday, default 7 nights
+    $('#lastNight option:eq(4)').prop('selected', true);
 
     // put the cottageNum into the frmNewBooking in case the user does an insert
     $('#frmNewBooking #cottageNum').val(cottageNum);
@@ -396,7 +393,7 @@ function getCottageWeekandCottageBook() {
   // 1. CottageWeek data to display as a single info line
   $.post('../include/bookingMaint_ajax.php', {
     method: 'cottageWeek_get',
-    dateSat: objDateSat._i,
+    dateSat: objDateSat,
     cottageNum: cottageNum
   }).done(function(returnArray) {
     if (isJSON(returnArray)) {
@@ -443,6 +440,7 @@ function getCottageWeekandCottageBook() {
 
         if (returnArray.success && returnArray.cottageBookCount > 0) {
           cottageBookRows = returnArray.cottageBookRows;
+
           // call formating function then display the table
           let tblBookings = CottageBook2Table(cottageBookRows);
           $('#tbodyBookings').append(tblBookings); // populate the existing bookings table
@@ -534,11 +532,12 @@ $('#submitNewBooking').click(function(e) {
   // unformat the rental field before posting to DB
   $('#Rental').val(rentalVal.getNumericString());
 
-  // ajax post to method=insert
-  $.post('../include/bookingMaint_ajax.php', $('#frmNewBooking').serialize())
+  // ajax post using method=insert
+  let formData = $('#frmNewBooking').serialize() + '&DateSat=' + objDateSat + '&CottageNum=' + cottageNum;
+
+  $.post('../include/bookingMaint_ajax.php', formData)
     .done(function(data) {
       // check for date clashes with existing bookings
-      // debugger;
 
       // check for unexpected error returned from PHP
       if (!isJSON(data)) {

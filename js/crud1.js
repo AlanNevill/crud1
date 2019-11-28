@@ -7,5 +7,6 @@ $(function() {
   $(title).addClass('active');
   $(title).attr('href', '#');
 
+  // initialise tooltips
   $('[data-toggle="tooltip"]').tooltip();
 });

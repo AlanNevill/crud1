@@ -21,47 +21,77 @@
   <?php include '../include/MGF_menu.html';  ?>
   
   <main role="main" class="container">
-    <div class="d-flex justify-content-between align-items-center header-area">
-      <div class="ml-3">
+
+
+    <div class="d-flex justify-content-between align-items-center mt-1">
+      <!-- <div class="ml-3">
         <label for="theYear" class="mt-3 mb-0 d-print-none">Select year</label>
         <select id="theYear" name="theYear" class="custom-select"></select>
+      </div> -->
+
+      <div id="yearBtns" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label for="yearBtns" class="h4 mt-2 mr-2">Year</label>
+
+        <label class="btn btn-outline-success btn-lg active" style="border-radius: 20%;">
+          <input type="radio" name="years" id="btnthisYear" autocomplete="off" checked 
+            value="<?php echo date('Y', strtotime('-7 days')) ?>">
+            <?php echo date('Y', strtotime('-7 days')) ?>
+        </label>
+        <label class="btn btn-outline-success btn-lg" style="border-radius: 20%;">
+          <input type="radio" name="years" id="btnnextYear" autocomplete="off" 
+            value="<?php echo date('Y', strtotime('358 days')) ?>" >
+            <?php echo date('Y', strtotime('358 days')) ?>
+        </label>
       </div>
-      <div class="card mt-5 mb-1 ml-3 mr-3 text-center d-print-none">
+
+      <table class="table-bordered">
+        <tr>
+          <td rowspan=2 style="vertical-align:middle" class="h4">Key&nbsp;</td>
+          <td class="booked px-3 font-weight-bold">Fully booked</td>
+        </tr>
+        <tr>
+          <td class="shortbreaks px-3 font-weight-bold">Short breaks</td>
+        </tr>
+      </table>
+      <!-- <div  class="card mt-5 mb-1 ml-3 mr-3 text-center d-print-none">
+        <div class="card-text h5">Key</div>
         <div class="card-text booked px-3">Fully booked</div> 
         <div class="card-text shortbreaks px-3">Short breaks</div >
-        </div>
-      <div>
-        <a href="/include/Booking conditions 2015-05-05.pdf"><small class="text-muted mr-3 d-print-none">Click to view booking conditions</small>
+      </div>
+      <div> -->
+        <a href="/include/Booking conditions 2015-05-05.pdf"><small class="d-print-none">Click to view booking conditions</small>
         </a>
       </div>
     </div>
 
-    <div class="table-area ">
+
+    <section>
+      
       <!-- weekly calendar for the cottages; wc date in rows and cottages in columns -->
-      <table id="tblBookings" class="table table-fixed">
+      <table id="tblBookings" class="table table-fixed table-responsive-sm vertical-align">
           <!-- <caption class="d-sm-none"><small>Scroll right to view details</small></caption> -->
           <thead class="table-success">
             <tr>
               <th style="width:10%" >wc Sat</th>
-              <th style="width:10%" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed in specific weeks?'>SB</th>
-              <th style="width:20%">Cornflower</th>
-              <th style="width:20%">Cowslip</th>
-              <th style="width:20%">Meadowsweet</th>
-              <th style="width:20%" data-toggle='tooltip' data-placement='auto' title='Links to view short break availablilty for selected week'>View short breaks</th>
+              <!-- <th style="width:10%" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed in specific weeks?'>SB</!--> 
+              <th style="width:22%" data-toggle='tooltip' data-placement='auto' title='Links to view short break availablilty for selected week'>View short breaks</th>
+              <th style="width:22%">Cornflower</th>
+              <th style="width:22%">Cowslip</th>
+              <th style="width:22%">Meadowsweet</th>
             </tr>
           </thead>
-          <tbody id="tbodyBookings">
-          </tbody>
+          <tbody id="tbodyBookings"></tbody>
       </table>
 
-    </div>  <!-- end of class="table-area" -->
+    </section>
 
-    <?php include  '../include/MGF_footer.html';  ?>
 
     <!-- div for in progress gif during ajax calls -->
     <div class="ajaxLoading"></div>
 
   </main><!-- /.container -->
+
+    <?php include  '../include/MGF_footer.html';  ?>
 
     <!-- Modal form for short break prices & availablity-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
@@ -79,7 +109,7 @@
                 <thead class="thead-light">
                   <tr>
                     <th>Cottage</th>
-                    <th>£ per night</th>
+                    <!-- <th>£ per night</th> day prices removed 2019-09-29 -->
                     <th>Sa</th>
                     <th>Su</th>
                     <th>Mo</th>
@@ -94,7 +124,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <div style="width: 300px;">Minimum 2 nights</div>
+            <div class="mr-auto">Minimum 3 nights - Contact us for prices</div>
             <button id="modalCloseButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -104,6 +134,10 @@
 
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
+
+  <!-- date formatting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+
  
   <!-- custom javascript for this page -->
   <script type="application/javascript">

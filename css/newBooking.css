@@ -106,5 +106,10 @@ clear: both;
 .table-fixed tbody td,
 .table-fixed thead > tr > th {
   float: left;
+  height: 33px;
 }
   
+/* .table.vertical-align > tbody > tr > td {
+  display:table-cell;
+  vertical-align: middle !important;
+} */

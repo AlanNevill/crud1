@@ -1,5 +1,16 @@
 /* General CSS file for MGF v3 pages */
-@import url('https://fonts.googleapis.com/css?family=B612');
+
+
+/* @import url('https://fonts.googleapis.com/css?family=B612');
+body {font-family: 'B612', sans-serif; 
+} */
+
+@import url('https://rsms.me/inter/inter.css?v=3.10');
+body {font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  body { font-family: 'Inter var', sans-serif; }
+}
+
 
 html {
   position: relative;
@@ -7,8 +18,8 @@ html {
 }
 
 body {
-  font-family: 'B612', sans-serif;
   background-color: #f8f9fa;
+  margin-bottom: 100px;
 }
 
 main {
@@ -62,21 +73,26 @@ body.loading .ajaxLoading {
   background-color: lightgray;
 } */
 
-
+/* Make footer be locked to bottom of the visible page */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
 /* icons images in footer */
-.myFooterIcons {
+/* .myFooterIcons {
   width: 23px;
   height: auto;
   padding-right: 5px;
-}
+} */
 
 footer p {
   margin-bottom: 0;
   font-size: .75rem;
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width:1135px) {
   .myNavBarBrand {
     background-image: url('../images/Banner_v3.svg');
     background-repeat: no-repeat;
@@ -85,7 +101,7 @@ footer p {
   } 
 }
 
-@media only screen and (max-width:767px) {
+@media only screen and (max-width:1135px) {
   .myNavBarBrand {
     background-image: url('../images/Sheep-icon.svg');
     background-repeat: no-repeat;

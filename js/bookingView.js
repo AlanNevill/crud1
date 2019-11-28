@@ -249,19 +249,4 @@ $(document).ready(function() {
 
   // initiatise the tooltips
   $('[data-toggle="tooltip"]').tooltip();
-
-  // get the selected dateSat when selection changes
-  $('#wcDateSat').change(function() {
-    // debugger;
-    // if ($("#wcDateSat").val() === "-1") {
-    //   $("#output1").html("Selected date is not valid");
-    // } else {
-    //   // a valid date has been selected
-    //   momDateSat = moment($("#wcDateSat").val(), "YYYY-MM-DD");
-    //   bookingMaint.dateSat = momDateSat._i;
-    //   booCalendarDisplayed = false;
-    //   showCottageBook();
-    //   booCalendarDisplayed = true;
-    // }
-  });
 }); // end of document ready

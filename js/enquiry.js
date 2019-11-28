@@ -73,12 +73,14 @@ function postEnquiry(event) {
       function(data, textStatus, jqXHR) {
         // process the return data
         if (isJSON(data)) {
+
+          // reset the captcha so that user can resubmit if there was a validation error
+          grecaptcha.reset();
+
           let funcReturn = JSON.parse(data);
 
           // enquiry was successfully sent
           if (funcReturn.success === true) {
-            // reset the captcha
-            grecaptcha.reset();
 
             // inject an alert to message div into the form
             $('#output1').html(
@@ -99,7 +101,7 @@ function postEnquiry(event) {
               `
             );
 
-            // server validation failed
+          // server validation failed
           } else {
             // iterate the fields setting class is-invalid on invalid fields
             if (!funcReturn.first_nameValid) {

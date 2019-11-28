@@ -6,13 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
     <meta name="description" content="Holiday cottages in Saundersfoot, Pembrokeshire. A perfect family holiday and pets welcome." />
     <meta name="google-site-verification" content="a4KYq1XTIP3MdKDfpEZPIJjlyX8gvfMnMdIiDBmvq3w" />
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../images/Sheep-icon.jpg">
+  
+    <?php include '../include/MGF_header.html'; ?>        <!-- favicon + bootstrap & fork awesome style sheets -->
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-  <!-- Place your stylesheet here-->
+<!-- Place your stylesheet here-->
   <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->

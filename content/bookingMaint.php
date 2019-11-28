@@ -15,14 +15,14 @@
 <body>
 
   <?php
-    // get the future Saturday dates from CottageWeek to populate the dropdown select w/c Sat. date
+    // get the future Saturday dates from DateSat to populate the dropdown select w/c Sat. date
 
     include('../include/dbFuncs.php');     // open db connection and instantiate dbFuncs class
 
     $options = '';                
     $dateSat = date("Y-m-d", strtotime('-7 days')); // default today's date - 7 days
 
-    // select distinct DateSat rows from CottageWeek table
+    // select distinct DateSat rows from DateSat table
     $data = $dbFuncs->dateSat_select($dateSat);
 
     // warning if no rows returned
@@ -40,6 +40,13 @@
                 . '</option>';
     }
   ?>
+
+  <!-- custom javascript for this page -->
+  <script type="application/javascript">
+    // put the database server name into a javascript variable to enable display in UI
+    const _SERVER = '<?php echo $_ENV["HOST"] ?>';
+  </script>
+
 
 <div class="container">
 
@@ -125,11 +132,11 @@
     <form id="frmNewBooking" role="form" name="frmNewBooking" class="form insertForm form-horizontal p-2">
 
       <h5>New booking form</h5>
-      <!-- FIXME: remove  3 hidden form fields -->
+      <!-- FIXME: remove 3 hidden form fields, just add to POST data -->
       <input type="hidden" id="method"  name="method" value="insert">
           <!-- method=insert for bookingMaint2 function insert -->
-      <input type="hidden" id="dateSat" name="DateSat">         <!-- DateSat    for bookingMaint2 functions check & insert -->
-      <input type="hidden" id="cottageNum" name="CottageNum">   <!-- CottageNum for bookingMaint2 functions check & insert -->
+      <!-- <input type="hidden" id="dateSat" name="DateSat">         DateSat    for bookingMaint2 functions check & insert -->
+      <!-- <input type="hidden" id="cottageNum" name="CottageNum">   CottageNum for bookingMaint2 functions check & insert -->
       <div class="form-row">
           <div class="form-group m-2">
             <label for="BookingName" class="form-control-label mb-0">Booking name</label>
@@ -246,8 +253,8 @@
               <input id="BookingRef" type="hidden">
 
               <div>
-                <label for="BookingName" class="form-control-label mb-0">Name</label>
-                <input id="BookingName"  class="form-control" type="text">
+                <label for="BookingNameUpd" class="form-control-label mb-0">Name</label>
+                <input id="BookingNameUpd"  class="form-control" type="text">
               </div>
 
               <div class="form-group col-3 m-2">
@@ -266,8 +273,8 @@
               </div>
             
               <div class="form-group col-3 m-2" style="width: 100px">
-                  <label for="Rental" class="form-control-label mb-0 mr-3 float-right">Rent</label>
-                  <input id="Rental"  type="text" class="form-control text-right" value="0" readonly>
+                  <label for="RentalUpd" class="form-control-label mb-0 mr-3 float-right">Rent</label>
+                  <input id="RentalUpd"  type="text" class="form-control text-right" value="0" readonly>
               </div>
 
               <div class="form-group m-2" style="width: 150px">
@@ -293,13 +300,13 @@
               </div>
 
               <div class="form-group m-2" style="width: 150px">
-                  <label for="ExternalReference" class="form-control-label mb-0 mr-3">Ext. reference</label>
-                  <input id="ExternalReference" type="text" class="form-control">
+                  <label for="ExternalReferenceUpd" class="form-control-label mb-0 mr-3">Ext. reference</label>
+                  <input id="ExternalReferenceUpd" type="text" class="form-control">
               </div>
 
               <div class="form-group m-2" style="width: 250px">
-                  <label for="ContactEmail" class="form-control-label mb-0 mr-3">Contact email</label>
-                  <input id="ContactEmail" type="text" class="form-control">
+                  <label for="ContactEmailUpd" class="form-control-label mb-0 mr-3">Contact email</label>
+                  <input id="ContactEmailUpd" type="text" class="form-control">
               </div>
 
               <div class="form-group m-2" style="width: 55px">
@@ -318,8 +325,8 @@
               </div>
               
               <div class="form-group m-2">
-                <label for="Children" class="form-control-label mb-0 mr-3">Children details</label>
-                <input id="Children" type="text" class="form-control">
+                <label for="ChildrenUpd" class="form-control-label mb-0 mr-3">Children details</label>
+                <input id="ChildrenUpd" type="text" class="form-control">
               </div>
 
               <div class="form-group col-12 m-2">
@@ -345,7 +352,12 @@
 <?php include '../include/MGF_libs.html'; ?>
 
 <!-- moment date formatting library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> -->
+
+  
+<!-- date formatting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+
 
 <!-- currency formatting -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
@@ -360,7 +372,7 @@
 <script src="../js/classes.js"></script>
 
 <!-- this page javascipt -->
-<script src="../js/bookingMaint.js"></script>
+<script src="../js/bookingMaint2.js"></script>
 
 </body>
 </html>
