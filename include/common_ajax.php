@@ -3,9 +3,11 @@
   # open a db connection and instantiate dbFuncs class. This also loads the environment variables used by smtp email
   include('dbFuncs.php');     
 
+  # copy POST array into $input variable
   $input = filter_input_array(INPUT_POST);
 
-// create a row in the DeviceId table if the deviceId does not already exist
+
+/// create a row in the DeviceId table if the deviceId does not already exist
 if ($_POST['method']==='DeviceId_insert') {
 
   $return = $dbFuncs->DeviceId_insert($_POST['deviceId'], 
@@ -38,10 +40,10 @@ if ($_POST['method']==='DeviceId_insert') {
   
   echo json_encode($return);
   exit();
-}
+} /// end of 'method']==='DeviceId_insert'
 
 
-// write a row to the ProcessLog table
+/// write a row to the ProcessLog table
 if ($_POST['method']==='ProcessLog_insert') {
 
   $dbFuncs->ProcessLog_insert($_POST['MessType'], 
@@ -50,13 +52,13 @@ if ($_POST['method']==='ProcessLog_insert') {
                              $dbFuncs->deviceId,
                              $_POST['ErrorMess'],
                              $_POST['Remarks']
-                          );
+                             );
 
   exit();
-}
+} /// end of 'method']==='ProcessLog_insert
 
 
-// send a MGF enquiry response email
+/// send a MGF enquiry response email. method='EnquiryResponseEmail'
 if ($input['method']==='EnquiryResponseEmail') {
 
   require_once '../vendor/autoload.php';
@@ -75,6 +77,7 @@ if ($input['method']==='EnquiryResponseEmail') {
                       'message'         => null
                     );
 
+
   // function to format validation errors and return to user
   function died($returnArray, $error) {
     # error message to user
@@ -89,13 +92,15 @@ if ($input['method']==='EnquiryResponseEmail') {
     exit();
   }
 
+
   // function to clean up user input fields
   function clean_string($string) {
     $bad = array("content-type","bcc:","to:","cc:","href");
     return str_replace($bad, "", strip_tags($string));
   }
 
-  # validate the required fields
+
+  # validate the required fields are not empty
   $error_message = "";
   if (empty($input['first_name'])) {
     $error_message .= "<li>First name is blank.</li>"; 
@@ -108,7 +113,7 @@ if ($input['method']==='EnquiryResponseEmail') {
   if (empty($input['email_to']))   {
     $error_message .= "<li>Email address is blank.</li>";
     $returnArray['email_toValid'] = false;
-   }
+  }
   if (empty($input['enquiry']))    {
     $error_message .= "<li>Enquiry is blank.</li>"; 
     $returnArray['enquiryValid'] = false;
@@ -130,6 +135,7 @@ if ($input['method']==='EnquiryResponseEmail') {
   $telephone      = (empty($input['telephone'])) ? "" : clean_string($input['telephone']);  // not required
   $enquiry        = clean_string($input['enquiry']);    // required
 
+  # do regexpression validation checks
   $string_exp = "/^[A-Za-z .'-]+$/";
   if(!preg_match($string_exp, $first_name)) {
     $error_message .= '<li>First name does not appear to be valid.</li>';
@@ -156,7 +162,7 @@ if ($input['method']==='EnquiryResponseEmail') {
     $error_message .= "Please verify that you are not a robot."; 
   }
 
-  # return error message if any errors found
+  # return error messages if any errors found
   if(strlen($error_message) > 0) {
     $returnArray['allValid'] = false;
     died($returnArray, $error_message);
@@ -198,13 +204,13 @@ if ($input['method']==='EnquiryResponseEmail') {
   }
   else {
     $returnArray['success'] = false;
-    $returnArray['message'] = "ERROR - Number of messages sent: " . $result;
+    $returnArray['message'] = "ERROR from $mailer->send - Number of messages sent: " . $result;
   }
 
   # return the return array to javascript caller
   echo json_encode($returnArray);
   exit();
-}
-  
+} /// end of send a MGF enquiry response email. method='EnquiryResponseEmail'
+
 
 ?>

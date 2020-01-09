@@ -7,23 +7,27 @@ include('dbFuncs.php');     // open db connection and instantiate dbFuncs class
 if($_POST['method']==='CottageBook_select'){
   $errors = array(); // validation errors
 
+  # check for invalid parameters
   if($_POST['wcDateSat']==-1) { $errors[] = "Please select a wc Saturday date/n"; }
   
   if($_POST['cottageNum']==-1) { $errors[] = "Please select a cottage"; }
   
   if(!empty($errors)){
     $errHtml="<p><strong>";
+
     foreach ($errors as $msg) { $errHtml.= $msg; }
+
     $errHtml.="</strong></p>";
+
     die(nl2br($errHtml));
   }
-  
+
   // rows from CottageBook for the given DateSat and CottageNum
   $returnArray = $dbFuncs->CottageBook_select($_POST['wcDateSat'], $_POST['cottageNum']);
 
   echo json_encode($returnArray);
   exit;
-}   // end of method=CottageBook_select    
+} // end of method=CottageBook_select    
 
 
 if($_POST['method']==='CottageBook_delete')
@@ -37,6 +41,7 @@ if($_POST['method']==='CottageBook_delete')
     } else {
         $dbFuncs->ProcessLog_insert2('E', 'bookingMaint_ajax.php', 'method=CottageBook_delete', $returnArray['message'], 'Deleted failed, IdNum: '. $_POST['IdNum']);
     }
+
   echo JSON_encode($returnArray);
   exit;
 } // end of method=delete
@@ -167,7 +172,7 @@ if($_POST['method']==='insert')
     # always return the return array for the javascript to interpret
     echo json_encode($returnArray);
 
-    exit;
+    exit();
 } // end of method=insert
 
 
@@ -221,15 +226,16 @@ if ($_POST['method']==='cottageBook_upd') {
                                           $_POST['NumDogs']
                                           );
 
+  # check for error returned
   if (!$FuncReturn['success']) {
     $returnArray['success']   = false;
     $returnArray['errorMess'] = $FuncReturn['message'];
   }
+  
   echo json_encode($returnArray);
 
   exit;
 } // end of method===cottageBook_upd
-
 
 
 // get a single CottageWeek row from the database

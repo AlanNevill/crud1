@@ -116,10 +116,7 @@ function showBookings() {
         }); // end of foreach cottageBookRows
       }
     } else {
-      $('#output')
-        .empty()
-        .append(funcReturn.cottageWeekRows);
-      alert('An error has occured\n\n' + funcReturn.cottageWeekRows);
+        alert('Prices are not yet available for ' + nextYear);
     }
   }); // end of $.post
 } // end of function showBookings

@@ -29,7 +29,26 @@
       <div id="carouselContent" class="carousel slide" data-interval="false"> 
         <div class="carousel-inner">
 
-          <div class="carousel-item active">
+        <div class="carousel-item active">
+            <div class="card mx-auto w-75">
+              <div class="card-header">Jane Kelly</div>
+              <div class="card-body">
+                <p class="lead">&quot;Just back from a lovely stay at Meadowsweet,</p>
+                <p class="text-justify"> the cottage was so well equipped and beautifully done out. Loved the views from every window. My Husband myself and 2 spaniels truly loved our stay and will definitely be back. 
+                  <p class="text-justify"> We love visiting Saundersfoot but this cottage is the best we've stayed in by far. Just minutes from Saundersfoot sea front. Great walks from Saundersfoot over to Stepaside, great pub at Wisemans Bridge, to stop off for a drink/food or just to sit and take in the wonderful views. 
+                   We also took a drive out to Barafundle Bay, so worth a visit absolutely stunning. Golden sands and Crystal clear waters.
+                   </p>
+                   <p class="text-justify"> 
+                   Only booked a 4 night stay, so wished I'd booked a week now. Also the weather gods were looking down on us. Four sunny days the end of November just perfect for getting out for walkies with our four legged friends. Think Lucy and Poppy were as sad as us to leave this morning.  Thank you all for a lovely stay.&quot;
+                   </p> 
+                </p>
+              </div>
+              <div class="card-footer">27 November 2017</div>                  
+            </div>
+          </div>
+
+
+          <div class="carousel-item">
             <div class="card mx-auto w-75">
               <div class="card-header">Elizabeth Bloomfield</div>
               <div class="card-body">

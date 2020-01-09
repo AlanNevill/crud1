@@ -24,7 +24,8 @@
   <!-- container used to give white border -->
   <main class="container">
 
-    <div id="carouselExampleIndicators" class="carousel carousel-fade" data-ride="carousel" data-interval="3000">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000" data-pause="false">
+
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -34,30 +35,33 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
       </ol>
+
       <div class="carousel-inner embed-responsive" role="listbox">
+
         <div class="carousel-item active">
-          <img class=" img-fluid w-100" loading="lazy" src=../images/home/Cowslip-garden-1-1000-compressor.jpg alt="Cowslip cottage">
+          <img class="img-responsive w-100" src=../images/home/Cowslip-garden-1-1000-compressor.jpg alt="Cowslip cottage">
         </div>
         <div class="carousel-item">
-          <img class=" img-fluid w-100" loading="lazy" src=../images/home/Cornflower-exterior-1000-compressor.jpg alt="Cornflower cottage">
+          <img class="img-responsive w-100" src=../images/home/Cornflower-exterior-1000-compressor.jpg alt="Cornflower cottage">
         </div>
         <div class="carousel-item">
-          <img class=" img-fluid w-100" loading="lazy" src=../images/home/Meadowswett-exterior-3-1000-compressor.jpg alt="Meadowsweet cottage">
+          <img class="img-responsive w-100" src=../images/home/Meadowswett-exterior-3-1000-compressor.jpg alt="Meadowsweet cottage">
         </div>
         <div class="carousel-item">
-          <img class=" img-fluid w-100" loading="lazy" src="../images/home/newLambs1000-compressor.jpg" alt="New lambs">
+          <img class="img-responsive w-100" src="../images/home/newLambs1000-compressor.jpg" alt="New lambs">
         </div>
         <div class="carousel-item">
-          <img class=" img-fluid w-100" loading="lazy" src="../images/home/Play-area-9-1000-compressor.jpg" alt="Childrens play area">
+          <img class="img-responsive w-100" src="../images/home/Play-area-9-1000-compressor.jpg" alt="Childrens play area">
         </div>
         <div class="carousel-item ">
-          <img class="img-fluid w-100" src=../images/home/IMG_1270-1000-compressor.jpg alt="Cowslip cottage">
+          <img class="img-responsive w-100" src=../images/home/IMG_1270-1000-compressor.jpg alt="Cowslip cottage">
         </div>
         <div class="carousel-item">
-          <img class=" img-fluid w-100" loading="lazy" src="../images/home/Sunset 4 1000.jpg" alt="Sunset over the farm">
+          <img class="img-responsive w-100" src="../images/home/Sunset 4 1000.jpg" alt="Sunset over the farm">
         </div>
 
       </div>
+
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -66,10 +70,11 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
+
     </div>
 
-    <section>
-      <p class="lead mt-3">
+    <section class="mt-3">
+      <p class="lead mb-1">
         Meadow Green Farm nestles in 23 acres of rolling green meadows in the Pembrokeshire National Park. We are within walking distance of the pretty and bustling seaside village of Saundersfoot and 5 minutes drive from Tenby Harbour.
       </p>
       <p>
@@ -81,6 +86,7 @@
       <p>
         Meadow Green Farm is just a short drive to numerous blue flag beaches including Barafundle Bay and fantastic seaside resorts such as Tenby, Pendine and Laugharne. As well as family attractions including Folly Farm, Tenby Dinosaur Park, Pembroke Castle and Oakwood Theme Park.
       </p>
+
       <!-- hide Welcome on mobiles -->
       <h3 class="text-center d-none d-sm-block">We look forward to welcoming you to Meadow Green Farm</h3>
     </section>
@@ -94,22 +100,15 @@
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
 
-  <!-- Lazy loading libraries -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.plugins.min.js"></script> -->
-
   <!-- site javascipt -->
   <script src="../js/crud1.js"></script>
 
-  <!-- Lazy load images when document ready -->
-  <!-- <script>
-    // $(function() {
-    //   // Lazy load images
-    //   $(function () {
-    //     $('.lazy').Lazy();
-    //   });
-    // });
-  </script> -->
+  <!-- Document ready -->
+  <script>
+    $(function() {
+
+    });
+  </script>
 
 </body>
 </html>
