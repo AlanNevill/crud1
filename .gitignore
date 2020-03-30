@@ -358,3 +358,6 @@ gitStatus*
 
 # temp folder
 temp/
+
+# images folders
+images/

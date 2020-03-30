@@ -36,62 +36,34 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="8"></li>
       </ol>
-      <div class="carousel-inner embed-responsive" role="listbox">
+      <div class="carousel-inner embed-responsive">
         <div class="carousel-item active">
-          <img class="img-fluid w-100" src=../images/meadowsweet/Meadowsweet-bedroom-1-1000-compressor.jpg alt="First slide">
-          <!--<div class="carousel-caption">
-              <h3>First slide</h3>
-              <p>Meadowsweet bedroom 1 1000</p>
-          </div>-->
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-bedroom-1-1000-compressor.jpg" alt="First slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-bedroom-4-1000-compressor.jpg alt="Second slide">
-          <!--<div class="carousel-caption">
-              <h3>Second slide</h3>
-              <p>Meadowsweet bedroom 4 1000</p>
-          </div>-->
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-bedroom-4-1000-compressor.jpg" alt="Second slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-double-room-5-1000-compressor.jpg alt="Third slide">
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-double-room-5-1000-compressor.jpg" alt="Third slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-double-room-6-1000-compressor.jpg alt="Fourth slide">
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-double-room-6-1000-compressor.jpg" alt="Fourth slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-twin-room-1-1000-compressor.jpg alt="Fith slide">
-          <!--<div class="carousel-caption">
-              <h3>Fith slide</h3>
-              <p>/Meadowsweet twin room 1 1000</p>
-          </div>-->
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-twin-room-1-1000-compressor.jpg" alt="Fifth slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-living-room-5-1000-compressor.jpg alt="Sixth slide">
-          <!--<div class="carousel-caption">
-              <h3>Sixth slide</h3>
-              <p>Meadowsweet living room 5 1000</p>
-          </div>-->
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-living-room-5-1000-compressor.jpg" alt="Sixth slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-living-room-8-1000-compressor.jpg alt="Seventh slide">
-          <!--<div class="carousel-caption">
-              <h3>Seventh slide</h3>
-              <p>Meadowsweet living room 8 1000</p>
-          </div>-->
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-living-room-8-1000-compressor.jpg" alt="Seventh slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/meadowsweet/Meadowsweet-kitchen-3-1000-compressor.jpg alt="Eigth slide">
-          <!--<div class="carousel-caption">
-              <h3>Eight slide</h3>
-              <p>Meadowsweet kitchen 3 1000</p>
-          </div>-->
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-kitchen-3-1000-compressor.jpg" alt="Eighth slide" width="1000" height="750">
         </div>
         <div class="carousel-item">
-          <img class="img-fluid w-100" src=../images/meadowsweet/Meadowsweet-exterior-3-1000-compressor.jpg alt="Ninth slide">
-          <!--<div class="carousel-caption">
-              <h3>Eight slide</h3>
-              <p>Meadowsweet exterior 3 1000</p>
-          </div>-->
-        </div>
+          <img class="d-block w-100" src="../images/meadowsweet/Meadowsweet-exterior-3-1000-compressor.jpg" alt="Ninth slide" width="1000" height="750">
+      </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
