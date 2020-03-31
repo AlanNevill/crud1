@@ -9,7 +9,7 @@
   
   <?php include '../include/MGF_header.html'; ?>        <!-- favicon + bootstrap & fork awesome style sheets -->
 
-  <!-- Place your stylesheet here-->
+  <!-- Site stylesheet -->
   <link rel="stylesheet" href="../css/MGF.css" />
 
   <!-- load the Google tracking code for MGF.co.Uk -->
@@ -33,8 +33,8 @@
 
       <div>
         <p class="text-center lead">
-        Under the current Government guidelines we are not taking any booking before 30th May 2020.<br>
-        Please stay safe and well.
+          Under the current Government guidelines we are not taking any booking before 30th May 2020.<br>
+          Please stay safe and well.
         </p>
       </div>
     </section>
@@ -119,7 +119,7 @@
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
 
-  <!-- site javascipt -->
+  <!-- site javascript -->
   <script src="../js/crud1.js"></script>
 
   <!-- Document ready -->

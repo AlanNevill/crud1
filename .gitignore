@@ -356,6 +356,7 @@ gitStatus*
 # .env files
 .env*
 
-# ignore temp and images folders
+# ignore temp, .vscode and images folders
 temp/
 images/
+.vscode/
