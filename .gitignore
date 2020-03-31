@@ -356,5 +356,6 @@ gitStatus*
 # .env files
 .env*
 
-# temp folder
+# ignore temp and images folders
 temp/
+images/
