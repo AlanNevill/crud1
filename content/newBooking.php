@@ -93,7 +93,7 @@
 
     <?php include  '../include/MGF_footer.html';  ?>
 
-    <!-- Modal form for short break prices & availablity-->
+    <!-- Modal form for short break prices & availability-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

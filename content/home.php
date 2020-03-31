@@ -24,6 +24,21 @@
   <!-- container used to give white border -->
   <main class="container">
 
+    <section>
+      <div>
+        <h4 class="text-center text-danger">
+          Coronavirus
+        </h4>
+      </div>
+
+      <div>
+        <p class="text-center lead">
+        Under the current Government guidelines we are not taking any booking before 30th May 2020.<br>
+        Please stay safe and well.
+        </p>
+      </div>
+    </section>
+
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000" data-pause="false">
 
       <ol class="carousel-indicators">
@@ -34,30 +49,34 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
       </ol>
 
       <div class="carousel-inner embed-responsive" role="listbox">
 
         <div class="carousel-item active">
-          <img class="img-responsive w-100" src=../images/home/Cowslip-garden-1-1000-compressor.jpg alt="Cowslip cottage">
+          <img class="img-responsive w-100" src="../images/home/IMG_20190604_093317-EFFECTS_2_1000.jpg" alt="The top of our drive">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src=../images/home/Cornflower-exterior-1000-compressor.jpg alt="Cornflower cottage">
+          <img class="img-responsive w-100" src="../images/home/Cornflower-exterior-1000-compressor.jpg" alt="Cornflower cottage">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src=../images/home/Meadowswett-exterior-3-1000-compressor.jpg alt="Meadowsweet cottage">
+          <img class="img-responsive w-100" src="../images/home/Meadowsweet-exterior-3-1000-compressor.jpg" alt="Meadowsweet cottage">
         </div>
         <div class="carousel-item">
           <img class="img-responsive w-100" src="../images/home/newLambs1000-compressor.jpg" alt="New lambs">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/Play-area-9-1000-compressor.jpg" alt="Childrens play area">
+          <img class="img-responsive w-100" src="../images/home/Play-area-9-1000-compressor.jpg" alt="children's play area">
         </div>
         <div class="carousel-item ">
-          <img class="img-responsive w-100" src=../images/home/IMG_1270-1000-compressor.jpg alt="Cowslip cottage">
+          <img class="img-responsive w-100" src="../images/home/IMG_1270-1000-compressor.jpg" alt="Cowslip cottage">
         </div>
         <div class="carousel-item">
           <img class="img-responsive w-100" src="../images/home/Sunset 4 1000.jpg" alt="Sunset over the farm">
+        </div>
+        <div class="carousel-item">
+          <img class="img-responsive w-100" src="../images/home/Cowslip-garden-1-1000-compressor.jpg" alt="Cowslip cottage">
         </div>
 
       </div>
