@@ -55,28 +55,28 @@
       <div class="carousel-inner embed-responsive" role="listbox">
 
         <div class="carousel-item active">
-          <img class="img-responsive w-100" src="../images/home/IMG_20190604_093317-EFFECTS_2_1000.jpg" alt="The top of our drive">
+          <img class="d-block w-100" src="../images/home/IMG_20190604_093317-EFFECTS_2 (Custom).jpg" alt="The top of our drive">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/Cornflower-exterior-1000-compressor.jpg" alt="Cornflower cottage">
+          <img class="d-block w-100" src="../images/home/Cornflower-exterior (Custom).jpg" alt="Cornflower cottage">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/Meadowsweet-exterior-3-1000-compressor.jpg" alt="Meadowsweet cottage">
+          <img class="d-block w-100" src="../images/home/Meadowsweet-exterior-3 (Custom).jpg" alt="Meadowsweet cottage">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/newLambs1000-compressor.jpg" alt="New lambs">
+          <img class="d-block w-100" src="../images/home/newLambs (Custom).jpg" alt="New lambs">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/Play-area-9-1000-compressor.jpg" alt="children's play area">
+          <img class="d-block w-100" src="../images/home/Play-area-9 (Custom).jpg" alt="children's play area">
         </div>
         <div class="carousel-item ">
-          <img class="img-responsive w-100" src="../images/home/IMG_1270-1000-compressor.jpg" alt="Cowslip cottage">
+          <img class="d-block w-100" src="../images/home/IMG_1270 (Custom).jpg" alt="Cowslip cottage">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/Sunset 4 1000.jpg" alt="Sunset over the farm">
+          <img class="d-block w-100" src="../images/home/Sunset 4 (Custom).jpg" alt="Sunset over the farm">
         </div>
         <div class="carousel-item">
-          <img class="img-responsive w-100" src="../images/home/Cowslip-garden-1-1000-compressor.jpg" alt="Cowslip cottage">
+          <img class="d-block w-100" src="../images/home/Cowslip-garden-1 (Custom).jpg" alt="Cowslip cottage">
         </div>
 
       </div>
