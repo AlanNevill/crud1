@@ -9,7 +9,7 @@
     "bootstrap-confirmation2": "^4.0.4",
     "date-fns": "^2.0.0",
     "esm": "^3.2.25",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jshint": "^2.10.2",
     "popper": "^1.0.1",
     "popper.js": "^1.14.7"
