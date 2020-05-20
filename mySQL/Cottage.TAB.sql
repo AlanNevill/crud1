@@ -6,7 +6,9 @@ drop table if exists Cottage //
 
 CREATE TABLE Cottage(
 	CottageNum            INT 		    	nOT NULL		primary key,
-	CottageName		      varchar(50) 	not NULL  	DEFAULT ''
+	CottageName		      varchar(50) 	not NULL  	DEFAULT '',
+	BookingSource			char(1)		not null	default '',
+	BookingSourceRef	varchar(50)		not null	default ''
     )
 //
 

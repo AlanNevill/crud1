@@ -26,11 +26,10 @@
 
     <section>
       <div>
-        <h4 class="text-center text-danger">
+        <h1 class="text-center text-danger">
           Coronavirus
-        </h4>
+        </h1>
       </div>
-
       <div>
         <p class="text-center lead">
         Under the current Government guidelines we are not taking any booking before 30th May 2020.<br>
@@ -55,28 +54,44 @@
       <div class="carousel-inner embed-responsive" role="listbox">
 
         <div class="carousel-item active">
-          <img class="d-block w-100" src="../images/home/IMG_20190604_093317-EFFECTS_2 (Custom).jpg" alt="The top of our drive">
+          <img class="d-block w-100" alt="The top of our drive"
+            srcset="../images/home/webp/IMG_20190604_093317-EFFECTS_2_(Custom).webp"
+            src="../images/home/IMG_20190604_093317-EFFECTS_2 (Custom).jpg">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../images/home/Cornflower-exterior (Custom).jpg" alt="Cornflower cottage">
+          <img class="d-block w-100" alt="Cornflower cottage"
+            srcset="../images/home/webp/Cornflower-exterior_(Custom).webp"
+            src="../images/home/Cornflower-exterior (Custom).jpg">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../images/home/Meadowsweet-exterior-3 (Custom).jpg" alt="Meadowsweet cottage">
+          <img class="d-block w-100" alt="Meadowsweet cottage"
+            srcset="../images/home/webp/Meadowsweet-exterior-3_(Custom).webp"
+            src="../images/home/Meadowsweet-exterior-3 (Custom).jpg">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../images/home/newLambs (Custom).jpg" alt="New lambs">
+          <img class="d-block w-100" alt="New lambs"
+            srcset="../images/home/webp/newLambs_(Custom).webp"
+            src="../images/home/newLambs (Custom).jpg">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../images/home/Play-area-9 (Custom).jpg" alt="children's play area">
-        </div>
-        <div class="carousel-item ">
-          <img class="d-block w-100" src="../images/home/IMG_1270 (Custom).jpg" alt="Cowslip cottage">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block w-100" src="../images/home/Sunset 4 (Custom).jpg" alt="Sunset over the farm">
+          <img class="d-block w-100" alt="children's play area"
+            srcset="../images/home/webp/Play-area-9_(Custom).webp"
+            src="../images/home/Play-area-9 (Custom).jpg">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../images/home/Cowslip-garden-1 (Custom).jpg" alt="Cowslip cottage">
+            <img class="d-block w-100" alt="Cowslip cottage"
+              srcset="../images/home/webp/IMG_1270_(Custom).webp"
+              src="../images/home/IMG_1270 (Custom).jpg">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" alt="Sunset over the farm"
+            srcset="../images/home/webp/Sunset_4_(Custom).webp"
+            src="../images/home/Sunset 4 (Custom).jpg">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" alt="Cowslip cottage"
+            srcset="../images/home/webp/Cowslip-garden-1_(Custom).webp"
+            src="../images/home/Cowslip-garden-1 (Custom).jpg">
         </div>
 
       </div>
@@ -110,7 +125,6 @@
       <h3 class="text-center d-none d-sm-block">We look forward to welcoming you to Meadow Green Farm</h3>
     </section>
 
-    
   </main> <!-- end of inner container -->
 
   <!-- include the footer -->
@@ -119,7 +133,7 @@
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
 
-  <!-- site javascipt -->
+  <!-- site javascript -->
   <script src="../js/crud1.js"></script>
 
   <!-- Document ready -->

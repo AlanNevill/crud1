@@ -9,9 +9,10 @@ use Dotenv\Dotenv;
 
 $factory = new DotenvFactory([new EnvConstAdapter(), new ServerConstAdapter()]);
 
-# load the .env environment file
-Dotenv::create(dirname( __DIR__ , 3), null, $factory)->load();
-
+#############################################################################################################
+# load the .env environment file - dirname( __DIR__ , 1) for development. dirname( __DIR__ , 3) for production
+Dotenv::create(dirname( __DIR__ , 1), null, $factory)->load();
+#############################################################################################################
 // $dotenv = Dotenv\Dotenv::create( dirname( __DIR__ , 3) );
 // $dotenv->load();
 
@@ -28,7 +29,7 @@ class dbFuncs
       $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
       $db->exec("SET CHARACTER SET utf8");
     } catch(PDOException $e) {
-      die('ERROR - dbfuncs: ' . $e->getMessage());
+      die('ERROR - dbFuncs construct: ' . $e->getMessage());
     }
   
     # define a class level variable for the PDO connection
@@ -50,7 +51,7 @@ class dbFuncs
   } # end of constructor
 
 
-  // generarte a unique id string of given length and case
+  // generate a unique id string of given length and case
   public function generateUnique($length, $case)
   {
     switch (strtoupper($case)) {
@@ -340,8 +341,8 @@ class dbFuncs
                         'errorMess'           =>null
     );
 
-    // use groupby DateSat to form rows with the cottage name in the columns
-    $sql='select 	DS.datesat, 
+    // use group by DateSat to form rows with the cottage name in the columns
+    $sql='select 	DS.DateSat, 
                   DS.bShortBreaksAllowed,
                   CornflowerD,
                   CornflowerW,
@@ -358,16 +359,19 @@ class dbFuncs
                 sum(if(CottageNum=2,RentWeek, 0)) 	as CowslipW,
                 sum(if(CottageNum=3,RentDay,  0)) 	as MeadowsweetD,
                 sum(if(CottageNum=3,RentWeek, 0)) 	as MeadowsweetW
-                from CottageWeek
-                group by DateSat
-            ) as CW on DS.dateSat = CW.DateSat
-              where DS.dateSat between ? and ?
-              order by 1;
+              from CottageWeek
+              group by DateSat
+              having DateSat between ? and ?
+            ) as CW on DS.DateSat = CW.DateSat
+          where DS.DateSat between ? and ?
+          order by 1;
         ';
 
       $stmt = $this->db->prepare($sql);
       $stmt->bindParam(1, $startDate, PDO::PARAM_STR);
       $stmt->bindParam(2, $yearEnd,   PDO::PARAM_STR);
+      $stmt->bindParam(3, $startDate, PDO::PARAM_STR);
+      $stmt->bindParam(4, $yearEnd,   PDO::PARAM_STR);
       $stmt->execute();
       $returnArray['cottageWeekRows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -377,7 +381,7 @@ class dbFuncs
                     sum(if(CottageNum=1,DATEDIFF(LastNight,FirstNight)+1, 0)) 	as CornflowerNights,
                     sum(if(CottageNum=2,DATEDIFF(LastNight,FirstNight)+1, 0)) 	as CowslipNights,
                     sum(if(CottageNum=3,DATEDIFF(LastNight,FirstNight)+1, 0)) 	as MeadowsweetNights
-                    from CottageBook
+              from CottageBook
               where DateSat between ? and ?
               and BookingStatus="C"
               group by DateSat
@@ -399,7 +403,8 @@ class dbFuncs
                 from CottageBook
                 where DateSat between ? and ?
                 and BookingStatus="C"
-                order by 1,2;';
+                order by 1,2;
+              ';
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(1, $startDate, PDO::PARAM_STR);
