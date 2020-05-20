@@ -22,22 +22,17 @@
   
   <main role="main" class="container">
 
+    <div class="d-flex justify-content-between align-items-center mt-3">
 
-    <div class="d-flex justify-content-between align-items-center mt-1">
-      <!-- <div class="ml-3">
-        <label for="theYear" class="mt-3 mb-0 d-print-none">Select year</label>
-        <select id="theYear" name="theYear" class="custom-select"></select>
-      </div> -->
+      <div id="yearBtns" class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="Select the year buttons">
+        <label for="yearBtns" class="h3 mt-3 mr-3">Select year:</label>
 
-      <div id="yearBtns" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label for="yearBtns" class="h4 mt-2 mr-2">Year</label>
-
-        <label class="btn btn-outline-success btn-lg active" style="border-radius: 20%;">
+        <label class="btn btn-outline-success btn-lg active mr-3" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
           <input type="radio" name="years" id="btnthisYear" autocomplete="off" checked 
             value="<?php echo date('Y', strtotime('-7 days')) ?>">
             <?php echo date('Y', strtotime('-7 days')) ?>
         </label>
-        <label class="btn btn-outline-success btn-lg" style="border-radius: 20%;">
+        <label class="btn btn-outline-success btn-lg" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
           <input type="radio" name="years" id="btnnextYear" autocomplete="off" 
             value="<?php echo date('Y', strtotime('358 days')) ?>" >
             <?php echo date('Y', strtotime('358 days')) ?>
@@ -46,7 +41,7 @@
 
       <table class="table-bordered">
         <tr>
-          <td rowspan=2 style="vertical-align:middle" class="h4">Key&nbsp;</td>
+          <td rowspan=2 style="vertical-align:middle" class="h4 font-weight-bold">Key&nbsp;</td>
           <td class="booked px-3 font-weight-bold">Fully booked</td>
         </tr>
         <tr>
@@ -59,9 +54,8 @@
         <div class="card-text shortbreaks px-3">Short breaks</div >
       </div>
       <div> -->
-        <a href="/include/Booking conditions 2015-05-05.pdf"><small class="d-print-none">Click to view booking conditions</small>
-        </a>
-      </div>
+      <a href="/include/Booking conditions 2015-05-05.pdf"><small class="d-print-none font-weight-bold">Click to view booking conditions</small></a>
+      <!-- </div> -->
     </div>
 
 
@@ -71,13 +65,17 @@
       <table id="tblBookings" class="table table-fixed table-responsive-sm vertical-align">
           <!-- <caption class="d-sm-none"><small>Scroll right to view details</small></caption> -->
           <thead class="table-success">
-            <tr>
+            <tr class="mb-5 mb-md-0">
               <th style="width:10%" >wc Sat</th>
               <!-- <th style="width:10%" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed in specific weeks?'>SB</!--> 
-              <th style="width:22%" data-toggle='tooltip' data-placement='auto' title='Links to view short break availablilty for selected week'>View short breaks</th>
-              <th style="width:22%">Cornflower</th>
+              <th style="width:22%" data-toggle='tooltip' data-placement='auto' title='Links to view short break availability for selected week'>View short breaks</th>
+              <th class="d-none d-sm-block" style="width:22%">Cornflower</th>
+              <th class="d-sm-none" style="width:22%">Corn flower</th>
+
               <th style="width:22%">Cowslip</th>
-              <th style="width:22%">Meadowsweet</th>
+              
+              <th class="d-none d-sm-block" style="width:22%">Meadowsweet</th>
+              <th class="d-sm-none" style="width:22%">Meadow sweet</th>
             </tr>
           </thead>
           <tbody id="tbodyBookings"></tbody>

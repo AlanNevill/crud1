@@ -359,4 +359,10 @@ gitStatus*
 # ignore temp, .vscode and images folders
 temp/
 images/
+
+# .vscode folder
 .vscode/
+
+# docs folder
+docs/
+

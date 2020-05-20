@@ -1,16 +1,22 @@
 /* General CSS file for MGF v3 pages */
 
-
 /* @import url('https://fonts.googleapis.com/css?family=B612');
 body {font-family: 'B612', sans-serif; 
 } */
 
 @import url('https://rsms.me/inter/inter.css?v=3.10');
-body {font-family: 'Inter', sans-serif; }
+/* body {font-family: 'Inter', sans-serif; } */
 @supports (font-variation-settings: normal) {
   body { font-family: 'Inter var', sans-serif; }
 }
 
+:root {
+  font-size: 62.5%; /* (62.5/100) * 16px = 10px */
+  --font-size--small: 1.4rem; /* 14px */
+  --font-size--default: 1.6rem; /* 16px */
+  --font-size--navbar: 2rem; /* 20px */
+  --font-size--large: 2.4rem; /* 24px */  
+}
 
 html {
   position: relative;
@@ -18,12 +24,20 @@ html {
 }
 
 body {
-  background-color: #f8f9fa;
+  width: 100%;
+ /* match color of navbar background */
+  background-color: #F8F9FA;
   margin-bottom: 100px;
+  font-size: var(--font-size--default);
+}
+
+/* change the font size of the bootstrap Lead class */
+.lead {
+  font-size: var(--font-size--navbar);
 }
 
 main {
-  margin-top: 55px;
+  margin-top: 70px;
   max-width: 70ch; 
   padding: 2ch; 
 }
@@ -48,7 +62,7 @@ section {
               no-repeat;
 }
 
-/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+/* When the body has the loading class, we turn the scroll bar off with overflow:hidden */
 body.loading {
   overflow: hidden;   
 }
@@ -60,55 +74,19 @@ body.loading .ajaxLoading {
 
 .tooltip { pointer-events: none; }
 
-/* body {
-  margin-bottom: 200px;
-  /* font-family: 'Spectral', serif; */
-  /*font-size: 14px;*/
-  /*font-family: 'Roboto', sans-serif;*/
-  /*font: 16px/1.5 Roboto, sans-serif;*/
-  /* background: #717174; */
-/* } */ 
-
-/* .container {
-  background-color: lightgray;
-} */
-
 /* Make footer be locked to bottom of the visible page */
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-}
+  font-size: var(--font-size--small);
 
-/* icons images in footer */
-/* .myFooterIcons {
-  width: 23px;
-  height: auto;
-  padding-right: 5px;
-} */
+}
 
 footer p {
   margin-bottom: 0;
-  font-size: .75rem;
 }
 
-@media only screen and (min-width:1135px) {
-  .myNavBarBrand {
-    background-image: url('../images/Banner_v3.svg');
-    background-repeat: no-repeat;
-    min-width: 310px;
-    height: 40px;
-  } 
-}
-
-@media only screen and (max-width:1135px) {
-  .myNavBarBrand {
-    background-image: url('../images/Sheep-icon.svg');
-    background-repeat: no-repeat;
-    width: 55px;
-    height: 55px;
-  } 
-}
 
 /* extra small button for tables */
 .btn-group-xs > .btn, .btn-xs {
@@ -118,8 +96,53 @@ footer p {
   border-radius : .4rem;
 }  
 
-
 img {
   max-width: 100%;
   height: auto;
 }
+
+/* Change the nav bar font color and highlight on hover */
+#my-nav ul li a {
+  color: black;
+}
+#my-nav ul li a:hover {
+  color: #7e3ca0;
+  background-color: darkseagreen;
+}
+
+.navbar {
+  /* Source file: ../images/Banner_2020-04-24D.svg */
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 510 24' id='svg8'%3E%3Cg id='background'%3E%3Cpath style='fill:%2300f;fill-opacity:.58;stroke-width:.523973' id='rect16' d='M368.19 17.94H508.1v8.02H368.19z'/%3E%3Cpath style='fill:%23ff0;fill-opacity:1;stroke-width:3.184133' id='path12' transform='rotate(-179.96) skewX(.02)' d='M-283.68-26.14a56.3 9.52 0 01-55.03 9.52 56.3 9.52 0 01-57.53-9.09l56.25-.43z'/%3E%3Cpath id='path55-9' d='M122.03 22.4c9.44 6.83 26.9-8.5 34.7-11.96 17.34-7.7 38.49 7.12 53.14 8.98 14.21 1.81 3.38 7.2-20.19 9.1-12.62 1.02-29.16-.56-46.86-.66z' style='fill:%235dcc5d;fill-opacity:1;stroke:none;stroke-width:.991158px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1'/%3E%3Cpath style='fill:%2359ff57;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:.966743px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' d='M.6.7c15.82 3.87 10.67 11.8 22.93 14.57C98.7 32.3 122.06 25.78 1.5 26.65z' id='path55'/%3E%3Cpath transform='matrix(1 0 0 1.6181 -104.02 -1.18)' id='path55-93' d='M174.58.97c14.42 2.26 9.72 6.88 20.9 8.5 68.5 9.92 57.47 7.44-52.4 7.95l25.56-7.75z' style='mix-blend-mode:normal;fill:%2359cc59;fill-opacity:1;stroke:none;stroke-width:.704725px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1'/%3E%3Cpath id='path55-7' d='M64.59 26.36c9.1 8 58.94-27.36 66-21.63 15.9 12.9 28.97 19.74 27.16 22.36-3.1 4.52-49.26-1.86-93.16-.73z' style='fill:%2359ff57;fill-opacity:1;stroke:none;stroke-width:1.05387px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1'/%3E%3Cpath style='fill:%2359ff50;fill-opacity:1;stroke:none;stroke-width:1.26738px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' d='M165.5 27.62c26.02 4.05 41.97-13.79 77.82-11.52 55.83 3.53 74.02 7.93 69.64 9.71-7.13 2.9-75.26 1.91-147.47 1.8z' id='path55-7-2'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  font-size: var(--font-size--navbar);
+}
+
+/* Banner text SVG animation */
+
+/* make all the text_MGF visible in the nav bar banner svg */
+#MGFtext  { animation: MGF-anim 1s;}
+
+/* animation for Meadow Green Farm in the nav bar banner svg */
+@keyframes MGF-anim{
+  0% {transform:scale(0);}
+  100% {transform:scale(1);}
+}
+
+
+/* Fade in the Holiday Cottages text in the nav bar banner */
+#text_HolidayCottages {
+  fill: transparent;
+  animation: HolidayCottages 1s ease forwards 1s;
+}
+
+@keyframes HolidayCottages{
+  from {
+    transform: scaleY(0.6);
+    fill: transparent;
+  }
+  to {
+    transform: scaleY(1);
+    fill: #7E3CA0;
+  }
+}
+
