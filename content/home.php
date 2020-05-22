@@ -84,9 +84,9 @@
               src="../images/home/IMG_1270 (Custom).jpg">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" alt="Sunset over the farm"
-            srcset="../images/home/webp/Sunset_4_(Custom).webp"
-            src="../images/home/Sunset 4 (Custom).jpg">
+          <img class="d-block w-100" alt="Cornflower cottage"
+            srcset="../images/home/webp/Cornflower2.webp"
+            src="../images/home/Cornflower1.jpg">
         </div>
         <div class="carousel-item">
           <img class="d-block w-100" alt="Cowslip cottage"

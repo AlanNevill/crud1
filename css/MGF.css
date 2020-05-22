@@ -107,8 +107,15 @@ img {
 }
 #my-nav ul li a:hover {
   color: #7e3ca0;
-  background-color: darkseagreen;
+  background-color: rgb(165, 212, 120);
 }
+
+/* The selected menu item with class active stays with background color */
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #7e3ca0 !important;
+  background-color:rgb(165, 212, 120);
+}
+
 
 .navbar {
   /* Source file: ../images/Banner_2020-04-24D.svg */
@@ -119,7 +126,7 @@ img {
 
 /* Banner text SVG animation */
 
-/* make all the text_MGF visible in the nav bar banner svg */
+/* make the text_MGF visible in the nav bar banner svg */
 #MGFtext  { animation: MGF-anim 1s;}
 
 /* animation for Meadow Green Farm in the nav bar banner svg */
