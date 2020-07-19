@@ -32,7 +32,7 @@
       </div>
       <div>
         <p class="text-center lead">
-          Under the current Government guidelines we are not taking any booking before 30th May 2020.<br>
+          Under the current Welsh Government guidelines we will be opening on Monday 13th July 2020.<br>
           Please stay safe and well.
         </p>
       </div>
@@ -112,7 +112,7 @@
         Meadow Green Farm nestles in 23 acres of rolling green meadows in the Pembrokeshire National Park. We are within walking distance of the pretty and bustling seaside village of Saundersfoot and 5 minutes drive from Tenby Harbour.
       </p>
       <p>
-        There are three contemporary self-catering cottages to provide you with an enchanting holiday. Each is fully stocked to provide a home away from home, and have their own private sunny gardens with tables, chairs and BBQs. Streaming speed Wifi is provided.
+        There are three contemporary self-catering cottages to provide you with an enchanting holiday. Each is fully stocked to provide a home away from home, and have their own private sunny gardens with tables, chairs and BBQs. Streaming speed, family safe Wifi is provided.
       </p>
       <p>
         Everyone is well catered for at Meadow Green Farm: for couples a quiet haven of tranquillity. For families we have a trampoline, swings, a playhouse as well as numerous outdoor and indoor toys, books and board games to keep children of all ages entertained. Animal lovers may bring their own dogs, pet our friendly sheep and collect eggs daily from our free-range chickens. For those who love the outdoors, our two lakes may be fished, and you are free to explore our meadows and woods, discovering the many footpaths across the land.

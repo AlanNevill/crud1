@@ -1,15 +1,35 @@
 /* bookingView.css */
 
+table {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 table#tblBookings {
-   line-height: 0.9;
+    line-height: 0.9;
 }
 
 .table td, .table th {
-   padding: 0.4rem;
-   text-align: left;
-   vertical-align: text-top;
+    padding: 0.4rem;
+    text-align: left;
+    vertical-align: text-top;
    /* color: blue; */
 }
+
+
+/* make table headers sticky */
+.table-responsive{
+  height:800px;  
+  /* overflow:scroll; */
+}
+
+thead tr:nth-child(1) th{
+  /* background: white; */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 
 .provisional {
   background-image: linear-gradient(0deg, rgb(211, 211, 211) 0%, rgb(211, 211, 211,1) 100%);
@@ -24,3 +44,28 @@ table#tblBookings {
   /* background-color: #a8cb17; */
 }
 /* .confirmed::before { content: "C";} */
+
+/* class to display a ajaxLoading overlay while any ajax call is running */
+.ajaxLoading {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, 0.5 ) 
+              url('../images/progress.gif')
+              50% 50% 
+              no-repeat;
+}
+
+/* When the body has the loading class, we turn the scroll bar off with overflow:hidden */
+body.loading {
+  overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our ajaxLoading element will be visible */
+body.loading .ajaxLoading {
+  display: block;
+}

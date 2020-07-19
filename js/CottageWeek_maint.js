@@ -1,35 +1,22 @@
-// ProcessLog_maint.js
+// CottageWeek_maint.js
 "use strict";
 
-var messType = '1', alarmRaised = '1', limitNum, ProcessLogRows, ProcessLogRow;
+var cottageNum, cottageWeekRows, cottageWeekRow;
 
 
-// get the selected messType on selection change event
-$('#messType').on("change", function() {
+// get the selected cottageNum on selection change event
+$('#cottageNum').on("change", function() {
 
   if ($(this).val() === '-1') {
-    $('#output1').html('Selected messType is not valid');
+    $('#output1').html('Selected cottage number is not valid');
   } 
   else {
-    // a valid messType has been selected so save in global variable
-    messType = $(this).val();
-    showProcessLog2();
+    // a valid cottage number has been selected so save in global variable
+    cottageNum = $(this).val();
+    showCottageWeek();
   }
 });
 
-
-// get the selected alarmRaised on selection change event
-$('#alarmRaised').on("change", function() {
-
-  if ($(this).val() === '-1') {
-    $('#output1').html('Invalid alarmRaised number');
-  } 
-  else {
-    // alarmRaised is a valid selection
-    alarmRaised = $(this).val();
-    showProcessLog2();
-  }
-});
 
 
 // download to CSV file
@@ -94,43 +81,34 @@ function showProcessLog() {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Function to get all the ProcessLog rows. Display in table tblProcessLog. Called onload
-function showProcessLog2() {
-  // clear any previous ProcessLog rows
-  $("#tbodyProcessLog").empty();
+// Function to get all the CottageWeek rows for the selected cottage. Display in table tblCottageWeek. Called on selection change
+function showCottageWeek() {
+  // clear any previous CottageWeek rows
+  $("#tbody").empty();
 
-  $.post("../include/ProcessLog_ajax.php", {
-    method: "ProcessLog_select",
-    messType: messType,
-    alarmRaised: alarmRaised
+  $.post("../include/CottageWeek_ajax.php", {
+    method: "CottageWeek_select",
+    CottageNum: cottageNum
   }).done(function(data) {
-    // update the ProcessLog rows into table tblProcessLog
+    // update the CottageWeek rows into table tblCottageWeek
 
     let funcReturn = JSON.parse(data);
 
     if (funcReturn.success === true) {
-      ProcessLogRows = funcReturn.ProcessLogRows;
+      cottageWeekRows = funcReturn.cottageWeekRows;
 
       // iterate over the rows updating the table
-      ProcessLogRows.forEach(ProcessLogRow => {
+      cottageWeekRows.forEach(cottageWeekRow => {
         let newRow = `
-          <tr ProcessLog='${ProcessLogRow.IdNum}'> 
-            <td>${ProcessLogRow.IdNum}</td> 
-            <td>${ProcessLogRow.MessDateTime}</td>
-            <td>${ProcessLogRow.MessType}</td>
-            <td>${ProcessLogRow.Application}</td> 
-            <td>${ProcessLogRow.Routine}</td>
-            <td>${ProcessLogRow.UserId}</td>
-            <td>${ProcessLogRow.ErrorMess}</td> 
-            <td>${ProcessLogRow.Remarks}</td>
-            <td>${ProcessLogRow.AlarmRaised}</td>
+          <tr> 
+            <td>${cottageWeekRow.DateSat}</td> 
+            <td>${cottageWeekRow.bShortBreaksAllowed}</td>
+            <td>${cottageWeekRow.RentDay}</td>
+            <td>${cottageWeekRow.RentWeek}</td> 
             <td>
               <div class="btn-group pull right">
                 <button id="bEdit" type="button" class="btn btn-sm btn-success" onclick="rowEdit(this);">
                   <i class="fa fa-pencil-square"></i>
-                </button>
-                <button id="bElim" type="button" class="btn btn-sm btn-danger" onclick="rowElim(this);">
-                  <i class="fa fa-trash"></i>
                 </button>
                 <button id="bAcep" type="button" class="btn btn-sm btn-info" style="display:none;" onclick="rowAcep(this);">
                   <i class="fa fa-check-square"></i>
@@ -144,8 +122,8 @@ function showProcessLog2() {
         `;
 
         // add the row to the table body
-        $(newRow).appendTo($("#tbodyProcessLog"));
-      }); // end of foreach ProcessLogRows
+        $(newRow).appendTo($("#tbody"));
+      }); // end of foreach CottageWeekRows
 
       $("#output1")
         .empty()
@@ -160,8 +138,7 @@ function showProcessLog2() {
 
       alert("An error has occurred\n\n" + funcReturn.message);
     }
-  })
-  .fail(error =>
+  }).fail(error =>
     $('#output1')
       .empty()
       .append('Error - ' + error.statusText)
@@ -172,47 +149,51 @@ function showProcessLog2() {
 
 
 //////////////////////////
-// update a ProcessLog row
-function ProcessLog_upd($row) {
+// update a CottageWeek row
+function CottageWeek_upd($row) {
   let cols = $row.find("td"); // create array of columns in the row
-  let IdNum       = cols[0].innerHTML; // get the PK, ProcessLog from column 0
-  let UserId      = cols[3].innerHTML;
-  let Application = cols[5].innerHTML;
-  let Remarks     = cols[7].innerHTML;
-  let AlarmRaised = cols[8].innerHTML;
+  let dateSat     = cols[0].innerHTML; 
+  let shortBreaks = cols[1].innerHTML;
+  let rentDay     = cols[2].innerHTML;
+  let rentWeek    = cols[3].innerHTML;
 
-  $.post("../include/ProcessLog_ajax.php", {
-    method:     "ProcessLog_upd",
-    IdNum:       IdNum,
-    UserId:      UserId,
-    Application: Application,
-    Remarks:     Remarks,
-    AlarmRaised: AlarmRaised 
+  $.post("../include/CottageWeek_ajax.php", {
+    method:       "CottageWeek_upd",
+    DateSat:      dateSat,
+    CottageNum:   cottageNum,
+    ShortBreaks:  shortBreaks,
+    RentDay:      rentDay,
+    RentWeek:     rentWeek 
   }).done(function(response) {
+
+    // check for valid JSON response
+    if (!isJSON(response)) {
+      $('#output1')
+      .empty()
+      .html(response);
+
+      return;
+    }
+
     let returnArray = JSON.parse(response);
     $("#output1")
       .empty()
       .append("Update - success: " + returnArray.success + ", message: " + returnArray.message);
-  });
-} // end of function ProcessLog_upd
+  }).always(function() {
+    
+    // todo - reload CottageWeek table
 
-
-////////////////////////////
-// delete the ProcessLog row
-function ProcessLog_del($row) {
-  let cols = $row.find("td"); // create array of columns in the row
-  let IdNum       = cols[0].innerHTML; // get the PK, ProcessLog from column 0
-
-  $.post("../include/ProcessLog_ajax.php", {
-    method:     "ProcessLog_delete",
-    IdNum:       IdNum
-  }).done(function(response) {
-    let returnArray = JSON.parse(response);
-    $("#output1")
+  }).fail(error =>
+    $('#output1')
       .empty()
-      .append("Delete - success: " + returnArray.success + ", message: " + returnArray.message);
-  });
-} // end of function ProcessLog_del
+      .append('Error - ' + error.statusText)
+  ) 
+
+  ; // end of $.post
+
+} // end of function CottageWeek_upd
+
+
 
 
 /////////////////
@@ -230,16 +211,13 @@ $(function() {
   });
 
   // setup the table as editable with options
-  $("#tblProcessLog").SetEditable({
-    columnsEd: "3,5,7,8", // Ex.: "1,2,3,4,5"
+  $("#tblCottageWeek").SetEditable({
+    columnsEd: "1,2,3", // Ex.: "1,2,3,4,5"
 
     onEdit: function($row) {
-      ProcessLog_upd($row);
-    }, // end of onEdit function
+      CottageWeek_upd($row);
+    } // end of onEdit function
 
-    onDelete: function($row) {
-      ProcessLog_del($row);
-    } // end of onDelete
   });
 
   $('[data-toggle="tooltip"]').tooltip();

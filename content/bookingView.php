@@ -7,46 +7,53 @@
   <title>MGF booking</title>
   <?php include '../include/MGF_header.html'; ?>        <!-- favicon + bootstrap & fork awesome style sheets -->
 
-  <link rel="stylesheet" href="../css/MGF.css" />        <!-- Project style sheet -->
   <link rel="stylesheet" href="../css/bookingView.css" />  <!-- Page style sheet -->
+  
+  <?php 
+    // include ('../include/MGF_header.html'); # favicon.ico + bootstrap.css & fork awesome.css style sheets
+    include ('../include/dbFuncs.php');     # open db connection and instantiate dbFuncs class
+  ?>  
+
 </head>
 
 <body onload="showCottageBook()">
 
-<div class="container">
+<main class="container-fluid">
 
-  <!-- debug info div for validation and error messages -->
-  <div id="info" class="d-none">info</div>
+    <!-- debug info div for validation and error messages -->
+    <section id="info" class="text-white bg-success d-none">INFO - 
+      <?php
+        echo $dbFuncs->getHostAndDb();
+      ?>
+    </section>
 
   <h4 id="title">MGF Booking Calendar</h4><span></span>
 
   <!-- form to allow user to select the wc Sat date and the cottage number -->
-  <form  id="formGet" >
-    <!-- <label for="wcDateSat">W/c Sat. date</label>
-    <select id="wcDateSat"  name="wcDateSat" class="custom-select" style="width:150px">
-        <option value="-1" selected disabled hidden>Select Saturday</option>
-    </select> -->
-    <!-- <div class="form-row"> -->
-    <div>
-      <label for="cottageNum">Cottage</label>
-      <select id="cottageNum" name="cottageNum" class="custom-select" style="width:150px">
-        <option value="0" selected disabled hidden>Select cottage</option>
-        <option value="1">Cornflower</option>
-        <option value="2">Cowslip</option>
-        <option value="3">Meadowsweet</option>
-      </select>
+  <form  id="formGet" class="d-inline">
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label for="cottageNum">Cottage</label>
+        <select id="cottageNum" name="cottageNum" class="custom-select" style="width:150px">
+          <option value="0" selected disabled hidden>Select cottage</option>
+          <option value="1">Cornflower</option>
+          <option value="2">Cowslip</option>
+          <option value="3">Meadowsweet</option>
+        </select>
+      </div>
+      <div class="form-group col-3">
+        <label for="key">Key:</label>
+        <div id="key" class="confirmed">Confirmed</div>
+        <div class="provisional">Provisional</div>
+      </div>
     </div>
-    <div class="provisional float-right" 
-      style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">Provisional</div>
-    <div class="confirmed float-right" style="padding-right: 10px;padding-left: 10px;margin-bottom: 10px;">Confirmed</div>
-    <!-- </div> -->
   </form>
 
   <p class="d-sm-none"><small>Scroll right to view details</small></p>
 
   <!-- calendar for the cottage number -->
   <div class="table-responsive">
-    <table id="tblBookings" class="table table-bordered">
+    <table id="tblBookings" class="table table-bordered w-auto">
       <caption class="d-sm-none"><small>Scroll right to view details</small></caption>
       <thead class="thead-light">
         <tr>
@@ -58,8 +65,8 @@
           <th style="color:blue">Wed</th>
           <th style="color:blue">Thu</th>
           <th style="color:blue">Fri</th>
-          <th style="text-align:center" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>short bks</th>
           <th data-toggle='tooltip' data-placement='auto' title='View details of the weeks bookings'>View</th>
+          <th style="text-align:center" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed?'>short bks</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -72,7 +79,7 @@
   <!-- div for in progress gif during ajax calls -->
   <div class="ajaxLoading"></div>
 
-</div>
+</main>
 
   <!-- include the bootstrap, jquery and date libraries -->
   <?php include '../include/MGF_libs.html'; ?>
@@ -83,11 +90,14 @@
   <!-- my classes -->
   <script src="../js/classes.js"></script>
 
-  <!-- page javascipt -->
+  <!-- date formatting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+
+  <!-- page javascript -->
   <script src="../js/bookingView.js"></script>
 
   <script type="application/javascript">
-      // save todays date minus 7 days (so that the current week is always shown) into the global const momDateSat
+      // save today's date minus 7 days (so that the current week is always shown) into the global const momDateSat
       var momDateSat = new Date('<?php echo date('Y-m-d', strtotime('-7 days')) ?>');
   </script>
 </body>

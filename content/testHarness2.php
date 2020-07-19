@@ -16,160 +16,219 @@
 
 <body>
 
-<?php
+  <?php
 
-  //include 'include/MGF_menu.html';
-  // require_once 'vendor/autoload.php';
+    include ('../include/dbFuncs.php');     // open db connection and instantiate dbFuncs class
+   //include 'include/MGF_menu.html';
+    // require_once 'vendor/autoload.php';
 
-  // // Create the Transport
-  // $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 465, 'ssl'))
-  //   ->setUsername('alan@meadowgreenfarm.co.uk')
-  //   ->setPassword('uY^4#bWX')
-  // ;
+    // // Create the Transport
+    // $transport = (new Swift_SmtpTransport('mail.meadowgreenfarm.co.uk', 465, 'ssl'))
+    //   ->setUsername('alan@meadowgreenfarm.co.uk')
+    //   ->setPassword('uY^4#bWX')
+    // ;
 
-  // // Create the Mailer using your created Transport
-  // $mailer = new Swift_Mailer($transport);
+    // // Create the Mailer using your created Transport
+    // $mailer = new Swift_Mailer($transport);
 
-  // // Create a message
-  // $message = (new Swift_Message('Test Subject 03 with ssl'))
-  //   ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
-  //   ->setTo(['alannevill@gmail.com', 'a1@lansdowne-place.myzen.co.uk' => 'a1 Zen'])
-  //   ->setBody('Here is the message itself 03 - with ssl port 465')
-  //   ;
+    // // Create a message
+    // $message = (new Swift_Message('Test Subject 03 with ssl'))
+    //   ->setFrom(['alan@meadowgreenfarm.co.uk' => 'Alan@MGF'])
+    //   ->setTo(['alannevill@gmail.com', 'a1@lansdowne-place.myzen.co.uk' => 'a1 Zen'])
+    //   ->setBody('Here is the message itself 03 - with ssl port 465')
+    //   ;
 
-  // ini_set('max_execution_time', 60);
+    // ini_set('max_execution_time', 60);
 
-  // // Send the message
-  // $result = $mailer->send($message);
+    // // Send the message
+    // $result = $mailer->send($message);
 
-?>
+  ?>
 
-<div class="container">
-<main>
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top font-weight-bold" style="padding-top: 5px;">
+  <main role="main" class="container">
 
-  <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand myNavBarBrand" href="home.php"></a>
+    <!-- debug info div for validation and error messages -->
+    <section id="info" class="text-white bg-success mb-4">info - 
+      <?php
+        echo $dbFuncs->getHostAndDb();
+      ?>
+    </section>
 
-  <div id="my-nav" class="collapse navbar-collapse">
-    <!-- todo justify-content-right not working in <UL></UL> -->
-    <ul class="navbar-nav mr-auto justify-content-right"  style="width:100%">
 
-      <li class="nav-item">
-          <a id="Meadowsweet" class="nav-link" href="meadowsweet.php">Meadowsweet Cottage</a>
-      </li>
+    <div class="d-flex justify-content-between align-items-center mt-3">
 
-      <li class="nav-item">
-          <a id="Cowslip" class="nav-link" href="cowslip.php">Cowslip Cottage</a> 
-      </li>
+      <div id="yearBtns" class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="Select the year buttons">
+        <label for="yearBtns" class="h3 mt-3 mr-3">Select year:</label>
 
-      <li class="nav-item">
-          <a id="Cornflower" class="nav-link" href="cornflower.php">Cornflower Cottage</a>
-      </li>
-
-      <li class="nav-item dropdown">
-          <a id="Facilities" class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Facilities
-          </a>
-          <div class="dropdown-menu" aria-labelledby="Preview">
-              <a class="dropdown-item" href="facilitiesSummary.php">Summary</a>
-              <div class="dropdown-divider"></div>
-              <a id="Beachhut"    class="dropdown-item" href="facilitiesBeachHut.php">The Beach Hut</a>
-              <a id="Play_area"   class="dropdown-item" href="facilitiesPlayArea.php">Childrens' play area</a>
-              <a id="Babies"      class="dropdown-item" href="facilitiesBabies.php">Babies &amp; Toddlers</a>
-              <a id="Our_Animals" class="dropdown-item" href="facilitiesAnimals.php">Our animals</a>
-              <a id="Lakes_and_woods" class="dropdown-item" href="facilitiesLakesWoods.php">The lakes and trails</a>
-          </div>
-      </li>
-
-      <li class="nav-item">
-          <a id="Booking" class="nav-link" href="newBooking.php">Booking &amp; prices</a>
-      </li>
-
-      <li class="nav-item">
-          <a id="Enquiry" class="nav-link" href="enquiry.php">Make Enquiry</a>
-      </li>
-
-      <li class="nav-item">
-        <a id="Attractions" class="nav-link" href="attractions.php">Things to do</a>
-      </li>
-
-      <li class="nav-item">
-          <a id="Guest_Book" class="nav-link" href="guestBook.php">Guest book</a>
-      </li>
-
-      <li class="nav-item">
-        <a id="Contact" class="nav-link" href="contact.php">Find us</a>
-      </li>
-
-    </ul>
-  </div>
-</nav>
-
-  <div class="list-group">
-    <a class="list-group-item" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
-    <a class="list-group-item" href="#"><i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp; Library</a>
-    <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Applications</a>
-    <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>
-  </div>
-
-  <div>
-    <button type="button" class="btn btn-sm"><i class="fa fa-pencil-square-o">edit</i></button>
-  </div>
-
-  <!-- debug info div for validation and error messages -->
-  <div id="info" class="">info</div>
-
-  <!-- debug info div for validation and error messages -->
-  <div id="output1" class="">output1</div>
-
-  <div class="d-flex justify-content-between">
-      <div>Year:
-        <select id="theYear" name="theYear" class="custom-select"></select>
+        <label class="btn btn-outline-success btn-lg active mr-3" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
+          <input type="radio" name="years" id="btnthisYear" autocomplete="off" checked 
+            value="<?php echo date('Y', strtotime('-7 days')) ?>">
+            <?php echo date('Y', strtotime('-7 days')) ?>
+        </label>
+        <label class="btn btn-outline-success btn-lg" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
+          <input type="radio" name="years" id="btnnextYear" autocomplete="off" 
+            value="<?php echo date('Y', strtotime('358 days')) ?>" >
+            <?php echo date('Y', strtotime('358 days')) ?>
+        </label>
       </div>
-      <div class="booked">fully booked</div> 
-      <div class="shortbreaks">some short breaks</div >
-      <div>Click to view booking conditions</div>
-  </div>
 
-  </main>
-    <!-- <script src="js/jquery.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+      <table class="table-bordered">
+        <tr>
+          <td rowspan=2 style="vertical-align:middle" class="h4 font-weight-bold">Key&nbsp;</td>
+          <td class="booked px-3 font-weight-bold">Fully booked</td>
+        </tr>
+        <tr>
+          <td class="shortbreaks px-3 font-weight-bold">Short breaks</td>
+        </tr>
+      </table>
+      <!-- <div  class="card mt-5 mb-1 ml-3 mr-3 text-center d-print-none">
+        <div class="card-text h5">Key</div>
+        <div class="card-text booked px-3">Fully booked</div> 
+        <div class="card-text shortbreaks px-3">Short breaks</div >
+      </div>
+      <div> -->
+      <a href="/include/Booking conditions 2015-05-05.pdf"><small class="d-print-none font-weight-bold">Click to view booking conditions</small></a>
+      <!-- </div> -->
+    </div>
 
-    <!-- jquery from library NB. not compatible with jquery.min.slim.js-->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script> -->
 
-    <!-- Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"     crossorigin="anonymous">
-    </script>
+    <section>
+      
+      <!-- weekly calendar for the cottages; wc date in rows and cottages in columns -->
+      <table id="tblBookings" class="table table-fixed table-responsive-sm vertical-align w-auto">
+          <!-- <caption class="d-sm-none"><small>Scroll right to view details</small></caption> -->
+          <thead class="table-success">
+            <tr class="mb-5 mb-md-0">
+              <th style="width:10%" >wc Sat</th>
+              <!-- <th style="width:10%" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed in specific weeks?'>SB</!--> 
+              <th style="width:22%" data-toggle='tooltip' data-placement='auto' title='Links to view short break availability for selected week'>View short breaks</th>
+              <th class="d-none d-sm-block" style="width:22%">Cornflower</th>
+              <th class="d-sm-none" style="width:22%">Corn flower</th>
 
-    <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"     crossorigin="anonymous">
-    </script>
+              <th style="width:22%">Cowslip</th>
+              
+              <th class="d-none d-sm-block" style="width:22%">Meadowsweet</th>
+              <th class="d-sm-none" style="width:22%">Meadow sweet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-info">
+              <th scope="row">1</th>
+              <td>Kate</td>
+              <td>Moss</td>
+              <td>USA</td>
+              <td>New York City</td>
+              <td>23</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Anna</td>
+              <td>Wintour</td>
+              <td>United Kingdom</td>
+              <td>London</td>
+              <td>36</td>
+            </tr>
+            <tr class="table-info">
+              <th scope="row">3</th>
+              <td>Tom</td>
+              <td>Bond</td>
+              <td>Spain</td>
+              <td>Madrid</td>
+              <td>25</td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td>Jerry</td>
+              <td>Horwitz</td>
+              <td>Italy</td>
+              <td>Bari</td>
+              <td>41</td>
+            </tr>
+            <tr class="table-info">
+              <th scope="row">5</th>
+              <td>Janis</td>
+              <td>Joplin</td>
+              <td>Poland</td>
+              <td>Warsaw</td>
+              <td>39</td>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+              <td>Gary</td>
+              <td>Winogrand</td>
+              <td>Germany</td>
+              <td>Berlin</td>
+              <td>37</td>
+            </tr>
+            <tr class="table-info">
+              <th scope="row">7</th>
+              <td>Angie</td>
+              <td>Smith</td>
+              <td>USA</td>
+              <td>San Francisco</td>
+              <td>52</td>
+            </tr>
+            <tr>
+              <th scope="row">8</th>
+              <td>John</td>
+              <td>Mattis</td>
+              <td>France</td>
+              <td>Paris</td>
+              <td>28</td>
+            </tr>
+            <tr class="table-info">
+              <th scope="row">9</th>
+              <td>Otto</td>
+              <td>Morris</td>
+              <td>Germany</td>
+              <td>Munich</td>
+              <td>35</td>
+            </tr>
+          </tbody>
+        </table>
+    </section>
 
-    <!-- Latest compiled and minified mustache.js templating JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script>
 
-    <!-- moment date formatting library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <!-- div for in progress gif during ajax calls -->
+    <div class="ajaxLoading"></div>
 
-    <!-- currency formatting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
+  </main><!-- /.container -->
 
-    <script src="../js/client.min.js"></script>
+  <!-- <script src="js/jquery.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-    <!-- class functions -->
-    <script src="../js/classes.js"></script>
+  <!-- jquery from library NB. not compatible with jquery.min.slim.js-->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script> -->
 
-    <!-- <script type="module" src="/js/commonFuncs.js"></script> -->
+  <!-- Popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"     crossorigin="anonymous">
+  </script>
 
-    <!-- this page javascipt -->
-    <!-- <script src="../js/testHarness2.js"></script> -->
+  <!-- Latest compiled and minified Bootstrap JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"     crossorigin="anonymous">
+  </script>
 
-    <script>
-    </script>
+  <!-- Latest compiled and minified mustache.js templating JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.js" ></script>
+
+  <!-- moment date formatting library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+  <!-- currency formatting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
+
+  <script src="../js/client.min.js"></script>
+
+  <!-- class functions -->
+  <script src="../js/classes.js"></script>
+
+  <!-- <script type="module" src="/js/commonFuncs.js"></script> -->
+
+  <!-- this page javascript -->
+  <!-- <script src="../js/testHarness2.js"></script> -->
+
+  <script>
+  </script>
 
 </body>
 </html>

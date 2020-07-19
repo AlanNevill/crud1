@@ -10,28 +10,33 @@ class clsDeviceIdCookie {
     // create an instance of the ClientJS class to get the fingerprint and userAgentString
     const _clsClientJS = new ClientJS();
 
-    this._fingerprint = _clsClientJS.getFingerprint(); // Get the client's fingerprint
-    this._userAgentString = _clsClientJS.getUserAgent(); // Get the client's userAgentString
+    let _fingerprint = _clsClientJS.getFingerprint(); // Get the client's fingerprint
+    let _userAgentString = _clsClientJS.getUserAgent(); // Get the client's userAgentString
 
     // call the cookie function to set the session cookie 'deviceId' which dbFuncs.php will read
-    setCookie('deviceId', this._fingerprint, 0);
+    setCookie2('deviceId2', _fingerprint, null);
+    // setCookie('deviceId', _fingerprint, 0);
 
     // insert a row into DeviceId table if does not already exist
     $.post(
       '../include/common_ajax.php',
       {
         method: 'DeviceId_insert',
-        deviceId: this._fingerprint,
-        userAgentString: this._userAgentString
+        deviceId: _fingerprint,
+        userAgentString: _userAgentString
       },
       function(data, textStatus, jqXHR) {
         if (isJSON(data)) {
           let funcReturn = JSON.parse(data);
-          if (funcReturn.success === true) {
-            console.log(`success=true, message: ${funcReturn.message}`);
+          if (funcReturn.rowInserted) {
+            console.log(`New DeviceId: ${_fingerprint}`);
           } else {
-            console.log(`success=false, message: ${funcReturn.message}`);
+            console.log(`Existing DeviceId: ${_fingerprint}`);
           }
+        } 
+        else  // not JSON data returned
+        {
+          console.log(`DeviceId_insert ERROR: ${data}`);
         }
       }
     ); // end of $.post
@@ -45,9 +50,10 @@ class clsDeviceIdCookie {
   get userAgentString() {
     return this._userAgentString;
   }
-}
+} // end of class clsDeviceIdCookie
 
-// class to retrieve and store values in seesion storage variable named 'bookingMaint'
+
+// class to retrieve and store values in a session storage variable named 'bookingMaint'
 class clsbookingMaint {
   constructor() {
     if (sessionStorage.getItem('bookingMaint')) {
@@ -101,6 +107,7 @@ class clsbookingMaint {
   }
 } // end of class clsbookingMaint
 
+
 function isJSON(myTestStr) {
   try {
     if (typeof myTestStr == 'string')
@@ -115,6 +122,7 @@ function isJSON(myTestStr) {
   }
 }
 
+
 // cookie functions
 function setCookie(name, value, days) {
   let expires = '';
@@ -125,6 +133,35 @@ function setCookie(name, value, days) {
   }
   document.cookie = name + '=' + (value || '') + expires + '; path=/';
 }
+
+
+// update a cookie
+function setCookie2(name, value, options = {}) {
+
+  options = {
+    path: '/',
+    samesite: 'strict',
+    // add other defaults here if necessary
+    ...options
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
 
 function getCookie(name) {
   var nameEQ = name + '=';
@@ -140,6 +177,7 @@ function getCookie(name) {
 function eraseCookie(name) {
   document.cookie = name + '=; Max-Age=-99999999;';
 }
+
 
 function checkCookie() {
   var user = getCookie('username');

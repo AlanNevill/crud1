@@ -19,14 +19,7 @@ BEGIN
         BookingStatus	,
         BookingRef		,
         Rental			,
-		Notes			,
-        BookingSource	,
-        ExternalReference,
-        ContactEmail	,
-        NumAdults		,
-		NumChildren		,
-		Children		,
-		NumDogs	
+		Notes	
 		)
    VALUES
 	   ( 'D',
@@ -38,14 +31,7 @@ BEGIN
         OLD.BookingStatus	,
         OLD.BookingRef		,
         OLD.Rental			,
-		OLD.Notes			,
-        OLD.BookingSource	,
-        OLD.ExternalReference,
-        OLD.ContactEmail	,
-        OLD.NumAdults		,
-		OLD.NumChildren		,
-		OLD.Children		,
-		OLD.NumDogs	
+		OLD.Notes
 		)
 	;
 END;
@@ -69,14 +55,7 @@ BEGIN
         BookingStatus	,
         BookingRef		,
         Rental			,
-		Notes			,
-        BookingSource	,
-        ExternalReference,
-        ContactEmail	,
-        NumAdults		,
-		NumChildren		,
-		Children		,
-		NumDogs	
+		Notes
 		)
    VALUES
 	   ( 'I',
@@ -88,14 +67,7 @@ BEGIN
         NEW.BookingStatus	,
         NEW.BookingRef		,
         NEW.Rental			,
-		NEW.Notes 			,
-        NEW.BookingSource	,
-        NEW.ExternalReference,
-        NEW.ContactEmail	,
-        NEW.NumAdults		,
-		NEW.NumChildren		,
-		NEW.Children		,
-		NEW.NumDogs	
+		NEW.Notes
 		)
 	;
 END;
@@ -118,14 +90,7 @@ BEGIN
         BookingStatus	,
         BookingRef		,
         Rental			,
-		Notes			,
-        BookingSource	,
-        ExternalReference,
-        ContactEmail	,
-        NumAdults		,
-		NumChildren		,
-		Children		,
-		NumDogs	
+		Notes
 		)
    VALUES
 	   ( 'U',
@@ -137,14 +102,7 @@ BEGIN
         NEW.BookingStatus	,
         NEW.BookingRef		,
         NEW.Rental			,
-		NEW.Notes 			,
-        NEW.BookingSource	,
-        NEW.ExternalReference,
-        NEW.ContactEmail	,
-        NEW.NumAdults		,
-		NEW.NumChildren		,
-		NEW.Children		,
-		NEW.NumDogs	
+		NEW.Notes
 		)
 	;
 END;

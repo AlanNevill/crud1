@@ -36,14 +36,3 @@ thead tr:nth-child(1) th{
   top: 0;
   z-index: 10;
 }
-
-/* reduce the padding */
-.table td, .table th {
-  padding: 0.3rem;
-}
-
-/* border when input column entered */
-input:focus-within { 
-  border: 2px solid;
-  /* font-size: 12px; */
-}

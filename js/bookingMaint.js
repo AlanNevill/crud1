@@ -9,14 +9,15 @@ var cottageBookRows; // array of existing CottageBookRows
 var booCottageNum = false; // is the selected cottage number valid
 var booDateSat = false; // is the selected date valid
 
-// Create a new clsDeviceIdCookie class which sets up the deviveId cookie
+// Create a new clsDeviceIdCookie class which sets up the deviceId cookie
 const _clsDeviceIdCookie = new clsDeviceIdCookie();
 
 // load bookingMaint from session storage
 const _clsbookingMaint = new clsbookingMaint();
 
+
 // document ready
-$(document).ready(function() {
+$(function() {
   // autoNumeric for rental field in New Booking Form
   // rentalVal = new AutoNumeric('#Rental > input', AutoNumeric.getPredefinedOptions().British);
   rentalVal = new AutoNumeric('#Rental', AutoNumeric.getPredefinedOptions().numericPos);
@@ -25,9 +26,8 @@ $(document).ready(function() {
   rentalVal.options.digitGroupSeparator(',');
   rentalVal.options.decimalPlaces('0');
 
-  // set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
+  // set up functions which add and remove class 'loading' when ajax starts or stops. See MGF.css
   let body = $('body');
-
   $(document).on({
     ajaxStart: function() {
       body.addClass('loading');
@@ -41,38 +41,16 @@ $(document).ready(function() {
   $('#title').on('click', function() {
     $(this)
       .next()
-      .html(`${_VERSION} - server name: ${SERVER} - ${_clsDeviceIdCookie.deviceId}`)
+      .html(`${_VERSION}-${_clsDeviceIdCookie.deviceId}`)
       .toggle();
+});
+
+  
+  // toggle info div if title is clicked
+  $("h4").on("click", function() {
+    $('#info').toggleClass("d-none");
   });
 
-  // get the selected dateSat when selection changes
-  $('#wcDateSat').change(function() {
-    if ($('#wcDateSat').val() === '-1') {
-      $('#output1').html('Selected date is not valid');
-      objDateSat = null;
-      booDateSat = false;
-      // showFrmNewBooking();
-    } else {
-      // a valid date has been selected so save in global variable
-      objDateSat = moment($('#wcDateSat').val(), 'YYYY-MM-DD');
-      booDateSat = true;
-      showFrmNewBooking();
-    }
-  });
-
-  // get the selected cottageNum when selection changes
-  $('#cottageNum').change(function() {
-    if (cottageNum === '-1') {
-      $('#output1').html('Invalid cottage number');
-      booCottageNum = false;
-      // showFrmNewBooking();
-    } else {
-      // cottageNum is a valid selection
-      cottageNum = $('#cottageNum').val();
-      booCottageNum = true;
-      showFrmNewBooking();
-    }
-  });
 
   // check for values in session storage; if found then display the DateSat and CottageNum
   if (typeof _clsbookingMaint.cottageNum !== 'undefined' && typeof _clsbookingMaint.dateSat !== 'undefined') {
@@ -80,17 +58,50 @@ $(document).ready(function() {
     booCottageNum = true;
     $('#cottageNum [value=' + cottageNum + ']').attr('selected', 'selected');
 
-    objDateSat = moment(_clsbookingMaint.dateSat, 'YYYY-MM-DD');
+    objDateSat = dateFns.format(_clsbookingMaint.dateSat, 'YYYY-MM-DD');
     $('#wcDateSat [value=' + _clsbookingMaint.dateSat + ']').attr('selected', 'selected');
     booDateSat = true;
 
-    // get the existing bookings if any and show the new booking form
+    // get the existing bookings, if any, and show the new booking form
     showFrmNewBooking();
   }
 
-  // initialise the tooltips
+  // initialize the tooltips
   $('[data-toggle="tooltip"]').tooltip();
+
 }); // end of (document).ready
+
+
+// get the selected dateSat on selection change event
+$('#wcDateSat').change(function() {
+
+  if ($('#wcDateSat').val() === '-1') {
+    $('#output1').html('Selected date is not valid');
+    booDateSat = false;
+    // showFrmNewBooking();
+  } else {
+    // a valid date has been selected so save in global variable
+    objDateSat = dateFns.format($('#wcDateSat').val(), 'YYYY-MM-DD');
+    booDateSat = true;
+    showFrmNewBooking();
+  }
+});
+
+
+// get the selected cottageNum on selection change event
+$('#cottageNum').change(function() {
+
+  if (cottageNum === '-1') {
+    $('#output1').html('Invalid cottage number');
+    booCottageNum = false;
+  } else {
+    // cottageNum is a valid selection
+    cottageNum = $('#cottageNum').val();
+    booCottageNum = true;
+    showFrmNewBooking();
+  }
+});
+
 
 /*////////////////////////////////////////////////////////////////////////////
 /// prevent the enter key submitting the new booking form
@@ -102,6 +113,7 @@ $('#frmNewBooking').on('keyup keypress', function(e) {
     return false;
   }
 });
+
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Formats an array of CottageBook rows returned from SQL and formats into existing bookings table rows
@@ -115,9 +127,9 @@ function CottageBook2Table(cottageBookRows) {
       BookingName: row.BookingName,
       ArriveDate: row.FirstNight,
       IdNum: row.IdNum,
-      FirstNight: dateFns.format(new Date(row.FirstNight), 'ddd D MMM'),
-      LastNight: dateFns.format(new Date(row.LastNight), 'ddd D MMM'),
-      numNights: row.numNights,
+      FirstNight: dateFns.format(row.FirstNight, 'ddd D MMM'),
+      LastNight: dateFns.format(row.LastNight, 'ddd D MMM'),
+      numNights: dateFns.differenceInCalendarDays(row.LastNight, row.FirstNight) +1,
       Rental: '£' + parseFloat(row.Rental).toFixed(0),
       BookingRef: row.BookingRef,
       Notes: row.Notes,
@@ -129,6 +141,7 @@ function CottageBook2Table(cottageBookRows) {
 
   return existingBookingRows;
 }
+
 
 /*////////////////////////////////////////////////////////////////////////////
 /// function to delete the selected existing booking
@@ -156,11 +169,10 @@ function rowDel(delButton) {
             $(this).remove();
           });
 
-          // display a confirm message for 5 seconds
+          // display a confirm message
           $('#newBookingInfo')
             .empty()
-            .append(returnArray.message)
-            .fadeOut(5000);
+            .append(returnArray.message);
         } else {
           // remove any previous message & display the error message
           $('#output1')
@@ -172,15 +184,17 @@ function rowDel(delButton) {
         // response is not valid JSON so remove any previous message & display the error message
         $('#output1')
           .empty()
-          .append('an error has occured');
-        alert('an error has occured\n\n' + response);
+          .append('an error has occurred');
+        alert('an error has occurred\n\n' + response);
       }
     } // end of .done
   ); // end of $.post method: "CottageBook_delete"
+
 } /// end of function rowDel
 
+
 /*/////////////////////////////////////////////////////////////////////////////////////
-/// pop up a modal dialog to allow updating of the booking columns for the selected row
+/// pop up a modal dialogue to allow updating of the booking columns for the selected row
 /// called by: onclick="rowEdit(this);" on the update button
 /////////////////////////////////////////////////////////////////////////////////////*/
 function rowEdit(editButton) {
@@ -190,56 +204,43 @@ function rowEdit(editButton) {
   $('#bookingUpdForm').empty();
 
   // get the table row that was clicked
-  const row = $(editButton).closest('tr');
+  let row = $(editButton).closest('tr');
+
+  // store the IdNum
+  trIdNum = row[0].attributes['IdNum'].value;
 
   // find the row selected for edit in the existing CottageBookRows array
   // eslint-disable-next-line eqeqeq
-  const cottageBookRow = cottageBookRows.find(booking => booking.IdNum == row[0].attributes['idnum'].value);
+  let cottageBookRow = cottageBookRows.find(booking => booking.IdNum == trIdNum);
 
   // pass the cottageBookRow columns into the modal update form
-  $('#innerbookingUpdFrm #IdNum').val(cottageBookRow['IdNum']);
-  $('#innerbookingUpdFrm #firstNightUpd').val(dateFns.format(new Date(cottageBookRow['FirstNight']), 'ddd D MMM'));
-  $('#innerbookingUpdFrm #lastNightUpd').val(dateFns.format(new Date(cottageBookRow['LastNight']), 'ddd D MMM'));
-  $('#innerbookingUpdFrm #NumNights').val(cottageBookRow['NumNights']);
-  $('#innerbookingUpdFrm #BookingName').val(cottageBookRow['BookingName']);
-  $('#innerbookingUpdFrm #BookingRef').val(cottageBookRow['BookingRef']);
-  $('#innerbookingUpdFrm #Rental').val('£' + parseInt(cottageBookRow['Rental']));
-  $('#innerbookingUpdFrm #Notes').val(cottageBookRow['Notes']);
-  $('#innerbookingUpdFrm #BookingStatus').val(cottageBookRow['BookingStatus']);
-  $('#innerbookingUpdFrm #BookingSource').val(cottageBookRow['BookingSource']);
-  $('#innerbookingUpdFrm #ExternalReference').val(cottageBookRow['ExternalReference']);
-  $('#innerbookingUpdFrm #ContactEmail').val(cottageBookRow['ContactEmail']);
-  $('#innerbookingUpdFrm #NumAdults').val(cottageBookRow['NumAdults']);
-  $('#innerbookingUpdFrm #NumChildren').val(cottageBookRow['NumChildren']);
-  $('#innerbookingUpdFrm #NumDogs').val(cottageBookRow['NumDogs']);
-  $('#innerbookingUpdFrm #Children').val(cottageBookRow['Children']);
+  // $('#idnumUpd').val(cottageBookRow['IdNum']);
+  $('#firstNightUpd').val(dateFns.format(cottageBookRow['FirstNight'], 'ddd D MMM'));
+  $('#lastNightUpd').val(dateFns.format(cottageBookRow['LastNight'], 'ddd D MMM'));
+  $('#nightsUpd').val(dateFns.differenceInCalendarDays(cottageBookRow.LastNight, cottageBookRow.FirstNight) +1);
+  // $('#bookingRefUpd').val(cottageBookRow['BookingRef']);
+  $('#RentalUpd').val('£' + parseInt(cottageBookRow['Rental']));
+  $('#notesUpd').val(cottageBookRow['Notes']);
+  $('#BookingStatusUpd').val(cottageBookRow['BookingStatus']);
 
-  $('#updDialogTitle').html('Update booking ref. ' + cottageBookRow['BookingRef']);
+  $('#exampleModalLongTitle').html('Update booking ref: ' + cottageBookRow['BookingRef'] + ', IdNum: ' + trIdNum );
 
   $('#mybookingUpdForm').modal('show');
 } /// end of function rowEdit
 
+
 /*////////////////////////////////////////////////////////////////////////////
 /// button click handler for the save changes button in the modal update dialog
 /////////////////////////////////////////////////////////////////////////////*/
-$('#bookingUpdSave').click(function(e) {
+$('#bookingUpdSave').on("click", function(e) {
   e.preventDefault();
 
-  // put the form fields into array
-  const spCottageBook_upd = {
-    method: 'cottageBook_upd',
-    IdNum: $('#innerbookingUpdFrm #IdNum').val(),
-    BookingName: $('#innerbookingUpdFrm #BookingName').val(),
-    BookingStatus: $('#innerbookingUpdFrm #BookingStatus').val(),
-    Rental: $('#innerbookingUpdFrm #Rental').val(),
-    Notes: $('#innerbookingUpdFrm #Notes').val(),
-    BookingSource: $('#innerbookingUpdFrm #BookingSource').val(),
-    ExternalReference: $('#innerbookingUpdFrm #ExternalReference').val(),
-    ContactEmail: $('#innerbookingUpdFrm #ContactEmail').val(),
-    NumAdults: $('#innerbookingUpdFrm #NumAdults').val(),
-    NumChildren: $('#innerbookingUpdFrm #NumChildren').val(),
-    NumDogs: $('#innerbookingUpdFrm #NumDogs').val(),
-    Children: $('#innerbookingUpdFrm #Children').val()
+  // put the innerbookingUpdFrm form fields into array
+  let spCottageBook_upd = {
+                            method: 'cottageBook_upd',
+                            IdNum: trIdNum,
+                            BookingStatus: $('#BookingStatusUpd').val(),
+                            Notes: $('#notesUpd').val(),
   };
 
   // call bookingMaint_ajax.php with method 'cottageBook_upd'
@@ -253,28 +254,27 @@ $('#bookingUpdSave').click(function(e) {
           getCottageWeekandCottageBook();
 
           // show a confirmation message
-          // FIXME - BookgRef is undefined
-          $('#newBookingInfo')
-            .empty()
-            .append(`Booking ref. ${$('#exampleModalLongTitle').html()} was amended`)
-            .fadeOut(5000);
+          $('#newBookingInfo').empty().append(`Booking ref. ${$('#exampleModalLongTitle').html()} was amended`);
         } else {
           // output an error message
-          $('#output1')
-            .empty()
-            .append('Error - ' + returned.errorMess)
-            .fadeOut(10000);
+          $('#output1').empty().append('Error - ' + returned.errorMess)
         }
       } else {
         // not json returned error
-        $('#output1').append('Error occurred - See ErrorLog');
+        $('#output1').empty().append(`Error occurred - ${response}`);
       }
     })
     .always(function() {
+      // FIXME - update the form values back into the table row
+
+
       // always close the modal dialog
       $('#mybookingUpdForm').modal('toggle');
-    });
+    })
+  ; // end of $.post
+  
 }); /// end of function $("#bookingUpdSave").click
+
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function to set up the confirmation popup to confirm delete after the existing bookings table is populated
@@ -293,21 +293,22 @@ function setupConfirmations() {
   });
 }
 
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Function takes an associative array of a CottageBook row and formats it into an existing booking table row
+/// Function takes an associative array of a CottageBook row and formats it into an existing bookings table row
 /// If boolean booNewBooking = true then the new row is highlighted by adding the class 'highlight'
 /// Called by: CottageBook2Table & $("#submitNewBooking").click
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 function formatCottageBookRow(cottageBookRow, booNewBooking) {
+
   let existingBooking = `
-    <tr firstNight='${cottageBookRow.ArriveDate}' IdNum=${cottageBookRow.IdNum} 
-        class="${booNewBooking ? 'highlight' : ''}">
-      <td>${cottageBookRow.BookingName}</td>
+    <tr firstNight='${cottageBookRow.ArriveDate}' IdNum=${cottageBookRow.IdNum} class="${booNewBooking ? 'highlight' : ''}">
       <td>${cottageBookRow.FirstNight}</td>
       <td>${cottageBookRow.LastNight}</td>
       <td class="text-center">${cottageBookRow.numNights}</td>
       <td>${cottageBookRow.Rental}</td>
       <td class="d-none d-md-table-cell">${cottageBookRow.BookingRef}</td>
+      <td class="d-print-table-cell">${cottageBookRow.Notes}</td>
       <td>${cottageBookRow.BookingStatus === 'P' ? 'Provisional' : 'Confirmed'}</td>
       <td class="d-print-none">
         <div class="btn-group" role="group">
@@ -319,12 +320,12 @@ function formatCottageBookRow(cottageBookRow, booNewBooking) {
           </button>
         </div>
       </td>
-      <td class="d-none d-print-table-cell">${cottageBookRow.Notes}</td>
     </tr>
   `;
 
   return existingBooking;
 }
+
 
 /*////////////////////////////////////////////////////////////////////////////
 /// clear any new booking messages when dateSat or cottageNum change
@@ -342,7 +343,7 @@ function showFrmNewBooking() {
     // $('#submitButton').click();
 
     // put the date into the frmNewBooking in case the user does an insert
-    $('#frmNewBooking #dateSat').val(moment(objDateSat, 'YYYY-MM-DD').format('YYYY-MM-DD'));
+    $('#frmNewBooking #dateSat').val(dateFns.format(objDateSat, 'YYYY-MM-DD'));
 
     // remove any previous dates then set up the firstNight & lastNight date selection drop down options
     $('#firstNight option').remove();
@@ -383,6 +384,7 @@ function showFrmNewBooking() {
   }
 }
 
+
 /*////////////////////////////////////////////////////////////////////////////
 /// Function to get the CottageWeek row and any CottageBook rows
 /// called by function showFrmNewBooking()
@@ -393,10 +395,10 @@ function getCottageWeekandCottageBook() {
   $('#output1').empty();
   $('#newBookingInfo').empty();
 
-  // 1. CottageWeek data to display as a single info line
+  // 1. CottageWeek data to display as a single info line below the Existing bookings table
   $.post('../include/bookingMaint_ajax.php', {
     method: 'cottageWeek_get',
-    dateSat: objDateSat._i,
+    dateSat: objDateSat,
     cottageNum: cottageNum
   }).done(function(returnArray) {
     if (isJSON(returnArray)) {
@@ -425,17 +427,17 @@ function getCottageWeekandCottageBook() {
       } else {
         $('#output1')
           .empty()
-          .append(returned.message);
+          .append('Error - ' + returned.message);
       }
     } else {
       // not json returned
       $('#output1')
         .empty()
-        .append('1 Error occurred - See ErrorLog');
+        .append('Error - cottageWeek_get response was not JSON');
     }
   });
 
-  // 2. any existing bookings from CottageBook table
+  // 2. get any existing bookings from CottageBook table
   $.post('../include/bookingMaint_ajax.php', $('#formGet').serialize())
     .done(function(response) {
       if (isJSON(response)) {
@@ -443,16 +445,17 @@ function getCottageWeekandCottageBook() {
 
         if (returnArray.success && returnArray.cottageBookCount > 0) {
           cottageBookRows = returnArray.cottageBookRows;
-          // call formating function then display the table
+          // call formatting function then display the table
           let tblBookings = CottageBook2Table(cottageBookRows);
           $('#tbodyBookings').append(tblBookings); // populate the existing bookings table
 
-          // now that #tbodyBookings is populated with rows call function to initialise the delete confirmation popups
+          // now that #tbodyBookings is populated with rows call function to initialize the delete confirmation popups
           setupConfirmations();
         }
 
-        $('#newBookingInfo').append(returnArray.errorMess);
         // always display the returned message
+        $('#newBookingInfo').append(returnArray.errorMess);
+
       } else {
         // not json returned
         $('#output1')
@@ -467,11 +470,13 @@ function getCottageWeekandCottageBook() {
     .fail(error =>
       $('#output1')
         .empty()
-        .append(error.statusText)
-    ); // end of $.post
-}
+        .append('Error - ' + error.statusText)
+  )
+  ; // end of $.post
+} // end of getCottageWeekandCottageBook function
 
-// update the number of remaining chars in the Notes field of the new booking form
+
+// function to update the number of remaining chars in the Notes field of the new booking form
 $('textarea').keyup(function() {
   if (this.value.length === 0) {
     $(this)
@@ -487,6 +492,7 @@ $('textarea').keyup(function() {
     .html('Remaining characters : ' + ($(this).attr('maxlength') - this.value.length));
 });
 
+
 /*////////////////////////////////////////////////////////////////////////////
 /// new booking form fields firstNight or lastNight selection changes
 /////////////////////////////////////////////////////////////////////////////*/
@@ -494,7 +500,7 @@ $('#firstNight, #lastNight').on('change', function() {
   // clear any messages and disable the submit button
   $('#output1').empty();
   $('newBookingInfo').empty();
-  $('#submitNewBooking').prop('disabled', true);
+  // $('#submitNewBooking').prop('disabled', true);
 
   // sanity check proposed booking dates in UI & update the number of nights field on the form
   if ($('#lastNight').val() < $('#firstNight').val()) {
@@ -503,7 +509,7 @@ $('#firstNight, #lastNight').on('change', function() {
   }
 
   // if the date check succeed then enable the new booking button
-  $('#submitNewBooking').prop('disabled', false);
+  // $('#submitNewBooking').prop('disabled', false);
 
   // Update number of nights field in the new booking form
   let c = dateFns.differenceInDays($('#lastNight').val(), $('#firstNight').val()) + 1;
@@ -519,23 +525,29 @@ $('#firstNight, #lastNight').on('change', function() {
   }
 }); /// end of firstNight or lastNight selection changes
 
+
 /*////////////////////////////////////////////////////////////////////////////
 /// user clicks submit button on frmNewBooking form
 /////////////////////////////////////////////////////////////////////////////*/
-$('#submitNewBooking').click(function(e) {
+$('#submitNewBooking').on("click", function(e) {
   e.preventDefault();
 
   // disable the submit button
-  $('#submitNewBooking').attr('disabled', true);
+  // $('#submitNewBooking').attr('disabled', true);
 
-  $('#outpu1').empty();
+  // clear down information divs
+  $('#output1').empty();
   $('#newBookingInfo').empty();
 
   // unformat the rental field before posting to DB
   $('#Rental').val(rentalVal.getNumericString());
 
-  // ajax post to method=insert
-  $.post('../include/bookingMaint_ajax.php', $('#frmNewBooking').serialize())
+  // get the form input fields and add the 3 static data variables
+  let formData = $('#frmNewBooking').serialize()+
+              '&'+$.param({'method': 'CottageBook_insert', 'dateSat': objDateSat, 'cottageNum': cottageNum});
+
+  // ajax post to method=CottageBook_insert
+  $.post('../include/bookingMaint_ajax.php', formData)
     .done(function(data) {
       // check for date clashes with existing bookings
       // debugger;
@@ -544,8 +556,7 @@ $('#submitNewBooking').click(function(e) {
       if (!isJSON(data)) {
         $('#output1')
           .empty()
-          .append('Error - ' + data)
-          .fadeOut(10000);
+          .append('Error - return data is not in JSON format [' + data + ']')
         return;
       }
 
@@ -554,8 +565,8 @@ $('#submitNewBooking').click(function(e) {
       // process any errors returned
       if (!returnArray.success) {
         switch (returnArray.messSeverity) {
-          // 2 types of (W)arning
-          case 'W':
+          
+          case 'W': // 2 types of (W)arning
             if (returnArray.clashCount > 0) {
               $('#output1')
                 .empty()
@@ -574,8 +585,8 @@ $('#submitNewBooking').click(function(e) {
                 .append('<h5>The rental is greater the £9,999.99</h5>');
             }
             break;
-          // any error
-          case 'E':
+          
+          case 'E': // any error
             $('#output1')
               .empty()
               .append('<h5 class="p-3">Error has occurred - ' + returnArray.errorMess);
@@ -592,51 +603,10 @@ $('#submitNewBooking').click(function(e) {
         trIdNum = `#${returnArray.insertedIdNum}`;
         $(trIdNum).css('background-color', '#a8cb17');
 
-        // reinstate the Rental field formatting
-        // rentalVal.set($('#Rental').val());
-
-        // // Remove class=highlight from any previously inserted row in the table
-        // $('#tbodyBookings > tr').removeClass('highlight');
-
-        // let cottageBookRow = {
-        //   BookingName: $('.insertForm #BookingName').val(),
-        //   ArriveDate: moment($('.insertForm #firstNight').val()).format('YYYY-MM-DD'),
-        //   IdNum: returnArray.insertedIdNum,
-        //   FirstNight: moment($('.insertForm #firstNight').val()).format('ddd D MMM'),
-        //   LastNight: moment($('.insertForm #lastNight').val()).format('ddd D MMM'),
-        //   numNights: $('.insertForm #nights').val(),
-        //   Rental: rentalVal.getFormatted(),
-        //   BookingRef: returnArray.bookingRef,
-        //   BookingStatus: $('.insertForm #BookingStatus').val() === 'P' ? 'Provisional' : 'Confirmed'
-        // };
-
-        // $('#tbodyBookings').append(formatCottageBookRow(cottageBookRow, true));
-
-        // sort the bookings by the tr attribute firstNight so that the new inserted row is in the correct position
-        // let tbody = $('#tbodyBookings');
-
-        // let rows = $('#tbodyBookings tr').get();
-
-        // rows.sort(function(a, b) {
-        //   let keyA = $(a).attr('firstNight');
-        //   let keyB = $(b).attr('firstNight');
-        //   if (keyA < keyB) return -1;
-        //   if (keyA > keyB) return 1;
-        //   return 0;
-        // });
-
-        // $.each(rows, function(index, row) {
-        //   tbody.append(row);
-        // });
-
-        // set up the confirmations popups to include the new row in the existing bookings table
-        // setupConfirmations();
-
-        // clear down the new booking form ready for another booking for the same cottage & week
-        $('.insertForm #BookingName').val('');
+        // clear down the new booking form ready in case there is another booking for the same cottage & week
         $('.insertForm #firstNight :nth-child(1)').prop('selected', true);
         $('.insertForm #lastNight :nth-child(7)').prop('selected', true);
-        $('.insertForm #frmNewBooking #nights').val('7');
+        $('.insertForm #nights').val('7');
         $('.insertForm #BookingStatus :nth-child(1)').prop('selected', true);
         rentalVal.set(cottageWeekRow.RentWeek);
         $('.insertForm #notes').val('');
@@ -647,8 +617,11 @@ $('#submitNewBooking').click(function(e) {
         // display success message for 10 seconds
         $('#newBookingInfo')
           .empty()
-          .append('Booking made')
-          .fadeOut(10000);
+          .append('Booking made');
+
+        // re-enable the submit button
+        // $('#submitNewBooking').attr('enabled', true);
+
       }
     })
 
@@ -658,6 +631,7 @@ $('#submitNewBooking').click(function(e) {
     .fail(error =>
       $('#output1')
         .empty()
-        .append(error.statusText)
-    ); // end of $.post method=insert
+        .append('Error - ../include/bookingMaint_ajax.php failed [' + formData + ' ' + error.statusText + ']')
+    ); // end of $.post method=CottageBook_insert
+
 }); /// end of #submitNewBooking.click in new booking form

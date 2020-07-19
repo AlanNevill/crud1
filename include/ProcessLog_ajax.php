@@ -11,17 +11,54 @@ if ($_POST['method']==='ProcessLog_selectAll') {
   exit();
 }
 
-// TODO : Not yet implemented in dbFuncs
-// update AlarmRaised for given ProcessLog row PK
-if ($input['method'] === 'ProcessLog_updAlarmRaised') {
-  echo json_encode($dbFuncs->ProcessLog_updAlarmRaised($input['PK_ProcessLog'], $input['AlarmRaised']));
+
+// select all the ProcessLog rows from the table for a given MessType
+if ($_POST['method']==='ProcessLog_select') {
+
+  $messType = '';
+  
+  switch ($_POST['messType']) {
+    case '2':
+      $messType = "and MessType='E'";
+      break;
+    case '3':
+      $messType = "and MessType='W'";
+      break;
+    case '4':
+      $messType = "and MessType='I'";
+      break;
+    case '5':
+      $messType = "and MessType in ('E','W')";
+      break;
+  }
+
+  $alarmRaised = '';
+
+  switch ($_POST['alarmRaised']) {
+    case '2':
+      $alarmRaised = "and alarmRaised='Y'";
+      break;
+    case '3':
+      $alarmRaised = "and alarmRaised='N'";
+      break;
+  }
+
+  $sql = "select * from ProcessLog where 1=1 {$messType} {$alarmRaised} order by IdNum desc";
+  echo json_encode($dbFuncs->ProcessLog_select($sql));
+  exit();
+}
+
+
+// update a ProcessLog row
+if ($input['method'] === 'ProcessLog_upd') {
+  echo json_encode($dbFuncs->ProcessLog_upd($input['IdNum'], $input['UserId'], $input['Application'], $input['Remarks'], $input['AlarmRaised']));
   exit();
 }
 
 
 // delete a given ProcessLog row
 if ($_POST['method']==='ProcessLog_delete') {
-  echo json_encode($dbFuncs->ProcessLog_delete($input['PK_ProcessLog']));
+  echo json_encode($dbFuncs->ProcessLog_delete($input['IdNum']));
   exit();
 }
 
@@ -40,6 +77,7 @@ if ($_POST['method']==='ProcessLog_reportErrors') {
     );
     exit;
   }
+
 
   $returnArray = $dbFuncs->ProcessLog_selectErrorsNotReported($maxIdNum);
   if ($returnArray['success'] == true) {
@@ -74,6 +112,7 @@ if ($_POST['method']==='ProcessLog_reportErrors') {
                           'AlarmRaised'
     );
 
+    # get the host name to prefix the CSV filename
     $hostname = gethostname();
 
     # setup the return headers
@@ -88,6 +127,7 @@ if ($_POST['method']==='ProcessLog_reportErrors') {
     # output the ProcessLog rows as CSV file
     $output = fopen('php://output', 'w');
     fputcsv($output, $colHeaders);
+
     foreach ($returnArray['ProcessLogRows'] as $row) {
       fputcsv($output, $row);
     }

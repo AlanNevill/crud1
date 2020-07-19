@@ -12,6 +12,19 @@ var cottageNum = 0,
 // Create a new clsDeviceIdCookie class which set up the deviceId cookie
 const _clsDeviceIdCookie = new clsDeviceIdCookie();
 
+
+// set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
+let body = $('body');
+$(document).on({
+  ajaxStart: function() {
+    body.addClass('loading');
+  },
+  ajaxStop: function() {
+    body.removeClass('loading');
+  }
+});
+
+
 /*////////////////////////////////////////////////////////////////////////////
 // Function to get all the CottageBook rows for the selected cottage number
 ////////////////////////////////////////////////////////////////////////////*/
@@ -41,7 +54,7 @@ function showCottageBook() {
       .done(function(data) {
         // check for error in PHP
         if (!isJSON(data)) {
-          alert('An error has occured\n\n' + data);
+          alert('An error has occurred\n\n' + data);
           return;
         }
 
@@ -57,22 +70,25 @@ function showCottageBook() {
 
             let dayNum = [];
             for (let index = 0; index < 7; index++) {
-              let theDay = dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), 'D');
-              let monthNum = dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), 'MM');
+              let theDay = dateFns.format(dateFns.addDays(cottageWeekRow.DateSat, index), 'D');
+              let monthNum = dateFns.format(dateFns.addDays(cottageWeekRow.DateSat, index), 'MM');
+
+              // alternate the month text colours
               dayNum[index] = `
-                <strong 
+                <span 
                 ${monthNum % 2 ? 'style="color:blue"' : 'style="color:brown"'}>
                 ${theDay}
-                </strong>
+                </span>
               `;
 
-              // if day is Saturday or the 1st of the month then add month and make date bold
-              if (theDay === '1' || dateFns.isSaturday(dateFns.addDays(new Date(cottageWeekRow.DateSat), index))) {
+              // if day is Saturday or the 1st of the month then add month and make date bold. If 1st Jan add year YY
+              if (theDay === '1' || dateFns.isSaturday(dateFns.addDays(cottageWeekRow.DateSat, index))) {
                 dayNum[index] = `
                   <strong 
                   ${monthNum % 2 ? 'style="color:blue"' : 'style="color:brown"'}>
-                  ${dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), 'D')}
-                  ${dateFns.format(dateFns.addDays(new Date(cottageWeekRow.DateSat), index), ' MMM')}
+                  ${dateFns.format(dateFns.addDays(cottageWeekRow.DateSat, index), 'D')}
+                  ${dateFns.format(dateFns.addDays(cottageWeekRow.DateSat, index), ' MMM')}
+                  ${theDay === '1' && monthNum === '01' ? dateFns.format(dateFns.addDays(cottageWeekRow.DateSat, index), 'YY') : ''}
                   </strong>
                 `;
               }
@@ -87,12 +103,12 @@ function showCottageBook() {
                 <td dayofWeek='5'><sup>${dayNum[4]}</sup></td> 
                 <td dayofWeek='6'><sup>${dayNum[5]}</sup></td> 
                 <td dayofWeek='7'><sup>${dayNum[6]}</sup></td> 
+                <td><button type='button' class='btn btn-sm btn-success'><i class="fa fa-book fa-lg" aria-hidden="true"></i></button></td>
                 <td style="text-align:center">${
                   cottageWeekRow.bShortBreaksAllowed
                     ? '<i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i>'
                     : '<i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i>'
                 }</td>
-                <td><button type='button' class='btn btn-sm btn-success'><i class="fa fa-book fa-lg" aria-hidden="true"></i></button></td>
               </tr>
             `;
 
@@ -103,7 +119,7 @@ function showCottageBook() {
           $('#output1')
             .empty()
             .append(funcReturn.message);
-          alert('An error has occured\n\n' + funcReturn.message);
+          alert('An error has occurred\n\n' + funcReturn.message);
         }
       })
       .always(
@@ -111,6 +127,7 @@ function showCottageBook() {
       ); // end of $.post
   } // end of else
 } // end of function showCottageBook
+
 
 /*////////////////////////////////////////////////////////////////////////////
 // Function to get the bookings for the cottage number after the given date
@@ -162,28 +179,15 @@ function getCottageBook() {
         $('#output1')
           .empty()
           .append(funcReturn.message);
-        alert('An error has occured\n\n' + funcReturn.message);
+        alert('An error has occurred\n\n' + funcReturn.message);
       }
     } else {
-      alert('An error has occured\n\n' + data);
+      alert('An error has occurred\n\n' + data);
     }
   });
 } // end of function getCottageBook
 
-/*////////////////////////////////////////////////////////////////////////////
-// document ready
-////////////////////////////////////////////////////////////////////////////*/
-$(document).ready(function() {
-  // set up functions which add and remove class 'loading' when ajax starts or stops. See crud1.css
-  let body = $('body');
-  $(document).on({
-    ajaxStart: function() {
-      body.addClass('loading');
-    },
-    ajaxStop: function() {
-      body.removeClass('loading');
-    }
-  });
+
 
   /*////////////////////////////////////////////////////////////////////////////////////
   // listener to show current global version and deviceId on title click or double click
@@ -194,6 +198,7 @@ $(document).ready(function() {
       .html(`${_VERSION}-${_clsDeviceIdCookie.deviceId}`)
       .toggle();
   });
+
 
   /*////////////////////////////////////////////////////////////////////////////
   // get the selected cottageNum when selection changes
@@ -219,19 +224,6 @@ $(document).ready(function() {
     }
   });
 
-  // FIXME - change delegate for "on".(click) per Notes note
-  // go to bookingMaint.php to view or makephp composer.phar install a booking for the selected cottageNum and DateSat of the row clicked
-  // $("tbody").delegate(".fa-book", "click", function() {
-
-  //   // $(this).confirmation("show");
-
-  //   // get the DateSat from the nearest TR and update into bookingMaint session storage
-  //   let rowTR = $(this).closest("tr");
-  //   bookingMaint.dateSat = rowTR.attr("dateSat");
-
-  //   // call bookingMaint.php to view or book for the selected week and cottageNum
-  //   window.location = "bookingMaint.php";
-  // }); // end of view_details button click event
 
   /*////////////////////////////////////////////////////////////////////////////
   // event listener for clicks on any buttons with class "fa-book" within "tbody".
@@ -239,14 +231,26 @@ $(document).ready(function() {
   // updates the DateSat into session storage and then calls bookingMaint.php.
   ////////////////////////////////////////////////////////////////////////////*/
   $('tbody').on('click', '.fa-book', function() {
-    // get the DateSat from the nearest TR and update into bookingMaint session storage
-    let rowTR = $(this).closest('tr');
+    // get the DateSat from the parents TR and update into bookingMaint session storage
+    let rowTR = $(this).parents('tr');
+
     bookingMaint.dateSat = rowTR.attr('dateSat');
 
     // call bookingMaint.php to view or book for the selected week and cottageNum already in session storage
     window.location = 'bookingMaint.php';
   });
 
-  // initiatise the tooltips
+
+/*////////////////////////////////////////////////////////////////////////////
+// document ready
+////////////////////////////////////////////////////////////////////////////*/
+$(function() {
+
+  // toggle info div if title is clicked
+  $("h4").on("click", function() {
+    $('#info').toggleClass("d-none");
+  });
+
+  // initialises the tooltips
   $('[data-toggle="tooltip"]').tooltip();
 }); // end of document ready

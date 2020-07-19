@@ -14,16 +14,31 @@
   <!-- Fork-awesome -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css" integrity="sha256-P64qV9gULPHiZTdrS1nM59toStkgjM0dsf5mK/UwBV4=" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="../css/MGF.css" />
+  <!-- <link rel="stylesheet" href="../css/MGF.css" /> -->
   <link rel="stylesheet" href="../css/DeviceId_maint.css" />
+
+  <?php 
+    // include ('../include/MGF_header.html'); # favicon.ico + bootstrap.css & fork awesome.css style sheets
+    include ('../include/dbFuncs.php');     # open db connection and instantiate dbFuncs class
+  ?>  
 
 </head>
 
-<body onload="showDeviceId()">
+<body onload="showDeviceId()" class="m-2">
 
-  <main role="main" class="container">
+  <main role="main" class="container-fluid">
 
-    <h5 id="title">DeviceId maintenance</h5><span></span>
+    <!-- debug info div for validation and error messages -->
+    <section id="info" class="text-white bg-success">INFO - 
+      <?php
+        echo $dbFuncs->getHostAndDb();
+      ?>
+    </section>
+
+    <!-- error & warning messages -->
+    <div id="output1" class="bg-warning"></div> 
+
+    <h2 id="title">DeviceId maintenance</h2><span></span>
 
     <p class="d-sm-none"><small>Scroll right to view details</small></p>
 
@@ -43,8 +58,6 @@
         </table>
     </div>
     
-    <!-- error & warning messages -->
-    <div id="output1" class="text-white bg-dark"></div> 
 
     <!-- div for in progress gif during ajax calls -->
     <div class="ajaxLoading"></div>
@@ -57,7 +70,7 @@
   <!-- table editing library -->
   <script src="../js/bootstable.js"></script>  
 
-  <!-- page javascipt -->
+  <!-- page javascript -->
   <script src="../js/DeviceId_maint.js"></script>
 
 </body>

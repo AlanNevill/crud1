@@ -84,7 +84,7 @@
     
       <button type="submit" class="btn btn-primary mb-3">Submit enquiry</button>
     </form> 
-     
+
     <!-- div for in progress gif during ajax calls -->
     <div class="ajaxLoading"></div>
 
@@ -95,7 +95,7 @@
 
   <!-- inlcude the bootstrap, jquery and date libraries -->
   <?php include  '../include/MGF_libs.html'; ?>
- 
+
   <!-- site javascipt common library -->
   <script src="../js/classes.js"></script>
 

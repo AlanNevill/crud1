@@ -20,7 +20,7 @@
   <!-- load the MGF menu -->
   <?php include '../include/MGF_menu.html';  ?>
   
-  <main role="main" class="container">
+  <main role="main" class="container-fluid">
 
     <div class="d-flex justify-content-between align-items-center mt-3">
 
@@ -48,38 +48,34 @@
           <td class="shortbreaks px-3 font-weight-bold">Short breaks</td>
         </tr>
       </table>
-      <!-- <div  class="card mt-5 mb-1 ml-3 mr-3 text-center d-print-none">
-        <div class="card-text h5">Key</div>
-        <div class="card-text booked px-3">Fully booked</div> 
-        <div class="card-text shortbreaks px-3">Short breaks</div >
-      </div>
-      <div> -->
+
       <a href="/include/Booking conditions 2015-05-05.pdf"><small class="d-print-none font-weight-bold">Click to view booking conditions</small></a>
-      <!-- </div> -->
     </div>
 
 
     <section>
-      
-      <!-- weekly calendar for the cottages; wc date in rows and cottages in columns -->
-      <table id="tblBookings" class="table table-fixed table-responsive-sm vertical-align">
-          <!-- <caption class="d-sm-none"><small>Scroll right to view details</small></caption> -->
-          <thead class="table-success">
-            <tr class="mb-5 mb-md-0">
-              <th style="width:10%" >wc Sat</th>
-              <!-- <th style="width:10%" data-toggle='tooltip' data-placement='auto' title='Are Short Breaks allowed in specific weeks?'>SB</!--> 
-              <th style="width:22%" data-toggle='tooltip' data-placement='auto' title='Links to view short break availability for selected week'>View short breaks</th>
-              <th class="d-none d-sm-block" style="width:22%">Cornflower</th>
-              <th class="d-sm-none" style="width:22%">Corn flower</th>
+      <div class="table-responsive">
+        
+        <!-- weekly calendar for the cottages; wc date in rows and cottages in columns -->
+        <table id="tblBookings" class="table vertical-align w-auto">
+            <!-- <caption class="d-sm-none"><small>Scroll right to view details</small></caption> -->
+            <thead class="table-success">
+              <tr class="mb-5 mb-md-0">
+                <th>wc Sat</th>
+                <th data-toggle='tooltip' data-placement='auto' title='Links to view short break availability for selected week'>View short breaks</th>
+                <th class="d-none d-sm-block" >Cornflower</th>
+                <th class="d-sm-none" >Corn flower</th>
 
-              <th style="width:22%">Cowslip</th>
-              
-              <th class="d-none d-sm-block" style="width:22%">Meadowsweet</th>
-              <th class="d-sm-none" style="width:22%">Meadow sweet</th>
-            </tr>
-          </thead>
-          <tbody id="tbodyBookings"></tbody>
-      </table>
+                <th>Cowslip</th>
+                
+                <th class="d-none d-sm-block" >Meadowsweet</th>
+                <th class="d-sm-none" >Meadow sweet</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyBookings"></tbody>
+        </table>
+        
+      </div>
 
     </section>
 
@@ -139,14 +135,14 @@
  
   <!-- custom javascript for this page -->
   <script type="application/javascript">
-      // save todays date minus 7 days (so that the current week is always shown) into the global const TODAY
+      // save today's date minus 7 days (so that the current week is always shown) into the global const TODAY
       const TODAY = new Date('<?php echo date('Y-m-d', strtotime('-7 days')) ?>');
   </script>
 
-  <!-- site javascipt -->
+  <!-- site javascript -->
   <script src="../js/crud1.js"></script>
 
-  <!-- page javascipt -->
+  <!-- page javascript -->
   <script src="../js/newBooking.js"></script>
 
 </body>
