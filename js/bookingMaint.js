@@ -340,8 +340,6 @@ function showFrmNewBooking() {
     // refresh the existing bookings list for this date and cottage
     getCottageWeekandCottageBook();
 
-    // $('#submitButton').click();
-
     // put the date into the frmNewBooking in case the user does an insert
     $('#frmNewBooking #dateSat').val(dateFns.format(objDateSat, 'YYYY-MM-DD'));
 
@@ -350,30 +348,14 @@ function showFrmNewBooking() {
     $('#lastNight option').remove();
 
     for (let i = 0; i < 7; i++) {
-      $('#firstNight').append(
-        $('<option>', {
-          text: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('ddd DD MMM'),
-          value: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('YYYY-MM-DD')
-        })
-      );
+      let _text   = dateFns.format(dateFns.addDays(objDateSat, i), 'ddd DD MMM');
+      let _value  = dateFns.format(dateFns.addDays(objDateSat, i), 'YYYY-MM-DD');
 
-      $('#lastNight').append(
-        $('<option>', {
-          text: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('ddd DD MMM'),
-          value: moment(objDateSat, 'YYYY-MM-DD')
-            .add(i, 'days')
-            .format('YYYY-MM-DD')
-        })
-      );
+      $('#firstNight').append( $('<option>', { text: _text, value: _value })  );
+      $('#lastNight').append(  $('<option>', { text: _text, value: _value })  );
     }
 
-    // set selected lastNight to next Friday
+    // set selected lastNight to Friday
     $('#lastNight option:eq(6)').prop('selected', true);
 
     // put the cottageNum into the frmNewBooking in case the user does an insert
@@ -390,10 +372,8 @@ function showFrmNewBooking() {
 /// called by function showFrmNewBooking()
 /////////////////////////////////////////////////////////////////////////////*/
 function getCottageWeekandCottageBook() {
-  // date or cottage number has changed so empty the bookings table and clear any messages
+  // date or cottage number has changed so empty the bookings table
   $('#tbodyBookings').empty();
-  $('#output1').empty();
-  $('#newBookingInfo').empty();
 
   // 1. CottageWeek data to display as a single info line below the Existing bookings table
   $.post('../include/bookingMaint_ajax.php', {
@@ -407,11 +387,7 @@ function getCottageWeekandCottageBook() {
         // put the CottageWeekRow data into the dom section CottageWeek_data
         cottageWeekRow = returned.data[0];
 
-        $('#Rent').html(
-          `Rent: week £${parseInt(cottageWeekRow.RentWeek).toLocaleString()}, day&nbsp£${parseInt(
-            cottageWeekRow.RentDay
-          )}`
-        );
+        $('#Rent').html( `Rent: week £${parseInt(cottageWeekRow.RentWeek).toLocaleString()}, day&nbsp£${parseInt( cottageWeekRow.RentDay )}` );
         // if (!cottageWeekRow.bShortBreaksAllowed) {
         //   $('#DayRent').css('text-decoration', 'line-through');
         // }
@@ -424,16 +400,10 @@ function getCottageWeekandCottageBook() {
         // put the weekly rent into the new booking form
         $('#frmNewBooking #Rental').val(cottageWeekRow.RentWeek);
         rentalVal.set(cottageWeekRow.RentWeek);
-      } else {
-        $('#output1')
-          .empty()
-          .append('Error - ' + returned.message);
-      }
+      } else { $('#output1').empty().append('Error - ' + returned.message); }
     } else {
       // not json returned
-      $('#output1')
-        .empty()
-        .append('Error - cottageWeek_get response was not JSON');
+      $('#output1').empty().append('Error - cottageWeek_get response was not JSON');
     }
   });
 
@@ -458,19 +428,14 @@ function getCottageWeekandCottageBook() {
 
       } else {
         // not json returned
-        $('#output1')
-          .empty()
-          .append('2 Error occurred - See ErrorLog');
+        $('#output1').empty().append('2 Error occurred - See ErrorLog');
       }
     })
     .always(function() {
       // if trIdNum points to a newly inserted booking row then set its background color
       $(trIdNum).css('background-color', '#a8cb17');
     })
-    .fail(error =>
-      $('#output1')
-        .empty()
-        .append('Error - ' + error.statusText)
+    .fail(error => $('#output1').empty().append('Error - ' + error.statusText)
   )
   ; // end of $.post
 } // end of getCottageWeekandCottageBook function
