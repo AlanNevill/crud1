@@ -24,7 +24,7 @@
   <!-- container used to give white border -->
   <main class="container">
 
-    <section>
+    <!-- <section COVID>
       <div>
         <h1 class="text-center text-danger">
           Coronavirus
@@ -36,9 +36,9 @@
           Please stay safe and well.
         </p>
       </div>
-    </section>
+    </section> -->
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000" data-pause="false">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2500" data-pause="false">
 
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -49,15 +49,27 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="8"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="9"></li>
       </ol>
 
       <div class="carousel-inner embed-responsive" role="listbox">
-
         <div class="carousel-item active">
           <img class="d-block w-100" alt="The top of our drive"
             srcset="../images/home/webp/IMG_20190604_093317-EFFECTS_2_(Custom).webp"
             src="../images/home/IMG_20190604_093317-EFFECTS_2 (Custom).jpg">
         </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" alt="Ariel view 1"
+            srcset="../images/home/webp/ArielView1.webp"
+            src="../images/home/ArielView1.jpg">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" alt="Ariel view 2"
+            srcset="../images/home/webp/ArielView2.webp"
+            src="../images/home/ArielView2.jpg">
+        </div>
+ 
         <div class="carousel-item">
           <img class="d-block w-100" alt="Cornflower cottage"
             srcset="../images/home/webp/Cornflower-exterior_(Custom).webp"
