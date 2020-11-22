@@ -31,22 +31,28 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
       </ol>
       <div class="carousel-inner embed-responsive" role="listbox">
         <div class="carousel-item active">
-          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/IMG_1298-1000-compressor.jpg alt="Second slide">
+          <img class="d-block w-100" alt="Wild water swimming"
+            srcset="../images/facilities/lakesWoods/VID_20200724_142139.webp"
+            src="../images/facilities/lakesWoods/VID_20200724_142139.jpg">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/IMG_9025-1000-compressor.jpg alt="Third slide">
+          <img class="img-fluid w-100" src=../images/facilities/lakesWoods/IMG_1298-1000-compressor.jpg alt="Second slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/DSC03576-1000-compressor.jpg alt="Fourth slide">
+          <img class="img-fluid w-100" src=../images/facilities/lakesWoods/IMG_9025-1000-compressor.jpg alt="Third slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/lake-4-1000-compressor.jpg alt="Fifth slide">
+          <img class="img-fluid w-100" src=../images/facilities/lakesWoods/DSC03576-1000-compressor.jpg alt="Fourth slide">
         </div>
         <div class="carousel-item">
-          <img class="lazy img-fluid w-100" src=../images/facilities/lakesWoods/trail-2-1000-compressor.jpg alt="Sixth slide">
+          <img class="img-fluid w-100" src=../images/facilities/lakesWoods/lake-4-1000-compressor.jpg alt="Fifth slide">
+        </div>
+        <div class="carousel-item">
+          <img class="img-fluid w-100" src=../images/facilities/lakesWoods/trail-2-1000-compressor.jpg alt="Sixth slide">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -60,16 +66,12 @@
     </div>
 
     <section>
-      <h5>Fishing</h5>
-      <p>
-          The farm includes two lakes which you may fish or feed with bread. Perch and roach have been caught.
-          Bring your own rods; we have nets in the beach hut for children.
-      </p>
-      <h5>Nature trails</h5>
-      <p>
-          We have numerous footpaths that you may meander along. Cross the bubbling stream, discover the extensive wild life.
-          Take a picnic and relax.
-      </p>
+      <h3>Wild water swimming</h3>
+        <p>Our lakes are fresh water fed and are safe for comptent swimmers. Children must always be accompanied by an adult.</p>
+      <h3>Fishing</h3>
+        <p>The farm includes two lakes which you may fish or feed with bread. Perch and roach have been caught. Bring your own rods; we have nets in the beach hut for children.</p>
+      <h3>Nature trails</h3>
+        <p>We have numerous footpaths that you may meander along. Cross the bubbling stream, discover the extensive wild life. Take a picnic and relax.</p>
     </section>
 
   </main> <!-- end of inner container -->
