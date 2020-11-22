@@ -24,7 +24,7 @@
   <!-- container used to give white border -->
   <main class="container">
 
-    <!-- <section COVID>
+    <section COVID>
       <div>
         <h1 class="text-center text-danger">
           Coronavirus
@@ -32,11 +32,11 @@
       </div>
       <div>
         <p class="text-center lead">
-          Under the current Welsh Government guidelines we will be opening on Monday 13th July 2020.<br>
+          We will refund in full any holidays which are cancelled due to Coronavirus regulations.
           Please stay safe and well.
         </p>
       </div>
-    </section> -->
+    </section>
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2500" data-pause="false">
 
@@ -127,7 +127,7 @@
         There are three contemporary self-catering cottages to provide you with an enchanting holiday. Each is fully stocked to provide a home away from home, and have their own private sunny gardens with tables, chairs and BBQs. Streaming speed, family safe Wifi is provided.
       </p>
       <p>
-        Everyone is well catered for at Meadow Green Farm: for couples a quiet haven of tranquillity. For families we have a trampoline, swings, a playhouse as well as numerous outdoor and indoor toys, books and board games to keep children of all ages entertained. Animal lovers may bring their own dogs, pet our friendly sheep and collect eggs daily from our free-range chickens. For those who love the outdoors, our two lakes may be fished, and you are free to explore our meadows and woods, discovering the many footpaths across the land.
+        Everyone is well catered for at Meadow Green Farm: for couples a quiet haven of tranquillity. For families we have swings, a playhouse as well as numerous outdoor and indoor toys, books and board games to keep children of all ages entertained. Animal lovers may bring their own dogs, pet our friendly sheep and collect eggs daily from our free-range chickens. For those who love the outdoors, wild water swimming in our fresh water lakes, fishing, and you are free to explore our meadows and woods, discover the many footpaths across the land.
       </p>
       <p>
         Meadow Green Farm is just a short drive to numerous blue flag beaches including Barafundle Bay and fantastic seaside resorts such as Tenby, Pendine and Laugharne. As well as family attractions including Folly Farm, Tenby Dinosaur Park, Pembroke Castle and Oakwood Theme Park.
