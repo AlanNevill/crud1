@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Alan Nevill">
 
     <title>Booking</title>
 
     <?php include '../include/MGF_header.html'; ?>          <!-- favicon + bootstrap & fork awesome style sheets -->
 
-    <link rel="stylesheet" href="../css/MGF.css" />       <!-- Site stylesheet -->
+    <link rel="stylesheet" href="../css/MGF.css" />         <!-- Site stylesheet -->
     <link rel="stylesheet" href="../css/newBooking.css" />  <!-- Page stylesheet -->
 
 </head>
@@ -27,15 +27,13 @@
       <div id="yearBtns" class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="Select the year buttons">
         <label for="yearBtns" class="h3 mt-3 mr-3">Select year:</label>
 
-        <label class="btn btn-outline-success btn-lg active mr-3" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
-          <input type="radio" name="years" id="btnthisYear" autocomplete="off" checked 
-            value="<?php echo date('Y', strtotime('-7 days')) ?>">
-            <?php echo date('Y', strtotime('-7 days')) ?>
+        <label for="btnthisYear" class="btn btn-outline-success btn-lg active mr-3" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
+          <input type="radio" id="btnthisYear" name="years" autocomplete="off" checked>
+          <span id="spnthisYear"></span>
         </label>
-        <label class="btn btn-outline-success btn-lg" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
-          <input type="radio" name="years" id="btnnextYear" autocomplete="off" 
-            value="<?php echo date('Y', strtotime('358 days')) ?>" >
-            <?php echo date('Y', strtotime('358 days')) ?>
+        <label for="btnnextYear" class="btn btn-outline-success btn-lg" style="border-radius: 20%;font-weight:bold; font-size: 1.6rem;">
+          <input type="radio" id="btnnextYear" name="years" autocomplete="off" >
+          <span id="spnnextYear"></span>
         </label>
       </div>
 
@@ -125,19 +123,11 @@
       </div>
     </div>
 
-
-  <!-- include the bootstrap, jquery and date libraries -->
-  <?php include  '../include/MGF_libs.html'; ?>
-
   <!-- date formatting -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
 
- 
-  <!-- custom javascript for this page -->
-  <script type="application/javascript">
-      // save today's date minus 7 days (so that the current week is always shown) into the global const TODAY
-      const TODAY = new Date('<?php echo date('Y-m-d', strtotime('-7 days')) ?>');
-  </script>
+  <!-- include the bootstrap, jquery and popper libraries -->
+  <?php include  '../include/MGF_libs.html'; ?>
 
   <!-- site javascript -->
   <script src="../js/crud1.js"></script>

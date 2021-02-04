@@ -1,23 +1,45 @@
 /* eslint-disable eqeqeq */
 // newBooking.js
 'use strict';
+p
+var TODAY = new Date(Date.now());
 
-// const TODAY is defined in newBooking.php as the current date minus 7 days (forget why)
+// prevent going back 7 days from finding a date in the previous year. So check for January and day =< 7
+if (TODAY.getMonth() === 0 && dateFns.getDate(TODAY) <=7) 
+{
+  // leave the date as is
+} else // Move the date back 7 days so that the previous Saturday is displayed
+{
+  TODAY.setDate(TODAY.getDate() - 7);
+}
+
 const thisYear = dateFns.getYear(new Date(TODAY));
 const nextYear = dateFns.getYear(new Date(dateFns.addYears(new Date(TODAY), 1)));
 
 const body = $('body'); // used in document.on AjaxStart & AjaxStop
 
 var cottageWeekRows, cottageBookAllRows;
-// initialize selectedYear to the current year
+
+// initialize selectedYear & displayYear to the current year
 var selectedYear = thisYear;
 var displayYear = selectedYear;
 
 /*////////////////////////////////////////////////////////////////////////////
 // document ready
 ////////////////////////////////////////////////////////////////////////////*/
-$(document).ready(function() {
-    // display the weekly bookings for the current year
+$(function() {
+    // label the select year buttons
+    //$("#btnthisYear").text(thisYear);
+    $("#btnthisYear").val(thisYear);
+
+    //$("#btnnextYear").text(nextYear);
+    $("#btnnextYear").val(nextYear);
+
+    // label the select year labels
+    $("#spnthisYear").text(thisYear);
+    $("#spnnextYear").text(nextYear);
+
+    // display the weekly bookings for the selected year
     showBookings();
 }); // end of document ready
 
@@ -133,18 +155,18 @@ function showBookings() {
             }
         } else {
             alert('Prices are not yet available for ' + nextYear);
+            // re-display the current year by clicking the btnthisYear
+            $('#btnthisYear').trigger('click');
         }
     }); // end of $.post
 } // end of function showBookings
 
-// Select year button click event
-$('#yearBtns .btn').on('click', function(event) {
+// Select year buttons click event
+$(':radio').on('click', function(event) {
     event.preventDefault();
 
-    // get the selected year from the button
-    selectedYear = $(this)
-        .find('input')
-        .val();
+    // get the selected year from the button value
+    selectedYear = $(this).val();
 
     $('#output').html(selectedYear);
 
